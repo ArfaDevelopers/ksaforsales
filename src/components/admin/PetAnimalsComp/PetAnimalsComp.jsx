@@ -82,7 +82,10 @@ import Select from "react-select";
 import { Country, State, City } from "country-state-city";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const PetAnimalsComp = () => {
   const { t } = useTranslation();
@@ -155,7 +158,7 @@ const PetAnimalsComp = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -421,9 +424,7 @@ const PetAnimalsComp = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -441,14 +442,14 @@ const PetAnimalsComp = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -489,7 +490,7 @@ const PetAnimalsComp = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -523,7 +524,7 @@ const PetAnimalsComp = () => {
   const filteredDistrictOptions = districtOptions
     .slice(6)
     .filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
@@ -633,7 +634,7 @@ const PetAnimalsComp = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -656,7 +657,7 @@ const PetAnimalsComp = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   // Format country data for React Select
   const countryOptions = Country.getAllCountries().map((country) => ({
@@ -1160,7 +1161,7 @@ const PetAnimalsComp = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -1205,7 +1206,7 @@ const PetAnimalsComp = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -1213,7 +1214,7 @@ const PetAnimalsComp = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -1229,7 +1230,7 @@ const PetAnimalsComp = () => {
   }, [selectedRegion]);
   // Fetch API data
   useEffect(() => {
-    fetch("http://168.231.80.24:9002/route/petAnimalSubCategories")
+    fetch("/route/petAnimalSubCategories")
       .then((res) => res.json())
       .then((data) => setAnimalCategories(data))
       .catch((err) => console.error("Error fetching categories:", err));
@@ -1290,7 +1291,7 @@ const PetAnimalsComp = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1307,7 +1308,7 @@ const PetAnimalsComp = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1500,7 +1501,7 @@ const PetAnimalsComp = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1567,7 +1568,7 @@ const PetAnimalsComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/PETANIMALCOMP/${carId}/view`, {
+      fetch(`/route/PETANIMALCOMP/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1611,7 +1612,10 @@ const PetAnimalsComp = () => {
         removed: alreadyHearted,
         timestamp: Date.now(),
       };
-      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+      sessionStorage.setItem(
+        "last_bookmark_change",
+        JSON.stringify(bookmarkChange),
+      );
 
       // Optimistically update local state
       setCars((prevCars) =>
@@ -1623,8 +1627,8 @@ const PetAnimalsComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1637,12 +1641,12 @@ const PetAnimalsComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1667,7 +1671,7 @@ const PetAnimalsComp = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/PETANIMALCOMP?${params.toString()}`
+  //         `/route/PETANIMALCOMP?${params.toString()}`
   //       );
   //       const carsData = await response.json();
 
@@ -1709,10 +1713,11 @@ const PetAnimalsComp = () => {
 
         // ✅ Pass subCatgory and nestedSubCategory
         if (subCatgory) params.append("subCatgory", subCatgory);
-        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+        if (nestedSubCategory)
+          params.append("NestedSubCategory", nestedSubCategory);
 
         const response = await fetch(
-          `http://168.231.80.24:9002/route/PETANIMALCOMP?${params.toString()}`
+          `/route/PETANIMALCOMP?${params.toString()}`,
         );
 
         const petsData = await response.json();
@@ -1862,7 +1867,7 @@ const PetAnimalsComp = () => {
       selectedSubCategory,
       selectedCity,
       selectedDistrict,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   }, [
     selectedCities,
@@ -2005,7 +2010,7 @@ const PetAnimalsComp = () => {
       selectedSubCategory,
       selectedCity,
       selectedDistrict,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   };
   const filterCars = (
@@ -2074,7 +2079,7 @@ const PetAnimalsComp = () => {
     selectedSubCategory,
     selectedCity,
     selectedDistrict,
-    logSelectedPurpose
+    logSelectedPurpose,
   ) => {
     let filtered = carsData;
 
@@ -2136,7 +2141,7 @@ const PetAnimalsComp = () => {
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
           car.FeaturedAds?.toLowerCase().includes(lowercasedQuery) ||
           car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery),
       );
     }
     setLoading(false);
@@ -2145,7 +2150,7 @@ const PetAnimalsComp = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (subCatgory?.length > 0) {
@@ -2154,38 +2159,38 @@ const PetAnimalsComp = () => {
 
     if (DietaryPreferences?.length > 0) {
       filtered = filtered.filter((car) =>
-        DietaryPreferences.includes(car.DietaryPreferences)
+        DietaryPreferences.includes(car.DietaryPreferences),
       );
     }
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
     if (TrainingLevel?.length > 0) {
       filtered = filtered.filter((car) =>
-        TrainingLevel.includes(car.TrainingLevel)
+        TrainingLevel.includes(car.TrainingLevel),
       );
     }
     if (HealthStatus?.length > 0) {
       filtered = filtered.filter((car) =>
-        HealthStatus.includes(car.HealthStatus)
+        HealthStatus.includes(car.HealthStatus),
       );
     }
     if (Temperament?.length > 0) {
       filtered = filtered.filter((car) =>
-        Temperament.includes(car.Temperament)
+        Temperament.includes(car.Temperament),
       );
     }
     if (Color?.length > 0) {
@@ -2202,12 +2207,12 @@ const PetAnimalsComp = () => {
     }
     if (ColorOptions?.length > 0) {
       filtered = filtered.filter((car) =>
-        ColorOptions.includes(car.ColorOptions)
+        ColorOptions.includes(car.ColorOptions),
       );
     }
     if (Availability?.length > 0) {
       filtered = filtered.filter((car) =>
-        Availability.includes(car.Availability)
+        Availability.includes(car.Availability),
       );
     }
     if (Features?.length > 0) {
@@ -2233,7 +2238,7 @@ const PetAnimalsComp = () => {
     }
     if (ContentType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ContentType.includes(car.ContentType)
+        ContentType.includes(car.ContentType),
       );
     }
     if (SkillLevel?.length > 0) {
@@ -2241,42 +2246,42 @@ const PetAnimalsComp = () => {
     }
     if (SubjectCategories?.length > 0) {
       filtered = filtered.filter((car) =>
-        SubjectCategories.includes(car.SubjectCategories)
+        SubjectCategories.includes(car.SubjectCategories),
       );
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2288,12 +2293,12 @@ const PetAnimalsComp = () => {
     // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     // Filter by selected cities
@@ -2316,22 +2321,22 @@ const PetAnimalsComp = () => {
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     // Filter by selected cities
@@ -2340,17 +2345,17 @@ const PetAnimalsComp = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2359,18 +2364,18 @@ const PetAnimalsComp = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2497,7 +2502,7 @@ const PetAnimalsComp = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2622,7 +2627,11 @@ const PetAnimalsComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateNestedSubcategory(nestedSubCategory, "petAnimals", t)}
+                    {translateNestedSubcategory(
+                      nestedSubCategory,
+                      "petAnimals",
+                      t,
+                    )}
                   </button>
                 </>
               )}
@@ -2755,7 +2764,7 @@ const PetAnimalsComp = () => {
                                     setselectedSubCategory((prev) =>
                                       prev === item.category
                                         ? ""
-                                        : item.category
+                                        : item.category,
                                     )
                                   }
                                 />
@@ -2810,7 +2819,7 @@ const PetAnimalsComp = () => {
                           <div className="mb-3">
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -2828,8 +2837,8 @@ const PetAnimalsComp = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -2898,7 +2907,7 @@ const PetAnimalsComp = () => {
                                           .map((region) => {
                                             const isChecked =
                                               selectedRegion.includes(
-                                                region.regionId
+                                                region.regionId,
                                               );
 
                                             return (
@@ -2914,25 +2923,25 @@ const PetAnimalsComp = () => {
                                                   onChange={() => {
                                                     if (isChecked) {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) =>
                                                           prev.filter(
                                                             (id) =>
                                                               id !==
-                                                              region.regionId
-                                                          )
+                                                              region.regionId,
+                                                          ),
                                                       );
                                                     } else {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) => [
                                                           ...prev,
                                                           region.regionId,
-                                                        ]
+                                                        ],
                                                       );
                                                     }
                                                   }}
@@ -3039,7 +3048,7 @@ const PetAnimalsComp = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -3105,8 +3114,8 @@ const PetAnimalsComp = () => {
                                           option.label
                                             ?.toLowerCase()
                                             .includes(
-                                              searchTerm1?.toLowerCase()
-                                            )
+                                              searchTerm1?.toLowerCase(),
+                                            ),
                                         )
                                         .map((option) => (
                                           <li key={option.value}>
@@ -3116,7 +3125,7 @@ const PetAnimalsComp = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -3201,7 +3210,7 @@ const PetAnimalsComp = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3216,7 +3225,7 @@ const PetAnimalsComp = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -3282,7 +3291,7 @@ const PetAnimalsComp = () => {
                                             selectedDistricts.some(
                                               (district) =>
                                                 district.DISTRICT_ID ===
-                                                option.value
+                                                option.value,
                                             );
 
                                           return (
@@ -3297,7 +3306,7 @@ const PetAnimalsComp = () => {
                                                 onChange={(e) =>
                                                   handleDistrictCheckboxChange(
                                                     option,
-                                                    e.target.checked
+                                                    e.target.checked,
                                                   )
                                                 }
                                               />
@@ -4281,11 +4290,16 @@ const PetAnimalsComp = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -4619,9 +4633,14 @@ const PetAnimalsComp = () => {
                                                             }}
                                                           />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

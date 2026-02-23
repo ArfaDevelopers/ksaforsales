@@ -34,9 +34,12 @@ function timeAgo(timestamp, t) {
   const days = Math.floor(hours / 24);
 
   if (t) {
-    if (days > 0) return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
-    if (hours > 0) return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
-    if (minutes > 0) return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
+    if (days > 0)
+      return `${days} ${days > 1 ? t("common.daysAgo") : t("common.dayAgo")}`;
+    if (hours > 0)
+      return `${hours} ${hours > 1 ? t("common.hoursAgo") : t("common.hourAgo")}`;
+    if (minutes > 0)
+      return `${minutes} ${minutes > 1 ? t("common.minutesAgo") : t("common.minuteAgo")}`;
     return t("common.justNow");
   }
 
@@ -58,26 +61,32 @@ export default function AutomativeCarousel() {
   // Helper function to translate home & furniture subcategory names
   const translateSubcategory = (name) => {
     const subcategoryMap = {
-      "Furniture": t("subcategories.homeFurniture.majlisAndSofas"),
-      "Decorations": t("subcategories.homeFurniture.decorationAndAccessories"),
-      "Bedding": t("subcategories.homeFurniture.bedsAndMattresses"),
-      "Kitchen": t("subcategories.homeFurniture.kitchens"),
-      "Lighting": t("subcategories.homeFurniture.lighting"),
+      Furniture: t("subcategories.homeFurniture.majlisAndSofas"),
+      Decorations: t("subcategories.homeFurniture.decorationAndAccessories"),
+      Bedding: t("subcategories.homeFurniture.bedsAndMattresses"),
+      Kitchen: t("subcategories.homeFurniture.kitchens"),
+      Lighting: t("subcategories.homeFurniture.lighting"),
       // Full subcategory names from database
       "Outdoor Furniture": t("subcategories.homeFurniture.outdoorFurniture"),
       "Majlis & Sofas": t("subcategories.homeFurniture.majlisAndSofas"),
-      "Cabinets & Wardrobes": t("subcategories.homeFurniture.cabinetsAndWardrobes"),
+      "Cabinets & Wardrobes": t(
+        "subcategories.homeFurniture.cabinetsAndWardrobes",
+      ),
       "Beds & Mattresses": t("subcategories.homeFurniture.bedsAndMattresses"),
       "Tables & Chairs": t("subcategories.homeFurniture.tablesAndChairs"),
-      "Kitchens": t("subcategories.homeFurniture.kitchens"),
-      "Bathrooms": t("subcategories.homeFurniture.bathrooms"),
-      "Carpets": t("subcategories.homeFurniture.carpets"),
-      "Curtains": t("subcategories.homeFurniture.curtains"),
-      "Decoration & Accessories": t("subcategories.homeFurniture.decorationAndAccessories"),
+      Kitchens: t("subcategories.homeFurniture.kitchens"),
+      Bathrooms: t("subcategories.homeFurniture.bathrooms"),
+      Carpets: t("subcategories.homeFurniture.carpets"),
+      Curtains: t("subcategories.homeFurniture.curtains"),
+      "Decoration & Accessories": t(
+        "subcategories.homeFurniture.decorationAndAccessories",
+      ),
       "Household Items": t("subcategories.homeFurniture.householdItems"),
       "Garden - Plants": t("subcategories.homeFurniture.gardenPlants"),
       "Office Furniture": t("subcategories.homeFurniture.officeFurniture"),
-      "Doors - Windows - Aluminium": t("subcategories.homeFurniture.doorsWindowsAluminium"),
+      "Doors - Windows - Aluminium": t(
+        "subcategories.homeFurniture.doorsWindowsAluminium",
+      ),
       "Tiles & Flooring": t("subcategories.homeFurniture.tilesAndFlooring"),
     };
     return subcategoryMap[name] || name;
@@ -91,9 +100,7 @@ export default function AutomativeCarousel() {
   useEffect(() => {
     const fetchAds = async () => {
       try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/HEALTHCARECarousal"
-        );
+        const response = await fetch("/route/HEALTHCARECarousal");
         const data = await response.json();
         if (!response.ok) return;
 
@@ -196,7 +203,9 @@ export default function AutomativeCarousel() {
       <div className="container">
         <div className="row align-items-center">
           <div className="featuresection_infodev" style={{ marginTop: "2rem" }}>
-            <h2 className="featuresection_header">{t("categories.homeFurniture")}</h2>
+            <h2 className="featuresection_header">
+              {t("categories.homeFurniture")}
+            </h2>
             <Link to="/HealthCareComp">
               <button className="blue_btn">{t("home.viewAll")}</button>
             </Link>
@@ -325,7 +334,9 @@ export default function AutomativeCarousel() {
                             />
                             {item.FeaturedAds === "Featured Ads" && (
                               <div className="fav-item">
-                                <span className="Featured-text">{t("common.featured")}</span>
+                                <span className="Featured-text">
+                                  {t("common.featured")}
+                                </span>
                               </div>
                             )}
                           </div>
@@ -356,7 +367,11 @@ export default function AutomativeCarousel() {
                                     textDecoration: "none",
                                   }}
                                 >
-                                  {getTranslatedField(item, 'title', i18n.language)}
+                                  {getTranslatedField(
+                                    item,
+                                    "title",
+                                    i18n.language,
+                                  )}
                                 </Link>
                               </h6>
                               <p
@@ -369,7 +384,17 @@ export default function AutomativeCarousel() {
                                   textOverflow: "ellipsis",
                                 }}
                               >
-                                {getTranslatedField(item, 'District', i18n.language)}, {getTranslatedField(item, 'City', i18n.language)}
+                                {getTranslatedField(
+                                  item,
+                                  "District",
+                                  i18n.language,
+                                )}
+                                ,{" "}
+                                {getTranslatedField(
+                                  item,
+                                  "City",
+                                  i18n.language,
+                                )}
                               </p>
                               <div
                                 className="blog-location-details"

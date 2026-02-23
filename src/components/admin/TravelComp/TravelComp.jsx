@@ -84,7 +84,10 @@ import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const TravelComp = () => {
   const { t } = useTranslation();
@@ -157,7 +160,7 @@ const TravelComp = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -410,7 +413,7 @@ const TravelComp = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -455,7 +458,7 @@ const TravelComp = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -463,7 +466,7 @@ const TravelComp = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -544,9 +547,7 @@ const TravelComp = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -564,14 +565,14 @@ const TravelComp = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -612,7 +613,7 @@ const TravelComp = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -647,7 +648,7 @@ const TravelComp = () => {
   const filteredOptions = districtOptions
     .slice(6)
     .filter((option) =>
-      option.label.toLowerCase().includes(searchText1.toLowerCase())
+      option.label.toLowerCase().includes(searchText1.toLowerCase()),
     );
   useEffect(() => {
     setSearchQuery(searchText); // Update searchQuery from searchText
@@ -764,7 +765,7 @@ const TravelComp = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -787,7 +788,7 @@ const TravelComp = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [showAllServices, setShowAllServices] = useState(false);
 
@@ -797,9 +798,7 @@ const TravelComp = () => {
   useEffect(() => {
     const fetchSubCategories = async () => {
       try {
-        const response = await fetch(
-          "http://168.231.80.24:9002/route/travelSubCategories"
-        );
+        const response = await fetch("/route/travelSubCategories");
         const data = await response.json();
         setSubCategories(data);
       } catch (error) {
@@ -910,7 +909,7 @@ const TravelComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setRoomType((prevRoomType) =>
-        prevRoomType.filter((item) => item !== roomLabel)
+        prevRoomType.filter((item) => item !== roomLabel),
       );
     }
   };
@@ -922,7 +921,7 @@ const TravelComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setCheckin((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -934,7 +933,7 @@ const TravelComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setAccessibility((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -946,7 +945,7 @@ const TravelComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setBuildingType((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -958,7 +957,7 @@ const TravelComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setPropertyFeatures((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -970,7 +969,7 @@ const TravelComp = () => {
     } else {
       // Remove the unchecked checkbox from the array
       setAmenities((prevAmenities) =>
-        prevAmenities.filter((item) => item !== carLabel)
+        prevAmenities.filter((item) => item !== carLabel),
       );
     }
   };
@@ -1438,7 +1437,7 @@ const TravelComp = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1455,7 +1454,7 @@ const TravelComp = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1653,7 +1652,7 @@ const TravelComp = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1731,7 +1730,7 @@ const TravelComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/TRAVEL/${carId}/view`, {
+      fetch(`/route/TRAVEL/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1775,7 +1774,10 @@ const TravelComp = () => {
         removed: alreadyHearted,
         timestamp: Date.now(),
       };
-      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+      sessionStorage.setItem(
+        "last_bookmark_change",
+        JSON.stringify(bookmarkChange),
+      );
 
       // Optimistically update local state
       setCars((prevCars) =>
@@ -1787,8 +1789,8 @@ const TravelComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1801,12 +1803,12 @@ const TravelComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1838,7 +1840,7 @@ const TravelComp = () => {
   //   const fetchCars = async () => {
   //     try {
   //       setLoading(true); // Show spinner
-  //       const response = await fetch("http://168.231.80.24:9002/route/TRAVEL");
+  //       const response = await fetch("/route/TRAVEL");
   //       const carsData = await response.json();
 
   //       setCars(carsData);
@@ -1870,7 +1872,7 @@ const TravelComp = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/TRAVEL?${params.toString()}`
+  //         `/route/TRAVEL?${params.toString()}`
   //       );
   //       const data = await response.json();
 
@@ -1912,11 +1914,10 @@ const TravelComp = () => {
 
         // ✅ Pass subCatgory and nestedSubCategory
         if (subCatgory) params.append("subCatgory", subCatgory);
-        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+        if (nestedSubCategory)
+          params.append("NestedSubCategory", nestedSubCategory);
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/route/TRAVEL?${params.toString()}`
-        );
+        const response = await fetch(`/route/TRAVEL?${params.toString()}`);
 
         const travelData = await response.json();
         setCars(travelData);
@@ -2056,7 +2057,7 @@ const TravelComp = () => {
       selectedSubCategory,
       selectedCity,
       selectedDistrict,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   }, [
     selectedCities,
@@ -2219,7 +2220,7 @@ const TravelComp = () => {
       selectedSubCategory,
       selectedCity,
       selectedDistrict,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   };
   const filterCars = (
@@ -2298,7 +2299,7 @@ const TravelComp = () => {
     selectedSubCategory,
     selectedCity,
     selectedDistrict,
-    logSelectedPurpose
+    logSelectedPurpose,
   ) => {
     let filtered = carsData;
 
@@ -2368,34 +2369,34 @@ const TravelComp = () => {
           car.RoomType?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery),
       );
     }
     setLoading(false);
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
     if (BuildingType?.length > 0) {
       filtered = filtered.filter((car) =>
-        BuildingType.includes(car.BuildingType)
+        BuildingType.includes(car.BuildingType),
       );
     }
     if (RoomType?.length > 0) {
@@ -2420,7 +2421,7 @@ const TravelComp = () => {
     }
     if (Accessibility?.length > 0) {
       filtered = filtered.filter((car) =>
-        Accessibility.includes(car.Accessibility)
+        Accessibility.includes(car.Accessibility),
       );
     }
     if (ScreenSize?.length > 0) {
@@ -2428,7 +2429,7 @@ const TravelComp = () => {
     }
     if (PropertyFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        PropertyFeatures.includes(car.PropertyFeatures)
+        PropertyFeatures.includes(car.PropertyFeatures),
       );
     }
     if (Amenities?.length > 0) {
@@ -2436,7 +2437,7 @@ const TravelComp = () => {
     }
     if (PropertyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        PropertyType.includes(car.PropertyType)
+        PropertyType.includes(car.PropertyType),
       );
     }
     if (SellerType?.length > 0) {
@@ -2444,32 +2445,32 @@ const TravelComp = () => {
     }
     if (SpeedofMeasurement?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpeedofMeasurement.includes(car.SpeedofMeasurement)
+        SpeedofMeasurement.includes(car.SpeedofMeasurement),
       );
     }
     if (MeasurementUnits?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementUnits.includes(car.MeasurementUnits)
+        MeasurementUnits.includes(car.MeasurementUnits),
       );
     }
     if (StorageCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        StorageCapacity.includes(car.StorageCapacity)
+        StorageCapacity.includes(car.StorageCapacity),
       );
     }
     if (Compatibility?.length > 0) {
       filtered = filtered.filter((car) =>
-        Compatibility.includes(car.Compatibility)
+        Compatibility.includes(car.Compatibility),
       );
     }
     if (BatteryType?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryType.includes(car.BatteryType)
+        BatteryType.includes(car.BatteryType),
       );
     }
     if (DisplayType?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayType.includes(car.DisplayType)
+        DisplayType.includes(car.DisplayType),
       );
     }
     if (CuffSize?.length > 0) {
@@ -2480,7 +2481,7 @@ const TravelComp = () => {
     }
     if (MeasurementRange?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementRange.includes(car.MeasurementRange)
+        MeasurementRange.includes(car.MeasurementRange),
       );
     }
     if (Type?.length > 0) {
@@ -2497,7 +2498,7 @@ const TravelComp = () => {
     }
     if (SleeveLength?.length > 0) {
       filtered = filtered.filter((car) =>
-        SleeveLength.includes(car.SleeveLength)
+        SleeveLength.includes(car.SleeveLength),
       );
     }
     if (CollarType?.length > 0) {
@@ -2505,12 +2506,12 @@ const TravelComp = () => {
     }
     if (ClosureType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ClosureType.includes(car.ClosureType)
+        ClosureType.includes(car.ClosureType),
       );
     }
     if (StyleDesign?.length > 0) {
       filtered = filtered.filter((car) =>
-        StyleDesign.includes(car.StyleDesign)
+        StyleDesign.includes(car.StyleDesign),
       );
     }
     if (Color?.length > 0) {
@@ -2530,37 +2531,37 @@ const TravelComp = () => {
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2572,12 +2573,12 @@ const TravelComp = () => {
     // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     // Filter by selected cities
@@ -2600,22 +2601,22 @@ const TravelComp = () => {
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     // Filter by selected cities
@@ -2624,17 +2625,17 @@ const TravelComp = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2643,18 +2644,18 @@ const TravelComp = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2771,7 +2772,7 @@ const TravelComp = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2906,7 +2907,11 @@ const TravelComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateNestedSubcategory(nestedSubCategory, "services", t)}
+                    {translateNestedSubcategory(
+                      nestedSubCategory,
+                      "services",
+                      t,
+                    )}
                   </button>
                 </>
               )}
@@ -3090,7 +3095,7 @@ const TravelComp = () => {
                                     setselectedSubCategory((prev) =>
                                       prev === item.category
                                         ? ""
-                                        : item.category
+                                        : item.category,
                                     )
                                   }
                                 />
@@ -3145,7 +3150,7 @@ const TravelComp = () => {
                           <div className="mb-3">
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -3163,8 +3168,8 @@ const TravelComp = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -3233,7 +3238,7 @@ const TravelComp = () => {
                                           .map((region) => {
                                             const isChecked =
                                               selectedRegion.includes(
-                                                region.regionId
+                                                region.regionId,
                                               );
 
                                             return (
@@ -3249,25 +3254,25 @@ const TravelComp = () => {
                                                   onChange={() => {
                                                     if (isChecked) {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) =>
                                                           prev.filter(
                                                             (id) =>
                                                               id !==
-                                                              region.regionId
-                                                          )
+                                                              region.regionId,
+                                                          ),
                                                       );
                                                     } else {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) => [
                                                           ...prev,
                                                           region.regionId,
-                                                        ]
+                                                        ],
                                                       );
                                                     }
                                                   }}
@@ -3372,7 +3377,7 @@ const TravelComp = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -3438,8 +3443,8 @@ const TravelComp = () => {
                                           option.label
                                             ?.toLowerCase()
                                             .includes(
-                                              searchTerm1?.toLowerCase()
-                                            )
+                                              searchTerm1?.toLowerCase(),
+                                            ),
                                         )
                                         .map((option) => (
                                           <li key={option.value}>
@@ -3449,7 +3454,7 @@ const TravelComp = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -3534,7 +3539,7 @@ const TravelComp = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3549,7 +3554,7 @@ const TravelComp = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -3622,7 +3627,7 @@ const TravelComp = () => {
                                             selectedDistricts.some(
                                               (district) =>
                                                 district.DISTRICT_ID ===
-                                                option.value
+                                                option.value,
                                             );
 
                                           return (
@@ -3637,7 +3642,7 @@ const TravelComp = () => {
                                                 onChange={(e) =>
                                                   handleDistrictCheckboxChange(
                                                     option,
-                                                    e.target.checked
+                                                    e.target.checked,
                                                   )
                                                 }
                                               />
@@ -3922,11 +3927,16 @@ const TravelComp = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -4260,9 +4270,14 @@ const TravelComp = () => {
                                                             }}
                                                           />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

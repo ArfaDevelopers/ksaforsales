@@ -83,20 +83,20 @@ const Home = () => {
   // Helper function to translate category names from backend
   const translateCategoryTitle = (title) => {
     const categoryMap = {
-      "Motors": t("categories.motors"),
-      "Motor": t("categories.motors"),
-      "Automotive": t("categories.motors"),
-      "Electronics": t("categories.electronics"),
+      Motors: t("categories.motors"),
+      Motor: t("categories.motors"),
+      Automotive: t("categories.motors"),
+      Electronics: t("categories.electronics"),
       "Fashion Style": t("categories.fashionStyle"),
       "Home & Furniture": t("categories.homeFurniture"),
       "Home and Furniture": t("categories.homeFurniture"),
       "Job Board": t("categories.jobBoard"),
       "Real Estate": t("categories.realEstate"),
-      "Realestate": t("categories.realEstate"),
-      "Services": t("categories.services"),
+      Realestate: t("categories.realEstate"),
+      Services: t("categories.services"),
       "Sport & Game": t("categories.sportGame"),
       "Pet & Animals": t("categories.petAnimals"),
-      "Other": t("categories.other")
+      Other: t("categories.other"),
     };
     return categoryMap[title] || title;
   };
@@ -107,7 +107,7 @@ const Home = () => {
   const [loading, setLoading] = useState(false); // Add loading state
   const [OurCategoryAutomative, setOurCategoryAutomative] = useState([]);
   const [OurCategoryAutomativeTitle, setOurCategoryAutomativeTitle] = useState(
-    []
+    [],
   );
   const [ElectronicsTitle, setElectronicsTitle] = useState([]);
 
@@ -117,7 +117,7 @@ const Home = () => {
 
   const [OurCategoryHealthCare, setOurCategoryHealthCare] = useState([]);
   const [OurCategoryHealthCareTitle, setOurCategoryHealthCareTitle] = useState(
-    []
+    [],
   );
 
   const [OurCategoryJobBoard, setOurCategoryJobBoard] = useState([]);
@@ -125,7 +125,7 @@ const Home = () => {
 
   const [OurCategoryRealEstate, setOurCategoryRealEstate] = useState([]);
   const [OurCategoryRealEstateTitle, setOurCategoryRealEstateTitle] = useState(
-    []
+    [],
   );
 
   const [OurCategoryTravel, setOurCategoryTravel] = useState([]);
@@ -133,27 +133,27 @@ const Home = () => {
 
   const [OurCategorySportGames, setOurCategorySportGames] = useState([]);
   const [OurCategorySportGamesTitle, setOurCategorySportGamesTitle] = useState(
-    []
+    [],
   );
 
   const [OurCategoryPetAnimals, setOurCategoryPetAnimals] = useState([]);
   const [OurCategoryPetAnimalsTitle, setOurCategoryPetAnimalsTitle] = useState(
-    []
+    [],
   );
 
   const [OurCategoryHouseHold, setOurCategoryHouseHold] = useState([]);
   const [OurCategoryHouseHoldTitle, setOurCategoryHouseHoldTitle] = useState(
-    []
+    [],
   );
 
   const [OurCategoryEducation, setOurCategoryEducation] = useState([]);
   const [OurCategoryEducationTitle, setOurCategoryEducationTitle] = useState(
-    []
+    [],
   );
 
   const [OurCategoryMAGAZINES, setOurCategoryMAGAZINES] = useState([]);
   const [OurCategoryMAGAZINESTitle, setOurCategoryMAGAZINESTitle] = useState(
-    []
+    [],
   );
 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -229,7 +229,7 @@ const Home = () => {
           const age = Date.now() - parseInt(cachedTime);
           if (age < CACHE_DURATION) {
             // Add 400ms delay for smooth transition
-            await new Promise(resolve => setTimeout(resolve, 400));
+            await new Promise((resolve) => setTimeout(resolve, 400));
             const parsedData = JSON.parse(cachedData);
 
             // Set all state from cache
@@ -275,20 +275,38 @@ const Home = () => {
           petAnimalsRes,
           educationRes,
           houseHoldRes,
-          trendingRes
+          trendingRes,
         ] = await Promise.all([
-          fetch("http://168.231.80.24:9002/api/our-category-automative1").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryElectronics").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryFashionStyle").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryHealthCare").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryJobBoardAutomative").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryRealEstateAutomative").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryTravelAutomative").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategorySportGamesAutomative").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryPetAnimalsAutomative").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryEducation").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/api/our-category-OurCategoryHouseHoldAutomative").then(r => r.json()),
-          fetch("http://168.231.80.24:9002/route/trendingProducts").then(r => r.json())
+          fetch("/api/our-category-automative1").then((r) => r.json()),
+          fetch("/api/our-category-OurCategoryElectronics").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategoryFashionStyle").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategoryHealthCare").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategoryJobBoardAutomative").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategoryRealEstateAutomative").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategoryTravelAutomative").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategorySportGamesAutomative").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategoryPetAnimalsAutomative").then((r) =>
+            r.json(),
+          ),
+          fetch("/api/our-category-OurCategoryEducation").then((r) => r.json()),
+          fetch("/api/our-category-OurCategoryHouseHoldAutomative").then((r) =>
+            r.json(),
+          ),
+          fetch("/route/trendingProducts").then((r) => r.json()),
         ]);
 
         // Process and set all data
@@ -304,7 +322,7 @@ const Home = () => {
           petAnimals: petAnimalsRes.items?.[0] || { image: "", title: "" },
           education: educationRes.items?.[0] || { image: "", title: "" },
           houseHold: houseHoldRes.items?.[0] || { image: "", title: "" },
-          trendingProducts: trendingRes || []
+          trendingProducts: trendingRes || [],
         };
 
         // Set all state
@@ -351,7 +369,9 @@ const Home = () => {
     const fetchSliderImages = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "SliderImage"));
-        const urls = querySnapshot.docs.flatMap(doc => doc.data().imageUrls || []);
+        const urls = querySnapshot.docs.flatMap(
+          (doc) => doc.data().imageUrls || [],
+        );
         console.log("Slider images from Firebase:", urls);
         if (urls.length > 0) {
           setImageUrls(urls);
@@ -728,14 +748,16 @@ const Home = () => {
   const [sliderTransition, setSliderTransition] = useState(true);
   const [isSliding, setIsSliding] = useState(false);
 
-  const extendedSlides = imageUrls.length > 0
-    ? [imageUrls[imageUrls.length - 1], ...imageUrls, imageUrls[0]]
-    : [];
+  const extendedSlides =
+    imageUrls.length > 0
+      ? [imageUrls[imageUrls.length - 1], ...imageUrls, imageUrls[0]]
+      : [];
 
   // realSlideIndex is 0-based index into imageUrls for dots
-  const realSlideIndex = imageUrls.length > 0
-    ? (currentSlideIndex - 1 + imageUrls.length) % imageUrls.length
-    : 0;
+  const realSlideIndex =
+    imageUrls.length > 0
+      ? (currentSlideIndex - 1 + imageUrls.length) % imageUrls.length
+      : 0;
 
   useEffect(() => {
     if (imageUrls.length === 0) return;
@@ -820,7 +842,7 @@ const Home = () => {
   };
   return (
     <>
-      <div className={`main-wrapper ${!loading ? 'fade-in-ads' : ''}`}>
+      <div className={`main-wrapper ${!loading ? "fade-in-ads" : ""}`}>
         <Header />
         {/* Pure React Slider - infinite loop, no Bootstrap JS */}
         <div
@@ -832,7 +854,13 @@ const Home = () => {
           }}
         >
           {/* overflow wrapper — clips slides, position:relative for abs-positioned buttons */}
-          <div style={{ overflow: "hidden", borderRadius: "8px", position: "relative" }}>
+          <div
+            style={{
+              overflow: "hidden",
+              borderRadius: "8px",
+              position: "relative",
+            }}
+          >
             {/* Sliding strip:
                 width = n * 100% of wrapper so each slide is exactly (100/n)% of strip = 100% of wrapper.
                 translateX uses percentage of strip width: -(index * 100/n)% = exactly one slide per step. */}
@@ -841,7 +869,9 @@ const Home = () => {
                 display: "flex",
                 width: `${extendedSlides.length * 100}%`,
                 transform: `translateX(-${currentSlideIndex * (100 / extendedSlides.length)}%)`,
-                transition: sliderTransition ? "transform 0.6s ease-in-out" : "none",
+                transition: sliderTransition
+                  ? "transform 0.6s ease-in-out"
+                  : "none",
               }}
               onTransitionEnd={handleSlideTransitionEnd}
             >
@@ -849,7 +879,13 @@ const Home = () => {
                 const isMobile = windowWidth <= 576;
                 const isTablet = windowWidth > 576 && windowWidth <= 768;
                 return (
-                  <div key={index} style={{ width: `${100 / extendedSlides.length}%`, flexShrink: 0 }}>
+                  <div
+                    key={index}
+                    style={{
+                      width: `${100 / extendedSlides.length}%`,
+                      flexShrink: 0,
+                    }}
+                  >
                     <img
                       src={img}
                       className="d-block"
@@ -881,13 +917,18 @@ const Home = () => {
                 <button
                   key={index}
                   type="button"
-                  onClick={() => { setSliderTransition(true); setCurrentSlideIndex(index + 1); }}
+                  onClick={() => {
+                    setSliderTransition(true);
+                    setCurrentSlideIndex(index + 1);
+                  }}
                   aria-label={`Slide ${index + 1}`}
                   style={{
-                    width: index === realSlideIndex ? "24px" : "8px",
-                    height: "8px",
-                    borderRadius: "4px",
-                    backgroundColor: index === realSlideIndex ? "#fff" : "rgba(255,255,255,0.5)",
+                    width: index === realSlideIndex ? "35px" : "35px",
+                    height: "3px",
+                    backgroundColor:
+                      index === realSlideIndex
+                        ? "#fff"
+                        : "rgba(255,255,255,0.45)",
                     border: "none",
                     padding: 0,
                     cursor: "pointer",
@@ -922,15 +963,26 @@ const Home = () => {
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
-                e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+                e.currentTarget.style.transform =
+                  "translateY(-50%) scale(1.05)";
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
                 e.currentTarget.style.transform = "translateY(-50%) scale(1)";
               }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16" style={{ marginRight: "3px" }}>
-                <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="white"
+                viewBox="0 0 16 16"
+                style={{ marginRight: "3px" }}
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"
+                />
               </svg>
             </button>
 
@@ -959,19 +1011,32 @@ const Home = () => {
               }}
               onMouseOver={(e) => {
                 e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
-                e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+                e.currentTarget.style.transform =
+                  "translateY(-50%) scale(1.05)";
               }}
               onMouseOut={(e) => {
                 e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
                 e.currentTarget.style.transform = "translateY(-50%) scale(1)";
               }}
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16" style={{ marginLeft: "3px" }}>
-                <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                fill="white"
+                viewBox="0 0 16 16"
+                style={{ marginLeft: "3px" }}
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z"
+                />
               </svg>
             </button>
-          </div> {/* end overflow wrapper */}
-        </div> {/* end container */}
+          </div>{" "}
+          {/* end overflow wrapper */}
+        </div>{" "}
+        {/* end container */}
         {/* Trending Products */}
         <div
           className="trendingprodct_wrapper container pt-0"
@@ -1016,7 +1081,7 @@ const Home = () => {
                   textDecoration: "none", // Ensure Link looks like a button
                 }}
               >
-                {getTranslatedField(product, 'title', i18n.language)}
+                {getTranslatedField(product, "title", i18n.language)}
               </Link>
             ))}
           </div>
@@ -1711,13 +1776,9 @@ const Home = () => {
           </div>
         </section>
         {/* Category Section */}
-
         {/* Featured Ads Section */}
         <Carousel />
-
-        
         {/* Featured Ads Section */}
-
         {/* All carousel */}
         <div className="allCarosuel_wrapper">
           <AutomativeCarosuel />
@@ -1727,16 +1788,12 @@ const Home = () => {
           <SportandgameCarouseCarousel />
         </div>
         {/* All carousel */}
-
         <ComercialsAds />
-
         {/* Latest Blogs components */}
         <LatestBlog />
-
         {/* Footer */}
         <Footer />
         {/* Footer */}
-
         <div>
           {isVisible && ads.length > 0 && (
             <div

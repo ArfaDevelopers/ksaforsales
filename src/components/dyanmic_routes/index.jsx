@@ -65,7 +65,7 @@ import SwiperSlider from "../../components/admin/SwiperSlider/SwiperSlider";
 import Relateddata from "../../components/admin/dyanmic_route/upperHeader/Relateddata";
 
 const stripePromise = loadStripe(
-  "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
+  "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1",
 );
 const Dynamic_Routes = () => {
   const { t, i18n } = useTranslation();
@@ -77,113 +77,113 @@ const Dynamic_Routes = () => {
     // Map field names to translation keys
     const fieldMap = {
       "Seller Type": t("detailsPage.sellerType"),
-      "Duration": t("detailsPage.duration"),
+      Duration: t("detailsPage.duration"),
       "Registered City": t("detailsPage.registeredCity"),
-      "Assembly": t("detailsPage.assembly"),
-      "Accuracy": t("detailsPage.accuracy"),
+      Assembly: t("detailsPage.assembly"),
+      Accuracy: t("detailsPage.accuracy"),
       "Battery Type": t("detailsPage.batteryType"),
-      "Compatibility": t("detailsPage.compatibility"),
-      "CuffSize": t("detailsPage.cuffSize"),
+      Compatibility: t("detailsPage.compatibility"),
+      CuffSize: t("detailsPage.cuffSize"),
       "Display Type": t("detailsPage.displayType"),
-      "Features": t("detailsPage.features"),
-      "MeasurementRange": t("detailsPage.measurementRange"),
-      "MeasurementUnits": t("detailsPage.measurementUnits"),
+      Features: t("detailsPage.features"),
+      MeasurementRange: t("detailsPage.measurementRange"),
+      MeasurementUnits: t("detailsPage.measurementUnits"),
       "Wash Type": t("detailsPage.washType"),
-      "Type": t("detailsPage.type"),
-      "RAM": t("detailsPage.ram"),
-      "bodyType": t("detailsPage.bodyType"),
-      "Brand": t("detailsPage.brand"),
+      Type: t("detailsPage.type"),
+      RAM: t("detailsPage.ram"),
+      bodyType: t("detailsPage.bodyType"),
+      Brand: t("detailsPage.brand"),
       "Operating System": t("detailsPage.operatingSystem"),
-      "type": t("detailsPage.type"),
+      type: t("detailsPage.type"),
       "Screen Size": t("detailsPage.screenSize"),
-      "Registeredin": t("detailsPage.registeredin"),
-      "EngineCapacity": t("detailsPage.engineCapacity"),
-      "BodyType": t("detailsPage.bodyType"),
-      "ExteriorColor": t("detailsPage.exteriorColor"),
-      "Condition": t("detailsPage.condition"),
-      "Purpose": t("detailsPage.purpose"),
-      "ClosureType": t("detailsPage.closureType"),
-      "Material": t("detailsPage.material"),
-      "CollarType": t("detailsPage.collarType"),
-      "Season": t("detailsPage.season"),
-      "StyleDesign": t("detailsPage.styleDesign"),
-      "Fit": t("detailsPage.fit"),
-      "City": t("detailsPage.city"),
-      "District": t("detailsPage.district"),
-      "Company": t("detailsPage.company"),
-      "EmploymentType": t("detailsPage.employmentType"),
-      "ExperienceLevel": t("detailsPage.experienceLevel"),
-      "Industry": t("detailsPage.industry"),
-      "SalaryRange": t("detailsPage.salaryRange"),
+      Registeredin: t("detailsPage.registeredin"),
+      EngineCapacity: t("detailsPage.engineCapacity"),
+      BodyType: t("detailsPage.bodyType"),
+      ExteriorColor: t("detailsPage.exteriorColor"),
+      Condition: t("detailsPage.condition"),
+      Purpose: t("detailsPage.purpose"),
+      ClosureType: t("detailsPage.closureType"),
+      Material: t("detailsPage.material"),
+      CollarType: t("detailsPage.collarType"),
+      Season: t("detailsPage.season"),
+      StyleDesign: t("detailsPage.styleDesign"),
+      Fit: t("detailsPage.fit"),
+      City: t("detailsPage.city"),
+      District: t("detailsPage.district"),
+      Company: t("detailsPage.company"),
+      EmploymentType: t("detailsPage.employmentType"),
+      ExperienceLevel: t("detailsPage.experienceLevel"),
+      Industry: t("detailsPage.industry"),
+      SalaryRange: t("detailsPage.salaryRange"),
       "Sallary From": t("detailsPage.sallaryFrom"),
       "Sallary To": t("detailsPage.sallaryTo"),
       "Content Type": t("detailsPage.contentType"),
-      "Language": t("detailsPage.language"),
-      "SkillLevel": t("detailsPage.skillLevel"),
-      "States": t("detailsPage.states"),
+      Language: t("detailsPage.language"),
+      SkillLevel: t("detailsPage.skillLevel"),
+      States: t("detailsPage.states"),
       "Subject Categories": t("detailsPage.subjectCategories"),
-      "assembly": t("detailsPage.assembly"),
-      "purpose": t("detailsPage.purpose"),
-      "Accessibility": t("detailsPage.accessibility"),
-      "Amenities": t("detailsPage.amenities"),
+      assembly: t("detailsPage.assembly"),
+      purpose: t("detailsPage.purpose"),
+      Accessibility: t("detailsPage.accessibility"),
+      Amenities: t("detailsPage.amenities"),
       "Building Type": t("detailsPage.buildingType"),
       "Property Features": t("detailsPage.propertyFeatures"),
       "Property Type": t("detailsPage.propertyType"),
-      "Size": t("detailsPage.size"),
-      "Checkin": t("detailsPage.checkin"),
-      "RoomType": t("detailsPage.roomType"),
-      "Availability": t("detailsPage.availability"),
-      "ColorOptions": t("detailsPage.colorOptions"),
-      "Age": t("detailsPage.age"),
-      "Breed": t("detailsPage.breed"),
-      "Color": t("detailsPage.color"),
+      Size: t("detailsPage.size"),
+      Checkin: t("detailsPage.checkin"),
+      RoomType: t("detailsPage.roomType"),
+      Availability: t("detailsPage.availability"),
+      ColorOptions: t("detailsPage.colorOptions"),
+      Age: t("detailsPage.age"),
+      Breed: t("detailsPage.breed"),
+      Color: t("detailsPage.color"),
       "Dietary Preferences": t("detailsPage.dietaryPreferences"),
       "Health Status": t("detailsPage.healthStatus"),
-      "Temperament": t("detailsPage.temperament"),
+      Temperament: t("detailsPage.temperament"),
       "Training Level": t("detailsPage.trainingLevel"),
       "Engine Capacity": t("detailsPage.engineCapacity"),
-      "Make": t("detailsPage.make"),
+      Make: t("detailsPage.make"),
       "Body Type": t("detailsPage.bodyType"),
-      "ContentType": t("detailsPage.contentType"),
+      ContentType: t("detailsPage.contentType"),
       "Last Updated": t("detailsPage.lastUpdated"),
       "Exterior Color": t("detailsPage.exteriorColor"),
-      "Model": t("detailsPage.model"),
+      Model: t("detailsPage.model"),
       "Price From": t("detailsPage.priceFrom"),
       "Price To": t("detailsPage.priceTo"),
       "Skill Level": t("detailsPage.skillLevel"),
-      "Website": t("detailsPage.website"),
-      "Phone": t("detailsPage.phone"),
-      "Email": t("detailsPage.email"),
-      "Address": t("detailsPage.address"),
-      "Location": t("detailsPage.location"),
+      Website: t("detailsPage.website"),
+      Phone: t("detailsPage.phone"),
+      Email: t("detailsPage.email"),
+      Address: t("detailsPage.address"),
+      Location: t("detailsPage.location"),
       "Manufacture Year": t("detailsPage.manufactureYear"),
-      "Processor": t("detailsPage.processor"),
+      Processor: t("detailsPage.processor"),
       "Display Quality": t("detailsPage.displayQuality"),
       "Storage Capacity": t("detailsPage.storageCapacity"),
       "Storage Type": t("detailsPage.storageType"),
       "Battery Life": t("detailsPage.batteryLife"),
-      "Connectivity": t("detailsPage.connectivity"),
+      Connectivity: t("detailsPage.connectivity"),
       "Graphics Card": t("detailsPage.graphicsCard"),
       "Special Features": t("detailsPage.specialFeatures"),
       "Picture Availability": t("detailsPage.pictureAvailability"),
       "Video Availability": t("detailsPage.videoAvailability"),
       "Featured Ads": t("detailsPage.featuredAds"),
-      "Category": t("detailsPage.category"),
-      "State": t("detailsPage.state"),
+      Category: t("detailsPage.category"),
+      State: t("detailsPage.state"),
       "Created At": t("detailsPage.createdAt"),
       "Regional Spec": t("detailsPage.regionalSpec"),
-      "Insurance": t("detailsPage.insurance"),
+      Insurance: t("detailsPage.insurance"),
       "Interior Color": t("detailsPage.interiorColor"),
-      "Transmission": t("detailsPage.transmission"),
-      "transmission": t("detailsPage.transmission"),
-      "SeatingCapacity": t("detailsPage.seatingCapacity"),
+      Transmission: t("detailsPage.transmission"),
+      transmission: t("detailsPage.transmission"),
+      SeatingCapacity: t("detailsPage.seatingCapacity"),
       "Seating Capacity": t("detailsPage.seatingCapacity"),
-      "NumberOfDoors": t("detailsPage.numberOfDoors"),
+      NumberOfDoors: t("detailsPage.numberOfDoors"),
       "Number of Doors": t("detailsPage.numberOfDoors"),
-      "Mileage": t("detailsPage.mileage"),
-      "mileage": t("detailsPage.mileage"),
-      "PaymentMethod": t("detailsPage.paymentMethod"),
-      "Payment Method": t("detailsPage.paymentMethod")
+      Mileage: t("detailsPage.mileage"),
+      mileage: t("detailsPage.mileage"),
+      PaymentMethod: t("detailsPage.paymentMethod"),
+      "Payment Method": t("detailsPage.paymentMethod"),
     };
     return fieldMap[fieldName] || fieldName;
   };
@@ -200,8 +200,10 @@ const Dynamic_Routes = () => {
     if (valueLower === "used") return t("filters.options.condition.used");
 
     // Seller Type values
-    if (valueLower === "dealers") return t("filters.options.sellerType.dealers");
-    if (valueLower === "individuals") return t("filters.options.sellerType.individuals");
+    if (valueLower === "dealers")
+      return t("filters.options.sellerType.dealers");
+    if (valueLower === "individuals")
+      return t("filters.options.sellerType.individuals");
 
     // Purpose/Ad Type values
     if (valueLower === "sell") return t("filters.options.adType.sell");
@@ -210,17 +212,22 @@ const Dynamic_Routes = () => {
 
     // Payment Method values
     if (valueLower === "cash") return t("filters.options.paymentMethod.cash");
-    if (valueLower === "mortgage") return t("filters.options.paymentMethod.mortgage");
-    if (valueLower.includes("installment") && valueLower.includes("without")) return t("filters.options.paymentMethod.installmentsWithoutBank");
+    if (valueLower === "mortgage")
+      return t("filters.options.paymentMethod.mortgage");
+    if (valueLower.includes("installment") && valueLower.includes("without"))
+      return t("filters.options.paymentMethod.installmentsWithoutBank");
 
     // Transmission values
-    if (valueLower === "manual") return t("filters.options.transmission.manual");
-    if (valueLower === "automatic") return t("filters.options.transmission.automatic");
+    if (valueLower === "manual")
+      return t("filters.options.transmission.manual");
+    if (valueLower === "automatic")
+      return t("filters.options.transmission.automatic");
 
     // Color values
     if (valueLower === "white") return t("filters.options.colors.white");
     if (valueLower === "black") return t("filters.options.colors.black");
-    if (valueLower === "grey" || valueLower === "gray") return t("filters.options.colors.grey");
+    if (valueLower === "grey" || valueLower === "gray")
+      return t("filters.options.colors.grey");
     if (valueLower === "red") return t("filters.options.colors.red");
     if (valueLower === "yellow") return t("filters.options.colors.yellow");
     if (valueLower === "blue") return t("filters.options.colors.blue");
@@ -229,55 +236,86 @@ const Dynamic_Routes = () => {
 
     // Regional Spec values
     if (valueLower === "gcc") return t("filters.options.regionalSpec.gcc");
-    if (valueLower === "european") return t("filters.options.regionalSpec.european");
-    if (valueLower === "japanese") return t("filters.options.regionalSpec.japanese");
-    if (valueLower === "american") return t("filters.options.regionalSpec.american");
+    if (valueLower === "european")
+      return t("filters.options.regionalSpec.european");
+    if (valueLower === "japanese")
+      return t("filters.options.regionalSpec.japanese");
+    if (valueLower === "american")
+      return t("filters.options.regionalSpec.american");
 
     // Fuel Type values
     if (valueLower === "petrol") return t("filters.options.fuelType.petrol");
     if (valueLower === "diesel") return t("filters.options.fuelType.diesel");
-    if (valueLower === "electric") return t("filters.options.fuelType.electric");
+    if (valueLower === "electric")
+      return t("filters.options.fuelType.electric");
     if (valueLower === "hybrid") return t("filters.options.fuelType.hybrid");
     if (valueLower === "lpg") return t("filters.options.fuelType.lpg");
     if (valueLower === "cng") return t("filters.options.fuelType.cng");
 
     // Insurance values
-    if (valueLower === "no insurance") return t("filters.options.insurance.noInsurance");
-    if (valueLower === "thirdparty" || valueLower === "third party") return t("filters.options.insurance.thirdParty");
-    if (valueLower === "comprehensive") return t("filters.options.insurance.comprehensive");
+    if (valueLower === "no insurance")
+      return t("filters.options.insurance.noInsurance");
+    if (valueLower === "thirdparty" || valueLower === "third party")
+      return t("filters.options.insurance.thirdParty");
+    if (valueLower === "comprehensive")
+      return t("filters.options.insurance.comprehensive");
 
     // Body Type values
     if (valueLower === "coupe") return t("filters.options.bodyType.coupe");
     if (valueLower === "sedan") return t("filters.options.bodyType.sedan");
     if (valueLower === "suv") return t("filters.options.bodyType.suv");
-    if (valueLower === "hatchback") return t("filters.options.bodyType.hatchback");
-    if (valueLower === "convertible") return t("filters.options.bodyType.convertible");
+    if (valueLower === "hatchback")
+      return t("filters.options.bodyType.hatchback");
+    if (valueLower === "convertible")
+      return t("filters.options.bodyType.convertible");
     if (valueLower === "wagon") return t("filters.options.bodyType.wagon");
-    if (valueLower.includes("pickup")) return t("filters.options.bodyType.pickupTruck");
-    if (valueLower === "crossover") return t("filters.options.bodyType.crossover");
+    if (valueLower.includes("pickup"))
+      return t("filters.options.bodyType.pickupTruck");
+    if (valueLower === "crossover")
+      return t("filters.options.bodyType.crossover");
     if (valueLower === "minivan") return t("filters.options.bodyType.minivan");
 
     // Additional Features values
-    if (valueLower.includes("fulloption") || valueLower.includes("full option")) return t("filters.options.additionalFeatures.fullOption");
-    if (valueLower === "insured") return t("filters.options.additionalFeatures.insured");
-    if (valueLower.includes("self") && valueLower.includes("park")) return t("filters.options.additionalFeatures.selfParking");
-    if (valueLower.includes("alarm")) return t("filters.options.additionalFeatures.alarmSystem");
-    if (valueLower === "dealership") return t("filters.options.additionalFeatures.dealership");
-    if (valueLower.includes("quick") && valueLower.includes("sell")) return t("filters.options.additionalFeatures.quickSelling");
-    if (valueLower === "navigation") return t("filters.options.additionalFeatures.navigation");
-    if (valueLower === "inspected") return t("filters.options.additionalFeatures.inspected");
-    if (valueLower.includes("parking") && valueLower.includes("sensor")) return t("filters.options.additionalFeatures.parkingSensors");
-    if (valueLower === "bluetooth") return t("filters.options.additionalFeatures.bluetooth");
-    if (valueLower.includes("sunroof") || valueLower.includes("moonroof")) return t("filters.options.additionalFeatures.sunroofMoonroof");
-    if (valueLower.includes("leather") && valueLower.includes("seat")) return t("filters.options.additionalFeatures.leatherSeats");
-    if (valueLower.includes("backup") && valueLower.includes("camera")) return t("filters.options.additionalFeatures.backupCamera");
-    if (valueLower.includes("heated") && valueLower.includes("seat")) return t("filters.options.additionalFeatures.heatedSeats");
-    if (valueLower.includes("keyless")) return t("filters.options.additionalFeatures.keylessEntry");
-    if (valueLower.includes("remote") && valueLower.includes("start")) return t("filters.options.additionalFeatures.remoteStart");
-    if (valueLower.includes("touchscreen")) return t("filters.options.additionalFeatures.touchscreenDisplay");
-    if (valueLower.includes("carplay") || valueLower.includes("android auto")) return t("filters.options.additionalFeatures.appleCarplayAndroidAuto");
-    if (valueLower.includes("led") && valueLower.includes("headlight")) return t("filters.options.additionalFeatures.ledHeadlights");
-    if (valueLower.includes("all") && valueLower.includes("wheel")) return t("filters.options.additionalFeatures.allWheelDrive");
+    if (valueLower.includes("fulloption") || valueLower.includes("full option"))
+      return t("filters.options.additionalFeatures.fullOption");
+    if (valueLower === "insured")
+      return t("filters.options.additionalFeatures.insured");
+    if (valueLower.includes("self") && valueLower.includes("park"))
+      return t("filters.options.additionalFeatures.selfParking");
+    if (valueLower.includes("alarm"))
+      return t("filters.options.additionalFeatures.alarmSystem");
+    if (valueLower === "dealership")
+      return t("filters.options.additionalFeatures.dealership");
+    if (valueLower.includes("quick") && valueLower.includes("sell"))
+      return t("filters.options.additionalFeatures.quickSelling");
+    if (valueLower === "navigation")
+      return t("filters.options.additionalFeatures.navigation");
+    if (valueLower === "inspected")
+      return t("filters.options.additionalFeatures.inspected");
+    if (valueLower.includes("parking") && valueLower.includes("sensor"))
+      return t("filters.options.additionalFeatures.parkingSensors");
+    if (valueLower === "bluetooth")
+      return t("filters.options.additionalFeatures.bluetooth");
+    if (valueLower.includes("sunroof") || valueLower.includes("moonroof"))
+      return t("filters.options.additionalFeatures.sunroofMoonroof");
+    if (valueLower.includes("leather") && valueLower.includes("seat"))
+      return t("filters.options.additionalFeatures.leatherSeats");
+    if (valueLower.includes("backup") && valueLower.includes("camera"))
+      return t("filters.options.additionalFeatures.backupCamera");
+    if (valueLower.includes("heated") && valueLower.includes("seat"))
+      return t("filters.options.additionalFeatures.heatedSeats");
+    if (valueLower.includes("keyless"))
+      return t("filters.options.additionalFeatures.keylessEntry");
+    if (valueLower.includes("remote") && valueLower.includes("start"))
+      return t("filters.options.additionalFeatures.remoteStart");
+    if (valueLower.includes("touchscreen"))
+      return t("filters.options.additionalFeatures.touchscreenDisplay");
+    if (valueLower.includes("carplay") || valueLower.includes("android auto"))
+      return t("filters.options.additionalFeatures.appleCarplayAndroidAuto");
+    if (valueLower.includes("led") && valueLower.includes("headlight"))
+      return t("filters.options.additionalFeatures.ledHeadlights");
+    if (valueLower.includes("all") && valueLower.includes("wheel"))
+      return t("filters.options.additionalFeatures.allWheelDrive");
 
     // Return original value if no translation found
     return value;
@@ -287,34 +325,34 @@ const Dynamic_Routes = () => {
   const translateCategory = (category) => {
     if (!category) return "";
     const categoryMap = {
-      "Motors": t("categories.motors"),
-      "Automotive": t("categories.motors"),
-      "automotive": t("categories.motors"),
-      "AutomotiveComp": t("categories.motors"),
-      "Electronics": t("categories.electronics"),
-      "ElectronicComp": t("categories.electronics"),
-      "Electronic": t("categories.electronics"),
+      Motors: t("categories.motors"),
+      Automotive: t("categories.motors"),
+      automotive: t("categories.motors"),
+      AutomotiveComp: t("categories.motors"),
+      Electronics: t("categories.electronics"),
+      ElectronicComp: t("categories.electronics"),
+      Electronic: t("categories.electronics"),
       "Fashion Style": t("categories.fashionStyle"),
-      "FashionStyle": t("categories.fashionStyle"),
+      FashionStyle: t("categories.fashionStyle"),
       "Home & Furniture": t("categories.homeFurniture"),
       "Job Board": t("categories.jobBoard"),
-      "JobBoard": t("categories.jobBoard"),
+      JobBoard: t("categories.jobBoard"),
       "Real Estate": t("categories.realEstate"),
-      "RealEstate": t("categories.realEstate"),
-      "RealEstateComp": t("categories.realEstate"),
-      "Services": t("categories.services"),
-      "TravelComp": t("categories.services"),
+      RealEstate: t("categories.realEstate"),
+      RealEstateComp: t("categories.realEstate"),
+      Services: t("categories.services"),
+      TravelComp: t("categories.services"),
       "Sport & Game": t("categories.sportGame"),
-      "SportGamesComp": t("categories.sportGame"),
-      "GamesSport": t("categories.sportGame"),
+      SportGamesComp: t("categories.sportGame"),
+      GamesSport: t("categories.sportGame"),
       "Pet & Animals": t("categories.petAnimals"),
-      "PetAnimalsComp": t("categories.petAnimals"),
-      "Other": t("categories.other"),
-      "Education": t("categories.other"),
-      "HealthCare": t("categories.other"),
-      "HealthCareComp": t("categories.other"),
-      "Commercial": t("categories.commercial"),
-      "ComercialsAds": t("categories.commercial")
+      PetAnimalsComp: t("categories.petAnimals"),
+      Other: t("categories.other"),
+      Education: t("categories.other"),
+      HealthCare: t("categories.other"),
+      HealthCareComp: t("categories.other"),
+      Commercial: t("categories.commercial"),
+      ComercialsAds: t("categories.commercial"),
     };
     return categoryMap[category] || category;
   };
@@ -328,10 +366,12 @@ const Dynamic_Routes = () => {
       "Car Rental": t("subcategories.motors.carRental"),
       "Plates Number": t("subcategories.motors.platesNumber"),
       "Spare Parts": t("subcategories.motors.spareParts"),
-      "Accessories": t("subcategories.motors.accessories"),
+      Accessories: t("subcategories.motors.accessories"),
       "Wheels & Rims": t("subcategories.motors.wheelsAndRims"),
-      "Trucks & Heavy Machinery": t("subcategories.motors.trucksAndHeavyMachinery"),
-      "Tshaleeh": t("subcategories.motors.tshaleeh"),
+      "Trucks & Heavy Machinery": t(
+        "subcategories.motors.trucksAndHeavyMachinery",
+      ),
+      Tshaleeh: t("subcategories.motors.tshaleeh"),
       "Boats & Jet Ski": t("subcategories.motors.boatsAndJetski"),
       "Classic Cars": t("subcategories.motors.classicCars"),
       // Add more as needed
@@ -365,7 +405,7 @@ const Dynamic_Routes = () => {
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
   const [senderId, setSenderId] = useState(
-    "d38e0cee-daa7-46e2-bfd1-d7f9c4683546"
+    "d38e0cee-daa7-46e2-bfd1-d7f9c4683546",
   );
   const [receiverId, setReceiverId] = useState("3");
   const [chatId, setChatId] = useState("");
@@ -446,7 +486,7 @@ const Dynamic_Routes = () => {
 
       if (!docSnap.exists()) {
         console.warn(
-          `Document with ID ${id} not found in ${firestoreCollection}`
+          `Document with ID ${id} not found in ${firestoreCollection}`,
         );
         return;
       }
@@ -460,13 +500,13 @@ const Dynamic_Routes = () => {
       });
 
       // Update itemData state directly without triggering full re-fetch
-      setItemData(prev => ({
+      setItemData((prev) => ({
         ...prev,
-        bookmarked: !currentBookmarkStatus
+        bookmarked: !currentBookmarkStatus,
       }));
 
       console.log(
-        `✅ Bookmark toggled for ${id} in ${firestoreCollection} — Now: ${!currentBookmarkStatus}`
+        `✅ Bookmark toggled for ${id} in ${firestoreCollection} — Now: ${!currentBookmarkStatus}`,
       );
     } catch (error) {
       console.error("❌ Error toggling bookmark:", error);
@@ -598,24 +638,24 @@ const Dynamic_Routes = () => {
     callingFrom === "AutomotiveComp"
       ? "Cars"
       : callingFrom === "ElectronicComp"
-      ? "ELECTRONICS"
-      : callingFrom === "FashionStyle"
-      ? "FASHION"
-      : callingFrom === "HealthCareComp"
-      ? "HEALTHCARE"
-      : callingFrom === "JobBoard"
-      ? "JOBBOARD"
-      : callingFrom === "Education"
-      ? "Education"
-      : callingFrom === "RealEstateComp"
-      ? "REALESTATECOMP"
-      : callingFrom === "TravelComp"
-      ? "TRAVEL"
-      : callingFrom === "SportGamesComp"
-      ? "SPORTSGAMESComp"
-      : callingFrom === "PetAnimalsComp"
-      ? "PETANIMALCOMP"
-      : "books";
+        ? "ELECTRONICS"
+        : callingFrom === "FashionStyle"
+          ? "FASHION"
+          : callingFrom === "HealthCareComp"
+            ? "HEALTHCARE"
+            : callingFrom === "JobBoard"
+              ? "JOBBOARD"
+              : callingFrom === "Education"
+                ? "Education"
+                : callingFrom === "RealEstateComp"
+                  ? "REALESTATECOMP"
+                  : callingFrom === "TravelComp"
+                    ? "TRAVEL"
+                    : callingFrom === "SportGamesComp"
+                      ? "SPORTSGAMESComp"
+                      : callingFrom === "PetAnimalsComp"
+                        ? "PETANIMALCOMP"
+                        : "books";
   console.log(itemData, "111111111111111111111111111");
   const handleCall = async (phoneNumber) => {
     try {
@@ -635,7 +675,7 @@ const Dynamic_Routes = () => {
 
     if (message.trim() && userId && itemData.userId) {
       try {
-        const response = await fetch("http://168.231.80.24:9002/api/messages", {
+        const response = await fetch("/api/messages", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -697,14 +737,14 @@ const Dynamic_Routes = () => {
             where("sender", "==", userId),
             where("receiver", "==", userId),
             where("sender", "==", recieverId),
-            where("receiver", "==", recieverId)
-          )
+            where("receiver", "==", recieverId),
+          ),
         );
 
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           const chatIdsArray = querySnapshot.docs.map(
-            (doc) => doc.data().chat_id
+            (doc) => doc.data().chat_id,
           );
           console.log("No chats foundchatIdsArray__________", chatIdsArray);
 
@@ -733,7 +773,7 @@ const Dynamic_Routes = () => {
 
   //     try {
   //       const { data } = await axios.get(
-  //         `http://168.231.80.24:9002/api/messages/${userId}`
+  //         `/api/messages/${userId}`
   //       );
   //       setReceivedMessages(data?.data || []);
   //       console.log("Fetched messages:", data?.data);
@@ -751,7 +791,7 @@ const Dynamic_Routes = () => {
       }
       try {
         const { data: chatData } = await axios.get(
-          `http://168.231.80.24:9002/api/chat-id/${userId}/${itemData.userId}`
+          `/api/chat-id/${userId}/${itemData.userId}`,
         );
 
         if (!chatData.success) {
@@ -763,7 +803,7 @@ const Dynamic_Routes = () => {
 
         // Now fetch messages using chatId
         const { data: messagesData } = await axios.get(
-          `http://168.231.80.24:9002/api/messages/${chatId}`
+          `/api/messages/${chatId}`,
         );
 
         setReceivedMessages(messagesData?.data || []);
@@ -779,9 +819,7 @@ const Dynamic_Routes = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const { data } = await axios.get(
-          "http://168.231.80.24:9002/route/api/users"
-        );
+        const { data } = await axios.get("/route/api/users");
         setUsers(data);
       } catch (error) {
         // Only log once to avoid console flooding
@@ -794,7 +832,7 @@ const Dynamic_Routes = () => {
     };
 
     // Connect socket with reconnection limits to prevent 404 flooding
-    socket = io("http://168.231.80.24:9002", {
+    socket = io("", {
       reconnectionAttempts: 3,
       reconnectionDelay: 5000,
       timeout: 10000,
@@ -832,15 +870,13 @@ const Dynamic_Routes = () => {
       },
       (error) => {
         console.error("Error fetching AdsdetailImages data:", error);
-      }
+      },
     );
     return () => unsubscribe();
   }, []);
   const fetchChats = async (userId) => {
     try {
-      const { data } = await axios.get(
-        `http://168.231.80.24:9002/route/api/chats/${userId}`
-      );
+      const { data } = await axios.get(`/route/api/chats/${userId}`);
       setChats(data);
     } catch (error) {
       console.error("Error fetching chats:", error);
@@ -849,9 +885,7 @@ const Dynamic_Routes = () => {
 
   const fetchMessages = async (chatId) => {
     try {
-      const { data } = await axios.get(
-        `http://168.231.80.24:9002/route/api/messages/${chatId}`
-      );
+      const { data } = await axios.get(`/route/api/messages/${chatId}`);
       setMessages(data);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -924,7 +958,7 @@ const Dynamic_Routes = () => {
     setSelectedReports((prev) =>
       prev.includes(type)
         ? prev.filter((item) => item !== type)
-        : [...prev, type]
+        : [...prev, type],
     );
   };
   console.log(itemData?.category, "itemData.category______");
@@ -935,24 +969,24 @@ const Dynamic_Routes = () => {
       itemData.category === "AutomotiveComp"
         ? "Cars"
         : itemData.category === "Electronics"
-        ? "ELECTRONICS"
-        : itemData.category === "FashionStyle"
-        ? "FASHION"
-        : itemData.category === "Health Care"
-        ? "HEALTHCARE"
-        : itemData.category === "JobBoard"
-        ? "JOBBOARD"
-        : itemData.category === "Education"
-        ? "Education"
-        : itemData.category === "Real Estate"
-        ? "REALESTATECOMP"
-        : itemData.category === "TravelComp"
-        ? "TRAVEL"
-        : itemData.category === "Sports & Game"
-        ? "SPORTSGAMESComp"
-        : itemData.category === "PetAnimalsComp"
-        ? "PETANIMALCOMP"
-        : "books";
+          ? "ELECTRONICS"
+          : itemData.category === "FashionStyle"
+            ? "FASHION"
+            : itemData.category === "Health Care"
+              ? "HEALTHCARE"
+              : itemData.category === "JobBoard"
+                ? "JOBBOARD"
+                : itemData.category === "Education"
+                  ? "Education"
+                  : itemData.category === "Real Estate"
+                    ? "REALESTATECOMP"
+                    : itemData.category === "TravelComp"
+                      ? "TRAVEL"
+                      : itemData.category === "Sports & Game"
+                        ? "SPORTSGAMESComp"
+                        : itemData.category === "PetAnimalsComp"
+                          ? "PETANIMALCOMP"
+                          : "books";
     console.log(collectionName, "collectionName________________-");
     try {
       const adsCollection = collection(db, collectionName);
@@ -1014,7 +1048,7 @@ const Dynamic_Routes = () => {
         try {
           const userQuery = query(
             collection(db, "users"), // Replace 'users' with your collection name
-            where("userId", "==", "N2mN6BG5Q2gtxqLSWfNgAzl48Ik1") // Query based on the userId field
+            where("userId", "==", "N2mN6BG5Q2gtxqLSWfNgAzl48Ik1"), // Query based on the userId field
           );
           const querySnapshot = await getDocs(userQuery);
 
@@ -1044,11 +1078,16 @@ const Dynamic_Routes = () => {
   // Sticky header scroll handling for mobile
   // Sticky header scroll handling for mobile
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      console.log("Scroll position:", currentScrollY, "showStickyHeader:", currentScrollY > 300);
+      console.log(
+        "Scroll position:",
+        currentScrollY,
+        "showStickyHeader:",
+        currentScrollY > 300,
+      );
 
       // Show sticky header when scrolled past 100px
       if (currentScrollY > 300) {
@@ -1058,10 +1097,10 @@ const Dynamic_Routes = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []); // Empty dependency array - only run once on mount
 
@@ -1071,18 +1110,18 @@ const Dynamic_Routes = () => {
     callingFrom === "automotive"
       ? _Id
       : callingFrom === "RealEstate"
-      ? _Id
-      : callingFrom === "Electronic"
-      ? _Id
-      : callingFrom === "HealthCare"
-      ? _Id
-      : callingFrom === "GamesSport"
-      ? _Id
-      : callingFrom === "ComercialsAds"
-      ? _Id
-      : callingFrom === "Education"
-      ? _Id
-      : id;
+        ? _Id
+        : callingFrom === "Electronic"
+          ? _Id
+          : callingFrom === "HealthCare"
+            ? _Id
+            : callingFrom === "GamesSport"
+              ? _Id
+              : callingFrom === "ComercialsAds"
+                ? _Id
+                : callingFrom === "Education"
+                  ? _Id
+                  : id;
 
   // useEffect(() => {
   //   const fetchItem = async () => {
@@ -1248,11 +1287,18 @@ const Dynamic_Routes = () => {
         <Header />
 
         {/* Mobile Sticky Header - Shows title and price when scrolled */}
-        {console.log("showStickyHeader state:", showStickyHeader, "itemData:", itemData?.title)}
+        {console.log(
+          "showStickyHeader state:",
+          showStickyHeader,
+          "itemData:",
+          itemData?.title,
+        )}
         {showStickyHeader && (
           <div className="mobile-sticky-price-header">
             <div className="sticky-header-top">
-              <h6 className="sticky-title">{itemData?.title || "Test Title"}</h6>
+              <h6 className="sticky-title">
+                {itemData?.title || "Test Title"}
+              </h6>
               <div className="sticky-price">
                 <img
                   src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
@@ -1265,7 +1311,10 @@ const Dynamic_Routes = () => {
               <a
                 href={`tel:${itemData?.Phone}`}
                 className="sticky-action-btn mobile-cell--sticky"
-                style={{ pointerEvents: itemData?.showNumberChecked ? 'none' : 'auto', opacity: itemData?.showNumberChecked ? 0.5 : 1 }}
+                style={{
+                  pointerEvents: itemData?.showNumberChecked ? "none" : "auto",
+                  opacity: itemData?.showNumberChecked ? 0.5 : 1,
+                }}
               >
                 <FaPhoneAlt />
               </a>
@@ -1350,7 +1399,9 @@ const Dynamic_Routes = () => {
                 fontWeight: "bold",
               }}
             >
-              {translateSubcategory(itemData?.SubCategory) || itemData?.SubCategory || "Default Title"}{" "}
+              {translateSubcategory(itemData?.SubCategory) ||
+                itemData?.SubCategory ||
+                "Default Title"}{" "}
             </div>
           </div>
           <div
@@ -1742,7 +1793,11 @@ const Dynamic_Routes = () => {
                             textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                           }}
                         >
-                          {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                          {getTranslatedField(
+                            itemData,
+                            "title",
+                            i18n.language,
+                          ) || "آلة غسيل أطباق"}
                         </h2>
                         <p
                           style={{
@@ -1785,7 +1840,9 @@ const Dynamic_Routes = () => {
                               >
                                 <FaPhoneAlt />
                                 <span>
-                                  {showPhone ? itemData.Phone : t("listing.callNow")}
+                                  {showPhone
+                                    ? itemData.Phone
+                                    : t("listing.callNow")}
                                 </span>
                               </button>
                             </a>
@@ -1801,7 +1858,9 @@ const Dynamic_Routes = () => {
                               }`}
                             >
                               <FaWhatsapp />
-                              <span className="button-text">{t("listing.whatsapp")}</span>
+                              <span className="button-text">
+                                {t("listing.whatsapp")}
+                              </span>
                             </button>
                           </a>
                           <button
@@ -1811,7 +1870,9 @@ const Dynamic_Routes = () => {
                             onClick={() => setShowModal(true)}
                           >
                             <MdMessage />
-                            <span className="button-text">{t("listing.message")}</span>
+                            <span className="button-text">
+                              {t("listing.message")}
+                            </span>
                           </button>
                         </div>
                       </div>
@@ -1858,7 +1919,9 @@ const Dynamic_Routes = () => {
                           >
                             <div className="modal-content">
                               <div className="modal-header">
-                                <h5 className="modal-title">{t("listing.sendMessage")}</h5>
+                                <h5 className="modal-title">
+                                  {t("listing.sendMessage")}
+                                </h5>
                                 <button
                                   type="button"
                                   className="btn-close"
@@ -2042,12 +2105,16 @@ const Dynamic_Routes = () => {
                             ([_, value]) =>
                               value !== undefined &&
                               value !== null &&
-                              value !== ""
+                              value !== "",
                           ) // Strict filter
                           .map(([label, value], index) => (
                             <li key={index} className="product_Detail_block">
-                              <span className="detail_text">{translateFieldLabel(label)}:</span>
-                              <span className="detail_text">{translateFieldValue(value)}</span>
+                              <span className="detail_text">
+                                {translateFieldLabel(label)}:
+                              </span>
+                              <span className="detail_text">
+                                {translateFieldValue(value)}
+                              </span>
                             </li>
                           ))}
                       </ul>
@@ -2056,7 +2123,9 @@ const Dynamic_Routes = () => {
                   <div className="dynamic-route-container">
                     {/* Features Section */}
                     <div className="section">
-                      <h1 className="section-title dynamic_route">{t("detailsPage.features")}</h1>
+                      <h1 className="section-title dynamic_route">
+                        {t("detailsPage.features")}
+                      </h1>
                       <ul className="descriptions-wrapper">
                         {itemData?.AdditionalFeatures?.length > 0 ? (
                           itemData.AdditionalFeatures.map((feature, index) => (
@@ -2076,7 +2145,11 @@ const Dynamic_Routes = () => {
                         {t("detailsPage.description")}
                       </h1>
                       <pre className="descriptions-para">
-                        {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                        {getTranslatedField(
+                          itemData,
+                          "description",
+                          i18n.language,
+                        )?.trim() || "No description"}
                       </pre>
                     </div>
                   </div>
@@ -2167,7 +2240,9 @@ const Dynamic_Routes = () => {
                     />
 
                     <div className="col-md">
-                      <h1 className="sallerinfo_para">{t("listing.sellerInformation")}</h1>
+                      <h1 className="sallerinfo_para">
+                        {t("listing.sellerInformation")}
+                      </h1>
                       <div className="row profileinner_container ">
                         <div className="col-4 profileimg">
                           <Link
@@ -2196,13 +2271,13 @@ const Dynamic_Routes = () => {
                                 year: "numeric",
                                 month: "short",
                                 day: "numeric",
-                              }
+                              },
                             )}
                           </p>
 
                           <p className="s allerInfo_para">
                             <Link
-                             className="view-all-ads-link"
+                              className="view-all-ads-link"
                               to={`/Userinfo?id=${itemData.userId}&callingFrom=${callingFrom}`}
                             >
                               {t("listing.viewAllAds")}
@@ -2228,7 +2303,9 @@ const Dynamic_Routes = () => {
                                 >
                                   <FaPhoneAlt />
                                   <span>
-                                    {showPhone ? itemData.Phone : t("listing.callNow")}
+                                    {showPhone
+                                      ? itemData.Phone
+                                      : t("listing.callNow")}
                                   </span>
                                 </button>
                               </a>
@@ -2247,7 +2324,9 @@ const Dynamic_Routes = () => {
                                   }`}
                                 >
                                   <FaWhatsapp />
-                                  <span className="button-text">{t("listing.whatsapp")}</span>
+                                  <span className="button-text">
+                                    {t("listing.whatsapp")}
+                                  </span>
                                 </button>
                               </a>
                             )}
@@ -2258,7 +2337,9 @@ const Dynamic_Routes = () => {
                               onClick={() => setShowModal(true)}
                             >
                               <MdMessage />
-                              <span className="button-text">{t("listing.message")}</span>
+                              <span className="button-text">
+                                {t("listing.message")}
+                              </span>
                             </button>
                             <style>{`
                               .sign-in-button {
@@ -2415,7 +2496,7 @@ const Dynamic_Routes = () => {
                                 />
                               </a>
                             );
-                          }
+                          },
                         )}
                     </div>
                   </Card.Body>

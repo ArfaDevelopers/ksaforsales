@@ -43,7 +43,7 @@ const Message = ({ recieverId }) => {
   const fetchReceivers = async () => {
     try {
       const response = await fetch(
-        "http://localhost:9002/api/getusermessage?userId=" + userId
+        "http://localhost:9002/api/getusermessage?userId=" + userId,
       ); // Adjust the endpoint as needed
       const data = await response.json();
       const uniqueReceivers = [
@@ -60,7 +60,7 @@ const Message = ({ recieverId }) => {
     try {
       const response = await fetch(
         `http://localhost:9002/api/getmessages?userId=${userId}&receiverId=${receiverId}`,
-        { method: "GET" }
+        { method: "GET" },
       );
       const data = await response.json();
       setMessages(data.messages || []);
@@ -81,7 +81,7 @@ const Message = ({ recieverId }) => {
     if (newMessage.trim() === "") return;
 
     try {
-      const response = await fetch("http://168.231.80.24:9002/api/messages", {
+      const response = await fetch("/api/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -277,7 +277,7 @@ const Message = ({ recieverId }) => {
                                       <div className="chat-time">
                                         <span>
                                           {new Date(
-                                            message.created_at._seconds * 1000
+                                            message.created_at._seconds * 1000,
                                           ).toLocaleTimeString()}
                                         </span>
                                       </div>

@@ -83,7 +83,10 @@ import cityData from "../../../City.json";
 import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const Education = () => {
   const { t } = useTranslation();
@@ -173,7 +176,7 @@ const Education = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -394,7 +397,7 @@ const Education = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -439,7 +442,7 @@ const Education = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -447,7 +450,7 @@ const Education = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -537,9 +540,7 @@ const Education = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -557,14 +558,14 @@ const Education = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -605,7 +606,7 @@ const Education = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -640,7 +641,7 @@ const Education = () => {
   const filteredDistricts = districtOptions
     .slice(6)
     .filter((option) =>
-      option.label.toLowerCase().includes(searchTerm.toLowerCase())
+      option.label.toLowerCase().includes(searchTerm.toLowerCase()),
     );
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
@@ -685,7 +686,7 @@ const Education = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -708,7 +709,7 @@ const Education = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [showAllGeneral, setShowAllGeneral] = useState(false);
   const [generalCategories, setGeneralCategories] = useState([]);
@@ -716,7 +717,7 @@ const Education = () => {
   console.log(selectedSubCategory, "selectedSubCategory_______----");
 
   useEffect(() => {
-    fetch("http://168.231.80.24:9002/route/educationSubCategories")
+    fetch("/route/educationSubCategories")
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -1161,7 +1162,7 @@ const Education = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1178,7 +1179,7 @@ const Education = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1366,7 +1367,7 @@ const Education = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1448,7 +1449,7 @@ const Education = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/Education/${carId}/view`, {
+      fetch(`/route/Education/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1493,8 +1494,8 @@ const Education = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1507,12 +1508,12 @@ const Education = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1543,7 +1544,7 @@ const Education = () => {
   //     try {
   //       setLoading(true); // Show spinner
   //       const response = await fetch(
-  //         "http://168.231.80.24:9002/route/Education"
+  //         "/route/Education"
   //       );
   //       const carsData = await response.json();
 
@@ -1590,9 +1591,7 @@ const Education = () => {
           params.append("SortBy", SortBy);
         }
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/route/Education?${params.toString()}`
-        );
+        const response = await fetch(`/route/Education?${params.toString()}`);
 
         const eduData = await response.json();
         setCars(eduData);
@@ -1632,7 +1631,7 @@ const Education = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/Education?${params.toString()}`
+  //         `/route/Education?${params.toString()}`
   //       );
   //       const carsData = await response.json();
 
@@ -1736,7 +1735,7 @@ const Education = () => {
       subCatgory,
       selectedSubCategory,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
     );
   }, [
     selectedCities,
@@ -1847,7 +1846,7 @@ const Education = () => {
       subCatgory,
       selectedSubCategory,
       selectedCity,
-      selectedDistrict
+      selectedDistrict,
     );
   };
   const filterCars = (
@@ -1899,7 +1898,7 @@ const Education = () => {
     subCatgory,
     selectedSubCategory,
     selectedCity,
-    selectedDistrict
+    selectedDistrict,
   ) => {
     let filtered = carsData;
 
@@ -1945,7 +1944,7 @@ const Education = () => {
           car.Duration?.toLowerCase().includes(lowercasedQuery) ||
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.District?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery),
       );
     }
     if (Duration?.length > 0) {
@@ -1957,12 +1956,12 @@ const Education = () => {
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (ScreenSize?.length > 0) {
@@ -1973,7 +1972,7 @@ const Education = () => {
     }
     if (ContentType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ContentType.includes(car.ContentType)
+        ContentType.includes(car.ContentType),
       );
     }
     if (SkillLevel?.length > 0) {
@@ -1981,7 +1980,7 @@ const Education = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (searchQuery?.length > 0) {
@@ -1997,42 +1996,42 @@ const Education = () => {
     }
     if (SubjectCategories?.length > 0) {
       filtered = filtered.filter((car) =>
-        SubjectCategories.includes(car.SubjectCategories)
+        SubjectCategories.includes(car.SubjectCategories),
       );
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2044,12 +2043,12 @@ const Education = () => {
     // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     // Filter by selected cities
@@ -2062,28 +2061,28 @@ const Education = () => {
     // Filter by selected cities
     if (selectedOptionisFeatured?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionisFeatured.includes(car.AdType)
+        selectedOptionisFeatured.includes(car.AdType),
       );
     }
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     // Filter by selected cities
@@ -2092,17 +2091,17 @@ const Education = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2111,18 +2110,18 @@ const Education = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2241,7 +2240,7 @@ const Education = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2587,7 +2586,7 @@ const Education = () => {
                                     setselectedSubCategory((prev) =>
                                       prev === item.category
                                         ? ""
-                                        : item.category
+                                        : item.category,
                                     )
                                   }
                                 />
@@ -2642,7 +2641,7 @@ const Education = () => {
                           <div className="mb-3">
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -2660,8 +2659,8 @@ const Education = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -2730,7 +2729,7 @@ const Education = () => {
                                           .map((region) => {
                                             const isChecked =
                                               selectedRegion.includes(
-                                                region.regionId
+                                                region.regionId,
                                               );
 
                                             return (
@@ -2746,25 +2745,25 @@ const Education = () => {
                                                   onChange={() => {
                                                     if (isChecked) {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) =>
                                                           prev.filter(
                                                             (id) =>
                                                               id !==
-                                                              region.regionId
-                                                          )
+                                                              region.regionId,
+                                                          ),
                                                       );
                                                     } else {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) => [
                                                           ...prev,
                                                           region.regionId,
-                                                        ]
+                                                        ],
                                                       );
                                                     }
                                                   }}
@@ -2869,7 +2868,7 @@ const Education = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -2937,8 +2936,8 @@ const Education = () => {
                                           option.label
                                             ?.toLowerCase()
                                             .includes(
-                                              searchTerm1?.toLowerCase()
-                                            )
+                                              searchTerm1?.toLowerCase(),
+                                            ),
                                         )
                                         .map((option) => (
                                           <li key={option.value}>
@@ -2948,7 +2947,7 @@ const Education = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -3033,7 +3032,7 @@ const Education = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3048,7 +3047,7 @@ const Education = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -3117,7 +3116,7 @@ const Education = () => {
                                             selectedDistricts.some(
                                               (district) =>
                                                 district.DISTRICT_ID ===
-                                                option.value
+                                                option.value,
                                             );
 
                                           return (
@@ -3132,7 +3131,7 @@ const Education = () => {
                                                 onChange={(e) =>
                                                   handleDistrictCheckboxChange(
                                                     option,
-                                                    e.target.checked
+                                                    e.target.checked,
                                                   )
                                                 }
                                               />
@@ -3507,11 +3506,16 @@ const Education = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -3849,9 +3853,14 @@ const Education = () => {
                                                             }}
                                                           />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

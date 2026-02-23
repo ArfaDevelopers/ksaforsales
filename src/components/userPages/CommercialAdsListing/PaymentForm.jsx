@@ -63,7 +63,7 @@ const PaymentForm = (props) => {
             timer: 1000,
           });
           console.log(
-            "FeaturedAds is already set to Featured Ads or doesn't need updating."
+            "FeaturedAds is already set to Featured Ads or doesn't need updating.",
           );
         }
       } else {
@@ -138,7 +138,7 @@ const PaymentForm = (props) => {
         const userDocRef = doc(
           db,
           "payments",
-          `payment_${new Date().getTime()}`
+          `payment_${new Date().getTime()}`,
         );
         const paymentData = {
           userId: user.uid,
@@ -153,21 +153,18 @@ const PaymentForm = (props) => {
 
         await setDoc(userDocRef, paymentData);
 
-        const paymentResponse = await fetch(
-          "http://168.231.80.24:9002/api/charge",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: formData.name || "Unknown",
-              userId: user.uid,
-              productId: props._Id || "test_product_id", // Fallback for testing
-              amount: 10,
-              paymentStatus: "Processing",
-              paymentMethodId: paymentMethod.id,
-            }),
-          }
-        );
+        const paymentResponse = await fetch("/api/charge", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name || "Unknown",
+            userId: user.uid,
+            productId: props._Id || "test_product_id", // Fallback for testing
+            amount: 10,
+            paymentStatus: "Processing",
+            paymentMethodId: paymentMethod.id,
+          }),
+        });
 
         const paymentResult = await paymentResponse.json();
 
@@ -178,7 +175,7 @@ const PaymentForm = (props) => {
             props.getpaymentSuccess(true);
           } else {
             console.warn(
-              "getpaymentSuccess is not a function or not provided."
+              "getpaymentSuccess is not a function or not provided.",
             );
           }
           await updateFeaturedAds();

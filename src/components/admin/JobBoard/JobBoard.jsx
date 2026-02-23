@@ -84,7 +84,10 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, storage } from "../../Firebase/FirebaseConfig"; // Ensure the correct Firebase import
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const JobBoard = () => {
   const { t } = useTranslation();
@@ -168,7 +171,7 @@ const JobBoard = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -414,7 +417,7 @@ const JobBoard = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -459,7 +462,7 @@ const JobBoard = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -467,7 +470,7 @@ const JobBoard = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -548,9 +551,7 @@ const JobBoard = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -568,14 +569,14 @@ const JobBoard = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -616,7 +617,7 @@ const JobBoard = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -681,7 +682,7 @@ const JobBoard = () => {
   });
   console.log(
     selectedSubCategory,
-    "selectedSubCategory________selectedSubCategory"
+    "selectedSubCategory________selectedSubCategory",
   );
 
   const handleCitySelect = (selectedOptions) => {
@@ -715,7 +716,7 @@ const JobBoard = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -744,13 +745,13 @@ const JobBoard = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [showAllJobs, setShowAllJobs] = useState(false);
   const [jobCategories, setJobCategories] = useState([]);
 
   useEffect(() => {
-    fetch("http://168.231.80.24:9002/route/jobBoardSubCategories")
+    fetch("/route/jobBoardSubCategories")
       .then((res) => res.json())
       .then((data) => setJobCategories(data))
       .catch((err) => console.error("Error fetching categories:", err));
@@ -1393,7 +1394,7 @@ const JobBoard = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1410,7 +1411,7 @@ const JobBoard = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1592,7 +1593,7 @@ const JobBoard = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1670,7 +1671,7 @@ const JobBoard = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/JOBBOARD/${carId}/view`, {
+      fetch(`/route/JOBBOARD/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1715,8 +1716,8 @@ const JobBoard = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1729,12 +1730,12 @@ const JobBoard = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1770,9 +1771,7 @@ const JobBoard = () => {
         // ✅ Add SortBy
         if (SortBy) params.append("sortBy", SortBy);
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/route/JOBBOARD?${params.toString()}`
-        );
+        const response = await fetch(`/route/JOBBOARD?${params.toString()}`);
 
         const jobsData = await response.json();
         setCars(jobsData);
@@ -1813,7 +1812,7 @@ const JobBoard = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/JOBBOARD?${params.toString()}`
+  //         `/route/JOBBOARD?${params.toString()}`
   //       );
 
   //       const data = await response.json();
@@ -1974,7 +1973,7 @@ const JobBoard = () => {
       EmploymentType,
       ExperienceLevel,
       Industry,
-      RequiredSkills
+      RequiredSkills,
       // subCatgory
     );
   }, [
@@ -2143,7 +2142,7 @@ const JobBoard = () => {
       EmploymentType,
       ExperienceLevel,
       Industry,
-      RequiredSkills
+      RequiredSkills,
       // subCatgory
     );
   };
@@ -2226,7 +2225,7 @@ const JobBoard = () => {
     Company,
     EmploymentType,
     Industry,
-    RequiredSkills
+    RequiredSkills,
   ) => {
     let filtered = filteredCars;
     setLoading(true);
@@ -2298,7 +2297,7 @@ const JobBoard = () => {
           car.SubCategory?.toLowerCase().includes(lowercasedQuery) ||
           car.TrustedCars?.toLowerCase().includes(lowercasedQuery) ||
           car.NestedSubCategory?.toLowerCase().includes(lowercasedQuery) ||
-          car.District?.toLowerCase().includes(lowercasedQuery)
+          car.District?.toLowerCase().includes(lowercasedQuery),
       );
     }
     setLoading(false);
@@ -2315,13 +2314,13 @@ const JobBoard = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (Array.isArray(selectedCity) && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // No need for `?` now
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
 
@@ -2329,12 +2328,12 @@ const JobBoard = () => {
 
     if (selectedDistrict?.value) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict?.value
+        (car) => car.District === selectedDistrict?.value,
       );
     }
     if (nestedSubCategory) {
       filtered = filtered.filter((car) =>
-        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory)
+        nestedSubCategory.toLowerCase().includes(car.NestedSubCategory),
       );
     }
     // if (selectedDistrict?.value?.length > 0) {
@@ -2348,7 +2347,7 @@ const JobBoard = () => {
     }
     if (RequiredSkills?.length > 0) {
       filtered = filtered.filter((car) =>
-        RequiredSkills.includes(car.RequiredSkills)
+        RequiredSkills.includes(car.RequiredSkills),
       );
     }
     if (Industry?.length > 0) {
@@ -2356,12 +2355,12 @@ const JobBoard = () => {
     }
     if (ExperienceLevel?.length > 0) {
       filtered = filtered.filter((car) =>
-        ExperienceLevel.includes(car.ExperienceLevel)
+        ExperienceLevel.includes(car.ExperienceLevel),
       );
     }
     if (EmploymentType?.length > 0) {
       filtered = filtered.filter((car) =>
-        EmploymentType.includes(car.EmploymentType)
+        EmploymentType.includes(car.EmploymentType),
       );
     }
     if (Company?.length > 0) {
@@ -2378,32 +2377,32 @@ const JobBoard = () => {
     }
     if (SpeedofMeasurement?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpeedofMeasurement.includes(car.SpeedofMeasurement)
+        SpeedofMeasurement.includes(car.SpeedofMeasurement),
       );
     }
     if (MeasurementUnits?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementUnits.includes(car.MeasurementUnits)
+        MeasurementUnits.includes(car.MeasurementUnits),
       );
     }
     if (StorageCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        StorageCapacity.includes(car.StorageCapacity)
+        StorageCapacity.includes(car.StorageCapacity),
       );
     }
     if (Compatibility?.length > 0) {
       filtered = filtered.filter((car) =>
-        Compatibility.includes(car.Compatibility)
+        Compatibility.includes(car.Compatibility),
       );
     }
     if (BatteryType?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryType.includes(car.BatteryType)
+        BatteryType.includes(car.BatteryType),
       );
     }
     if (DisplayType?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayType.includes(car.DisplayType)
+        DisplayType.includes(car.DisplayType),
       );
     }
     if (CuffSize?.length > 0) {
@@ -2414,7 +2413,7 @@ const JobBoard = () => {
     }
     if (MeasurementRange?.length > 0) {
       filtered = filtered.filter((car) =>
-        MeasurementRange.includes(car.MeasurementRange)
+        MeasurementRange.includes(car.MeasurementRange),
       );
     }
     if (Type?.length > 0) {
@@ -2431,7 +2430,7 @@ const JobBoard = () => {
     }
     if (SleeveLength?.length > 0) {
       filtered = filtered.filter((car) =>
-        SleeveLength.includes(car.SleeveLength)
+        SleeveLength.includes(car.SleeveLength),
       );
     }
     if (CollarType?.length > 0) {
@@ -2439,12 +2438,12 @@ const JobBoard = () => {
     }
     if (ClosureType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ClosureType.includes(car.ClosureType)
+        ClosureType.includes(car.ClosureType),
       );
     }
     if (StyleDesign?.length > 0) {
       filtered = filtered.filter((car) =>
-        StyleDesign.includes(car.StyleDesign)
+        StyleDesign.includes(car.StyleDesign),
       );
     }
     if (Color?.length > 0) {
@@ -2462,37 +2461,37 @@ const JobBoard = () => {
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2504,12 +2503,12 @@ const JobBoard = () => {
     // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     // Filter by selected cities
@@ -2522,28 +2521,28 @@ const JobBoard = () => {
     // Filter by selected cities
     if (selectedOptionisFeatured?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionisFeatured.includes(car.AdType)
+        selectedOptionisFeatured.includes(car.AdType),
       );
     }
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     // Filter by selected cities
@@ -2552,17 +2551,17 @@ const JobBoard = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2571,18 +2570,18 @@ const JobBoard = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2713,7 +2712,7 @@ const JobBoard = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2838,7 +2837,11 @@ const JobBoard = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateNestedSubcategory(nestedSubCategory, "jobBoard", t)}
+                    {translateNestedSubcategory(
+                      nestedSubCategory,
+                      "jobBoard",
+                      t,
+                    )}
                   </button>
                 </>
               )}
@@ -2975,7 +2978,7 @@ const JobBoard = () => {
                                     setselectedSubCategory((prev) =>
                                       prev === item.category
                                         ? ""
-                                        : item.category
+                                        : item.category,
                                     )
                                   }
                                 />
@@ -3026,7 +3029,7 @@ const JobBoard = () => {
                           <div className="mb-3">
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -3044,8 +3047,8 @@ const JobBoard = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -3126,8 +3129,8 @@ const JobBoard = () => {
                                             region.regionEn
                                               .toLowerCase()
                                               .includes(
-                                                searchTerm.toLowerCase()
-                                              )
+                                                searchTerm.toLowerCase(),
+                                              ),
                                           )
                                           .map((region) => (
                                             <li key={region.regionId}>
@@ -3147,7 +3150,7 @@ const JobBoard = () => {
                                                       selectedRegion ===
                                                         region.regionId
                                                         ? ""
-                                                        : region.regionId
+                                                        : region.regionId,
                                                     )
                                                   }
                                                 />
@@ -3248,7 +3251,7 @@ const JobBoard = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -3316,8 +3319,8 @@ const JobBoard = () => {
                                           option.label
                                             ?.toLowerCase()
                                             .includes(
-                                              searchTerm1?.toLowerCase()
-                                            )
+                                              searchTerm1?.toLowerCase(),
+                                            ),
                                         )
                                         .map((option) => (
                                           <li key={option.value}>
@@ -3327,7 +3330,7 @@ const JobBoard = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -3436,7 +3439,7 @@ const JobBoard = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3451,7 +3454,7 @@ const JobBoard = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -3519,7 +3522,7 @@ const JobBoard = () => {
                                             selectedDistricts.some(
                                               (district) =>
                                                 district.DISTRICT_ID ===
-                                                option.value
+                                                option.value,
                                             );
 
                                           return (
@@ -3534,7 +3537,7 @@ const JobBoard = () => {
                                                 onChange={(e) =>
                                                   handleDistrictCheckboxChange(
                                                     option,
-                                                    e.target.checked
+                                                    e.target.checked,
                                                   )
                                                 }
                                               />
@@ -3785,11 +3788,16 @@ const JobBoard = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -4123,9 +4131,14 @@ const JobBoard = () => {
                                                             }}
                                                           />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

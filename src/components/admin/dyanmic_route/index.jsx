@@ -69,41 +69,52 @@ import Swal from "sweetalert2";
 
 // City coordinates mapping for Saudi Arabia cities
 const cityCoordinates = {
-  "Riyadh": { lat: 24.7136, lng: 46.6753 },
-  "Jeddah": { lat: 21.5433, lng: 39.1727 },
-  "Mecca": { lat: 21.4225, lng: 39.8261 },
-  "Medina": { lat: 24.4673, lng: 39.6061 },
-  "Dammam": { lat: 26.4124, lng: 50.1971 },
-  "Khobar": { lat: 26.2167, lng: 50.2 },
-  "Dhahran": { lat: 26.2833, lng: 50.1833 },
-  "Abha": { lat: 18.2155, lng: 42.5054 },
-  "Taif": { lat: 21.2716, lng: 40.4129 },
-  "Tabuk": { lat: 28.3896, lng: 36.5624 },
-  "Hail": { lat: 27.5373, lng: 41.7208 },
-  "Sakaka": { lat: 29.9697, lng: 40.2064 },
-  "Buraydah": { lat: 26.3263, lng: 43.975 },
-  "Yanbu": { lat: 24.0889, lng: 38.0711 },
-  "Gizan": { lat: 16.8988, lng: 42.5805 },
-  "Najran": { lat: 17.4931, lng: 44.1260 },
+  Riyadh: { lat: 24.7136, lng: 46.6753 },
+  Jeddah: { lat: 21.5433, lng: 39.1727 },
+  Mecca: { lat: 21.4225, lng: 39.8261 },
+  Medina: { lat: 24.4673, lng: 39.6061 },
+  Dammam: { lat: 26.4124, lng: 50.1971 },
+  Khobar: { lat: 26.2167, lng: 50.2 },
+  Dhahran: { lat: 26.2833, lng: 50.1833 },
+  Abha: { lat: 18.2155, lng: 42.5054 },
+  Taif: { lat: 21.2716, lng: 40.4129 },
+  Tabuk: { lat: 28.3896, lng: 36.5624 },
+  Hail: { lat: 27.5373, lng: 41.7208 },
+  Sakaka: { lat: 29.9697, lng: 40.2064 },
+  Buraydah: { lat: 26.3263, lng: 43.975 },
+  Yanbu: { lat: 24.0889, lng: 38.0711 },
+  Gizan: { lat: 16.8988, lng: 42.5805 },
+  Najran: { lat: 17.4931, lng: 44.126 },
 };
 
 // LocationMap Component using Dynamic Map Image
 const LocationMap = ({ city, district, latitude, longitude }) => {
-  console.log("LocationMap Rendered - City:", city, "District:", district, "Lat:", latitude, "Lng:", longitude);
+  console.log(
+    "LocationMap Rendered - City:",
+    city,
+    "District:",
+    district,
+    "Lat:",
+    latitude,
+    "Lng:",
+    longitude,
+  );
 
   if (!city && !latitude && !longitude) {
     return (
-      <div style={{
-        width: "100%",
-        height: "300px",
-        borderRadius: "10px",
-        backgroundColor: "#f0f0f0",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        border: "1px solid #e9ecef",
-        flexDirection: "column",
-      }}>
+      <div
+        style={{
+          width: "100%",
+          height: "300px",
+          borderRadius: "10px",
+          backgroundColor: "#f0f0f0",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          border: "1px solid #e9ecef",
+          flexDirection: "column",
+        }}
+      >
         <p>No location data available</p>
       </div>
     );
@@ -125,17 +136,26 @@ const LocationMap = ({ city, district, latitude, longitude }) => {
   // Dynamic URL for each location
   const mapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${coords.lat},${coords.lng}`;
   console.log("Map URL:", mapUrl);
-  
+
   return (
-    <div style={{
-      width: "100%",
-      borderRadius: "10px",
-      overflow: "hidden",
-      border: "1px solid #e9ecef",
-      backgroundColor: "#e9ecef",
-      position: "relative",
-    }}>
-      <div style={{ position: "relative", paddingBottom: "66.67%", height: 0, overflow: "hidden" }}>
+    <div
+      style={{
+        width: "100%",
+        borderRadius: "10px",
+        overflow: "hidden",
+        border: "1px solid #e9ecef",
+        backgroundColor: "#e9ecef",
+        position: "relative",
+      }}
+    >
+      <div
+        style={{
+          position: "relative",
+          paddingBottom: "66.67%",
+          height: 0,
+          overflow: "hidden",
+        }}
+      >
         <iframe
           key={`map-${city}`}
           width="100%"
@@ -143,7 +163,7 @@ const LocationMap = ({ city, district, latitude, longitude }) => {
           frameBorder="0"
           title={`Map of ${city}, ${district || ""}`}
           src={mapUrl}
-          style={{ 
+          style={{
             border: "none",
             position: "absolute",
             top: 0,
@@ -156,14 +176,17 @@ const LocationMap = ({ city, district, latitude, longitude }) => {
           referrerPolicy="no-referrer-when-downgrade"
         />
       </div>
-      <div style={{
-        padding: "10px",
-        backgroundColor: "#f8f9fa",
-        fontSize: "14px",
-        fontWeight: "500",
-        borderTop: "1px solid #e9ecef",
-      }}>
-        {city}{district ? `, ${district}` : ""}
+      <div
+        style={{
+          padding: "10px",
+          backgroundColor: "#f8f9fa",
+          fontSize: "14px",
+          fontWeight: "500",
+          borderTop: "1px solid #e9ecef",
+        }}
+      >
+        {city}
+        {district ? `, ${district}` : ""}
       </div>
     </div>
   );
@@ -181,7 +204,7 @@ import Relateddata from "./upperHeader/Relateddata";
 import FacebookShareButton from "../../../components/FacebookShareButton";
 
 const stripePromise = loadStripe(
-  "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1"
+  "pk_test_51Oqyo3Ap5li0mnBdxJiCZ4k0IEWVbOgGvyMbYB6XVUqYh1yNUEnRiX4e5UO1eces9kf9qZNZcF7ybjxg7MimKmUQ00a9s60Pa1",
 );
 
 let socket;
@@ -195,46 +218,46 @@ const Dynamic_Route = () => {
   const translateFieldLabel = (fieldName) => {
     const fieldMap = {
       "Seller Type": t("detailsPage.sellerType"),
-      "SellerType": t("detailsPage.sellerType"),
-      "District": t("detailsPage.district"),
-      "Duration": t("detailsPage.duration"),
+      SellerType: t("detailsPage.sellerType"),
+      District: t("detailsPage.district"),
+      Duration: t("detailsPage.duration"),
       "Registered City": t("detailsPage.registeredCity"),
-      "Assembly": t("detailsPage.assembly"),
-      "Accuracy": t("detailsPage.accuracy"),
+      Assembly: t("detailsPage.assembly"),
+      Accuracy: t("detailsPage.accuracy"),
       "Battery Type": t("detailsPage.batteryType"),
-      "Compatibility": t("detailsPage.compatibility"),
-      "CuffSize": t("detailsPage.cuffSize"),
+      Compatibility: t("detailsPage.compatibility"),
+      CuffSize: t("detailsPage.cuffSize"),
       "Display Type": t("detailsPage.displayType"),
-      "Features": t("detailsPage.features"),
-      "MeasurementRange": t("detailsPage.measurementRange"),
-      "MeasurementUnits": t("detailsPage.measurementUnits"),
+      Features: t("detailsPage.features"),
+      MeasurementRange: t("detailsPage.measurementRange"),
+      MeasurementUnits: t("detailsPage.measurementUnits"),
       "Wash Type": t("detailsPage.washType"),
-      "Type": t("detailsPage.type"),
-      "RAM": t("detailsPage.ram"),
-      "bodyType": t("detailsPage.bodyType"),
-      "Brand": t("detailsPage.brand"),
+      Type: t("detailsPage.type"),
+      RAM: t("detailsPage.ram"),
+      bodyType: t("detailsPage.bodyType"),
+      Brand: t("detailsPage.brand"),
       "Operating System": t("detailsPage.operatingSystem"),
-      "type": t("detailsPage.type"),
+      type: t("detailsPage.type"),
       "Screen Size": t("detailsPage.screenSize"),
-      "Registeredin": t("detailsPage.registeredin"),
-      "EngineCapacity": t("detailsPage.engineCapacity"),
-      "BodyType": t("detailsPage.bodyType"),
+      Registeredin: t("detailsPage.registeredin"),
+      EngineCapacity: t("detailsPage.engineCapacity"),
+      BodyType: t("detailsPage.bodyType"),
       "Body Type": t("detailsPage.bodyType"),
-      "ExteriorColor": t("detailsPage.exteriorColor"),
+      ExteriorColor: t("detailsPage.exteriorColor"),
       "Exterior Color": t("detailsPage.exteriorColor"),
-      "Condition": t("detailsPage.condition"),
-      "Purpose": t("detailsPage.purpose"),
-      "Transmission": t("detailsPage.transmission"),
+      Condition: t("detailsPage.condition"),
+      Purpose: t("detailsPage.purpose"),
+      Transmission: t("detailsPage.transmission"),
       "Regional Spec": t("detailsPage.regionalSpec"),
-      "RegionalSpec": t("detailsPage.regionalSpec"),
-      "Insurance": t("detailsPage.insurance"),
+      RegionalSpec: t("detailsPage.regionalSpec"),
+      Insurance: t("detailsPage.insurance"),
       "Seating Capacity": t("detailsPage.seatingCapacity"),
-      "SeatingCapacity": t("detailsPage.seatingCapacity"),
+      SeatingCapacity: t("detailsPage.seatingCapacity"),
       "Interior Color": t("detailsPage.interiorColor"),
-      "InteriorColor": t("detailsPage.interiorColor"),
-      "City": t("detailsPage.city"),
-      "Model": t("detailsPage.model"),
-      "Color": t("detailsPage.color"),
+      InteriorColor: t("detailsPage.interiorColor"),
+      City: t("detailsPage.city"),
+      Model: t("detailsPage.model"),
+      Color: t("detailsPage.color"),
       "Last Updated": t("detailsPage.lastUpdated"),
     };
     return fieldMap[fieldName] || fieldName;
@@ -248,80 +271,95 @@ const Dynamic_Route = () => {
 
     if (valueLower === "new") return t("filters.options.condition.new");
     if (valueLower === "used") return t("filters.options.condition.used");
-    if (valueLower === "dealers") return t("filters.options.sellerType.dealers");
-    if (valueLower === "individuals") return t("filters.options.sellerType.individuals");
+    if (valueLower === "dealers")
+      return t("filters.options.sellerType.dealers");
+    if (valueLower === "individuals")
+      return t("filters.options.sellerType.individuals");
     if (valueLower === "sell") return t("filters.options.adType.sell");
     if (valueLower === "rent") return t("filters.options.adType.rent");
     if (valueLower === "wanted") return t("filters.options.adType.wanted");
-    if (valueLower === "manual") return t("filters.options.transmission.manual");
-    if (valueLower === "automatic") return t("filters.options.transmission.automatic");
+    if (valueLower === "manual")
+      return t("filters.options.transmission.manual");
+    if (valueLower === "automatic")
+      return t("filters.options.transmission.automatic");
     if (valueLower === "white") return t("filters.options.colors.white");
     if (valueLower === "black") return t("filters.options.colors.black");
-    if (valueLower === "grey" || valueLower === "gray") return t("filters.options.colors.grey");
+    if (valueLower === "grey" || valueLower === "gray")
+      return t("filters.options.colors.grey");
     if (valueLower === "red") return t("filters.options.colors.red");
     if (valueLower === "yellow") return t("filters.options.colors.yellow");
     if (valueLower === "blue") return t("filters.options.colors.blue");
     if (valueLower === "green") return t("filters.options.colors.green");
     if (valueLower === "silver") return t("filters.options.colors.silver");
     if (valueLower === "gcc") return t("filters.options.regionalSpec.gcc");
-    if (valueLower === "european") return t("filters.options.regionalSpec.european");
-    if (valueLower === "japanese") return t("filters.options.regionalSpec.japanese");
-    if (valueLower === "american") return t("filters.options.regionalSpec.american");
-    if (valueLower === "thirdparty" || valueLower === "third party") return t("filters.options.insurance.thirdParty");
-    if (valueLower === "comprehensive") return t("filters.options.insurance.comprehensive");
+    if (valueLower === "european")
+      return t("filters.options.regionalSpec.european");
+    if (valueLower === "japanese")
+      return t("filters.options.regionalSpec.japanese");
+    if (valueLower === "american")
+      return t("filters.options.regionalSpec.american");
+    if (valueLower === "thirdparty" || valueLower === "third party")
+      return t("filters.options.insurance.thirdParty");
+    if (valueLower === "comprehensive")
+      return t("filters.options.insurance.comprehensive");
     if (valueLower === "coupe") return t("filters.options.bodyType.coupe");
     if (valueLower === "sedan") return t("filters.options.bodyType.sedan");
     if (valueLower === "suv") return t("filters.options.bodyType.suv");
-    if (valueLower === "hatchback") return t("filters.options.bodyType.hatchback");
-    if (valueLower.includes("fulloption") || valueLower.includes("full option")) return t("filters.options.additionalFeatures.fullOption");
-    if (valueLower === "insured") return t("filters.options.additionalFeatures.insured");
-    if (valueLower.includes("self") && valueLower.includes("park")) return t("filters.options.additionalFeatures.selfParking");
+    if (valueLower === "hatchback")
+      return t("filters.options.bodyType.hatchback");
+    if (valueLower.includes("fulloption") || valueLower.includes("full option"))
+      return t("filters.options.additionalFeatures.fullOption");
+    if (valueLower === "insured")
+      return t("filters.options.additionalFeatures.insured");
+    if (valueLower.includes("self") && valueLower.includes("park"))
+      return t("filters.options.additionalFeatures.selfParking");
 
     // Additional features translation - normalize by removing spaces, hyphens, slashes
     const normalized = valueLower.replace(/[\s\-\/]/g, "");
     const featureMap = {
-      "alarmsystem": "alarmSystem",
-      "dealership": "dealership",
-      "quickselling": "quickSelling",
-      "navigation": "navigation",
-      "temperaturecontrolledseats": "temperatureControlledSeats",
-      "temperatureseats": "temperatureControlledSeats",
-      "inspected": "inspected",
-      "parkingsensors": "parkingSensors",
-      "bluetooth": "bluetooth",
-      "sunroofmoonroof": "sunroofMoonroof",
-      "sunroof": "sunroofMoonroof",
-      "moonroof": "sunroofMoonroof",
-      "leatherseats": "leatherSeats",
-      "backupcamera": "backupCamera",
-      "heatedseats": "heatedSeats",
-      "keylessentry": "keylessEntry",
-      "remotestart": "remoteStart",
-      "adaptivecruisecontrol": "adaptiveCruiseControl",
-      "adaptivecruise": "adaptiveCruiseControl",
-      "lanedeparturewarning": "laneDepartureWarning",
-      "lanedeparture": "laneDepartureWarning",
-      "blindspotmonitoring": "blindSpotMonitoring",
-      "blindspot": "blindSpotMonitoring",
-      "premiumsoundsystem": "premiumSoundSystem",
-      "premiumsound": "premiumSoundSystem",
-      "allwheeldrive": "allWheelDrive",
-      "awd": "allWheelDrive",
-      "touchscreendisplay": "touchscreenDisplay",
-      "touchscreen": "touchscreenDisplay",
-      "applecarplayandroidauto": "appleCarplayAndroidAuto",
-      "carplay": "appleCarplayAndroidAuto",
-      "ledheadlights": "ledHeadlights",
-      "towpackage": "towPackage",
-      "powerliftgate": "powerLiftgate",
-      "headupdisplay": "headUpDisplay",
-      "rainsensingwipers": "rainSensingWipers",
-      "rainwipers": "rainSensingWipers",
-      "automaticemergencybraking": "automaticEmergencyBraking",
-      "emergencybraking": "automaticEmergencyBraking",
-      "ambientlighting": "ambientLighting",
+      alarmsystem: "alarmSystem",
+      dealership: "dealership",
+      quickselling: "quickSelling",
+      navigation: "navigation",
+      temperaturecontrolledseats: "temperatureControlledSeats",
+      temperatureseats: "temperatureControlledSeats",
+      inspected: "inspected",
+      parkingsensors: "parkingSensors",
+      bluetooth: "bluetooth",
+      sunroofmoonroof: "sunroofMoonroof",
+      sunroof: "sunroofMoonroof",
+      moonroof: "sunroofMoonroof",
+      leatherseats: "leatherSeats",
+      backupcamera: "backupCamera",
+      heatedseats: "heatedSeats",
+      keylessentry: "keylessEntry",
+      remotestart: "remoteStart",
+      adaptivecruisecontrol: "adaptiveCruiseControl",
+      adaptivecruise: "adaptiveCruiseControl",
+      lanedeparturewarning: "laneDepartureWarning",
+      lanedeparture: "laneDepartureWarning",
+      blindspotmonitoring: "blindSpotMonitoring",
+      blindspot: "blindSpotMonitoring",
+      premiumsoundsystem: "premiumSoundSystem",
+      premiumsound: "premiumSoundSystem",
+      allwheeldrive: "allWheelDrive",
+      awd: "allWheelDrive",
+      touchscreendisplay: "touchscreenDisplay",
+      touchscreen: "touchscreenDisplay",
+      applecarplayandroidauto: "appleCarplayAndroidAuto",
+      carplay: "appleCarplayAndroidAuto",
+      ledheadlights: "ledHeadlights",
+      towpackage: "towPackage",
+      powerliftgate: "powerLiftgate",
+      headupdisplay: "headUpDisplay",
+      rainsensingwipers: "rainSensingWipers",
+      rainwipers: "rainSensingWipers",
+      automaticemergencybraking: "automaticEmergencyBraking",
+      emergencybraking: "automaticEmergencyBraking",
+      ambientlighting: "ambientLighting",
     };
-    if (featureMap[normalized]) return t(`filters.options.additionalFeatures.${featureMap[normalized]}`);
+    if (featureMap[normalized])
+      return t(`filters.options.additionalFeatures.${featureMap[normalized]}`);
 
     return value;
   };
@@ -335,48 +373,58 @@ const Dynamic_Route = () => {
       "Car Rental": t("subcategories.motors.carRental"),
       "Plates Number": t("subcategories.motors.platesNumber"),
       "Spare Parts": t("subcategories.motors.spareParts"),
-      "Accessories": t("subcategories.motors.accessories"),
+      Accessories: t("subcategories.motors.accessories"),
       "Wheels & Rims": t("subcategories.motors.wheelsAndRims"),
-      "Trucks & Heavy Machinery": t("subcategories.motors.trucksAndHeavyMachinery"),
-      "Tshaleeh": t("subcategories.motors.tshaleeh"),
+      "Trucks & Heavy Machinery": t(
+        "subcategories.motors.trucksAndHeavyMachinery",
+      ),
+      Tshaleeh: t("subcategories.motors.tshaleeh"),
       "Boats & Jet Ski": t("subcategories.motors.boatsAndJetski"),
       "Classic Cars": t("subcategories.motors.classicCars"),
       // Other category subcategories
       "Hunting & Trips": t("subcategories.other.huntingAndTrips"),
-      "Gardening & Agriculture": t("subcategories.other.gardeningAndAgriculture"),
+      "Gardening & Agriculture": t(
+        "subcategories.other.gardeningAndAgriculture",
+      ),
       "Parties & Events": t("subcategories.other.partiesAndEvents"),
       "Travel & Tourism": t("subcategories.other.travelAndTourism"),
-      "Roommate": t("subcategories.other.roommate"),
-      "Books": t("subcategories.other.books"),
+      Roommate: t("subcategories.other.roommate"),
+      Books: t("subcategories.other.books"),
       "Business & Industrial": t("subcategories.other.businessAndIndustrial"),
-      "Music & Musical Instruments": t("subcategories.other.musicAndMusicalInstruments"),
+      "Music & Musical Instruments": t(
+        "subcategories.other.musicAndMusicalInstruments",
+      ),
       "Food & Restaurants": t("subcategories.other.foodAndRestaurants"),
-      "Miscellaneous": t("subcategories.other.miscellaneous"),
+      Miscellaneous: t("subcategories.other.miscellaneous"),
       "Lost & Found": t("subcategories.other.lostAndFound"),
-      "Freebies": t("subcategories.other.freebies"),
+      Freebies: t("subcategories.other.freebies"),
       "Free Stuff": t("subcategories.other.freeStuff"),
       // Fashion subcategories
       "Women's Fashion": t("subcategories.fashion.womensFashion"),
       "Men's Fashion": t("subcategories.fashion.mensFashion"),
-      "Children's Clothing & Accessories": t("subcategories.fashion.childrensClothing"),
+      "Children's Clothing & Accessories": t(
+        "subcategories.fashion.childrensClothing",
+      ),
       // Fashion nested subcategories - Women's
-      "Women's Accessories & Jewelry": t("subcategories.fashion.womensAccessories"),
+      "Women's Accessories & Jewelry": t(
+        "subcategories.fashion.womensAccessories",
+      ),
       "Women's Blouses & T-Shirts": t("subcategories.fashion.womensBlouses"),
       "Women's Skirts & Trousers": t("subcategories.fashion.womensSkirts"),
       "Women's Jackets": t("subcategories.fashion.womensJackets"),
       "Women's Bags": t("subcategories.fashion.womensBags"),
       "Women's Sportswear": t("subcategories.fashion.womensSportswear"),
-      "Kaftans": t("subcategories.fashion.kaftans"),
-      "Abayas": t("subcategories.fashion.abayas"),
-      "Dresses": t("subcategories.fashion.dresses"),
-      "Lingerie": t("subcategories.fashion.lingerie"),
+      Kaftans: t("subcategories.fashion.kaftans"),
+      Abayas: t("subcategories.fashion.abayas"),
+      Dresses: t("subcategories.fashion.dresses"),
+      Lingerie: t("subcategories.fashion.lingerie"),
       // Fashion nested subcategories - Children's
       "Baby Care Products": t("subcategories.fashion.babyCareProducts"),
       "Children's Accessories": t("subcategories.fashion.childrensAccessories"),
       "Toys for Kids": t("subcategories.fashion.toysForKids"),
       "Children's Cribs & Chairs": t("subcategories.fashion.childrensCribs"),
       "Children's Bags": t("subcategories.fashion.childrensBags"),
-      "Strollers": t("subcategories.fashion.strollers"),
+      Strollers: t("subcategories.fashion.strollers"),
       "Car Seats for Kids": t("subcategories.fashion.carSeatsForKids"),
     };
     return subcategoryTranslations[name] || name;
@@ -386,19 +434,19 @@ const Dynamic_Route = () => {
   const translateCategory = (category) => {
     if (!category) return "";
     const categoryMap = {
-      "Motors": t("categories.motors"),
-      "Automotive": t("categories.motors"),
-      "Electronics": t("categories.electronics"),
+      Motors: t("categories.motors"),
+      Automotive: t("categories.motors"),
+      Electronics: t("categories.electronics"),
       "Fashion Style": t("categories.fashionStyle"),
       "Home & Furniture": t("categories.homeFurniture"),
       "Job Board": t("categories.jobBoard"),
       "Real Estate": t("categories.realEstate"),
-      "RealEstate": t("categories.realEstate"),
-      "Services": t("categories.services"),
+      RealEstate: t("categories.realEstate"),
+      Services: t("categories.services"),
       "Sport & Game": t("categories.sportGame"),
       "Pet & Animals": t("categories.petAnimals"),
-      "Other": t("categories.other"),
-      "Commercial": t("categories.commercial")
+      Other: t("categories.other"),
+      Commercial: t("categories.commercial"),
     };
     return categoryMap[category] || category;
   };
@@ -412,7 +460,7 @@ const Dynamic_Route = () => {
   const [refresh, setRefresh] = useState(false);
 
   const link = getQueryParam("link") || window.location.href;
-  
+
   // Track the current URL to detect changes
   const [currentUrl, setCurrentUrl] = useState(location.search);
   // Compute a valid WhatsApp URL from itemData (clean digits). Returns null if not available.
@@ -435,7 +483,9 @@ const Dynamic_Route = () => {
       Swal.fire({
         icon: "warning",
         title: t("common.loginRequired") || "Login Required",
-        text: t("common.loginToFavorite") || "Please login to add items to favorites",
+        text:
+          t("common.loginToFavorite") ||
+          "Please login to add items to favorites",
         timer: 2000,
         showConfirmButton: false,
         toast: true,
@@ -515,13 +565,13 @@ const Dynamic_Route = () => {
               ? (prev.heartedby || []).filter((id) => id !== uid)
               : [...(prev.heartedby || []), uid],
           }
-        : prev
+        : prev,
     );
 
     console.log(
       `🚀 UI updated instantly - User ${
         alreadyHearted ? "removed from" : "added to"
-      } heartedby for ${id}`
+      } heartedby for ${id}`,
     );
 
     // 🔄 STEP 2: Update Firestore (await to ensure persistence)
@@ -542,13 +592,15 @@ const Dynamic_Route = () => {
       console.log(
         `✅ Favorites saved to database - User ${
           alreadyHearted ? "removed from" : "added to"
-        } heartedby for ${id} in ${firestoreCollection}`
+        } heartedby for ${id} in ${firestoreCollection}`,
       );
 
       // Show success message
       Swal.fire({
         icon: "success",
-        title: alreadyHearted ? t("common.removedFromFavorites") || "Removed from favorites" : t("common.addedToFavorites") || "Added to favorites",
+        title: alreadyHearted
+          ? t("common.removedFromFavorites") || "Removed from favorites"
+          : t("common.addedToFavorites") || "Added to favorites",
         timer: 1500,
         showConfirmButton: false,
         toast: true,
@@ -565,7 +617,7 @@ const Dynamic_Route = () => {
                 ? [...(prev.heartedby || []), uid]
                 : (prev.heartedby || []).filter((id) => id !== uid),
             }
-          : prev
+          : prev,
       );
       Swal.fire({
         icon: "error",
@@ -580,19 +632,24 @@ const Dynamic_Route = () => {
   };
   useEffect(() => {
     window.scrollTo(0, 0);
-    
+
     // Detect URL changes
     if (location.search !== currentUrl) {
       console.log("🔄 URL changed from:", currentUrl, "to:", location.search);
       setCurrentUrl(location.search);
     }
   }, [location, currentUrl]);
-  
+
   useEffect(() => {
     const callingFrom = getQueryParam("callingFrom");
     const ids = getQueryParam("id");
-    console.log("🔍 Extracted from URL - ID:", ids, "CallingFrom:", callingFrom);
-    
+    console.log(
+      "🔍 Extracted from URL - ID:",
+      ids,
+      "CallingFrom:",
+      callingFrom,
+    );
+
     // Only update if values actually changed
     if (ids !== _Id || callingFrom !== callingFrom) {
       console.log("📌 IDs or callingFrom changed, updating state");
@@ -685,62 +742,74 @@ const Dynamic_Route = () => {
   const [chats, setChats] = useState([]);
   const [messages, setMessages] = useState([]);
   const [senderId, setSenderId] = useState(
-    "d38e0cee-daa7-46e2-bfd1-d7f9c4683546"
+    "d38e0cee-daa7-46e2-bfd1-d7f9c4683546",
   );
   const [receiverId, setReceiverId] = useState("3");
   const [chatId, setChatId] = useState("");
   //  const [userId, setUserId] = useState(null);
 
-const copyToClipboard = async () => {
-  try {
-    // Try modern clipboard API first (works on HTTPS and localhost)
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      await navigator.clipboard.writeText(link);
-      Swal.fire({
-        icon: "success",
-        title: "Copied!",
-        text: "Link copied to clipboard!",
-        timer: 2000,
-        showConfirmButton: false,
-        toast: true,
-        position: "top-end",
-      });
-    } else {
-      // Fallback for browsers without clipboard support
+  const copyToClipboard = async () => {
+    try {
+      // Try modern clipboard API first (works on HTTPS and localhost)
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(link);
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      } else {
+        // Fallback for browsers without clipboard support
+        copyLinkFallback(link);
+      }
+    } catch (err) {
+      console.error("Clipboard API failed:", err);
+      // If clipboard API fails, use fallback
       copyLinkFallback(link);
     }
-  } catch (err) {
-    console.error("Clipboard API failed:", err);
-    // If clipboard API fails, use fallback
-    copyLinkFallback(link);
-  }
-};
+  };
 
-// Fallback method for copying to clipboard
-const copyLinkFallback = (text) => {
-  const textArea = document.createElement("textarea");
-  textArea.value = text;
-  textArea.style.position = "fixed";
-  textArea.style.opacity = "0";
-  textArea.style.left = "-999999px";
-  textArea.style.top = "-999999px";
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
+  // Fallback method for copying to clipboard
+  const copyLinkFallback = (text) => {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
 
-  try {
-    const successful = document.execCommand("copy");
-    if (successful) {
-      Swal.fire({
-        icon: "success",
-        title: "Copied!",
-        text: "Link copied to clipboard!",
-        timer: 2000,
-        showConfirmButton: false,
-        toast: true,
-        position: "top-end",
-      });
-    } else {
+    try {
+      const successful = document.execCommand("copy");
+      if (successful) {
+        Swal.fire({
+          icon: "success",
+          title: "Copied!",
+          text: "Link copied to clipboard!",
+          timer: 2000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Failed!",
+          text: "Failed to copy the link. Please try again.",
+          timer: 3000,
+          showConfirmButton: false,
+          toast: true,
+          position: "top-end",
+        });
+      }
+    } catch (err) {
+      console.error("Fallback copy failed:", err);
       Swal.fire({
         icon: "error",
         title: "Failed!",
@@ -751,31 +820,15 @@ const copyLinkFallback = (text) => {
         position: "top-end",
       });
     }
-  } catch (err) {
-    console.error("Fallback copy failed:", err);
-    Swal.fire({
-      icon: "error",
-      title: "Failed!",
-      text: "Failed to copy the link. Please try again.",
-      timer: 3000,
-      showConfirmButton: false,
-      toast: true,
-      position: "top-end",
-    });
-  }
 
-  document.body.removeChild(textArea);
-};
-console.log(
-  "Map Debug →",
-  {
+    document.body.removeChild(textArea);
+  };
+  console.log("Map Debug →", {
     id: itemData?.id,
     latitude: itemData?.latitude,
     longitude: itemData?.longitude,
-    city: itemData?.City
-  }
-);
-
+    city: itemData?.City,
+  });
 
   const user1 = auth.currentUser;
   const userId = user1?.uid;
@@ -783,24 +836,24 @@ console.log(
     callingFrom === "AutomotiveComp"
       ? "Cars"
       : callingFrom === "ElectronicComp"
-      ? "ELECTRONICS"
-      : callingFrom === "FashionStyle"
-      ? "FASHION"
-      : callingFrom === "HealthCareComp"
-      ? "HEALTHCARE"
-      : callingFrom === "JobBoard"
-      ? "JOBBOARD"
-      : callingFrom === "Education"
-      ? "Education"
-      : callingFrom === "RealEstateComp"
-      ? "REALESTATECOMP"
-      : callingFrom === "TravelComp"
-      ? "TRAVEL"
-      : callingFrom === "SportGamesComp"
-      ? "SPORTSGAMESComp"
-      : callingFrom === "PetAnimalsComp"
-      ? "PETANIMALCOMP"
-      : "books";
+        ? "ELECTRONICS"
+        : callingFrom === "FashionStyle"
+          ? "FASHION"
+          : callingFrom === "HealthCareComp"
+            ? "HEALTHCARE"
+            : callingFrom === "JobBoard"
+              ? "JOBBOARD"
+              : callingFrom === "Education"
+                ? "Education"
+                : callingFrom === "RealEstateComp"
+                  ? "REALESTATECOMP"
+                  : callingFrom === "TravelComp"
+                    ? "TRAVEL"
+                    : callingFrom === "SportGamesComp"
+                      ? "SPORTSGAMESComp"
+                      : callingFrom === "PetAnimalsComp"
+                        ? "PETANIMALCOMP"
+                        : "books";
   const handleCall = async (phoneNumber) => {
     try {
       const response = await axios.post("http://localhost:9002/api/call", {
@@ -819,7 +872,7 @@ console.log(
 
     if (message.trim() && userId && itemData.userId) {
       try {
-        const response = await fetch("http://168.231.80.24:9002/api/messages", {
+        const response = await fetch("/api/messages", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -900,18 +953,23 @@ console.log(
       },
       (error) => {
         console.error("Error fetching AdsdetailImages data:", error);
-      }
+      },
     );
     return () => unsubscribe();
   }, []);
 
   // Sticky header scroll handling
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      console.log("Scroll position:", currentScrollY, "showStickyHeader:", currentScrollY > 300);
+      console.log(
+        "Scroll position:",
+        currentScrollY,
+        "showStickyHeader:",
+        currentScrollY > 300,
+      );
 
       // Show sticky header when scrolled past 100px
       if (currentScrollY > 300) {
@@ -921,10 +979,10 @@ console.log(
       }
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -940,14 +998,14 @@ console.log(
             where("sender", "==", userId),
             where("receiver", "==", userId),
             where("sender", "==", recieverId),
-            where("receiver", "==", recieverId)
-          )
+            where("receiver", "==", recieverId),
+          ),
         );
 
         const querySnapshot = await getDocs(q);
         if (!querySnapshot.empty) {
           const chatIdsArray = querySnapshot.docs.map(
-            (doc) => doc.data().chat_id
+            (doc) => doc.data().chat_id,
           );
           console.log("No chats foundchatIdsArray__________", chatIdsArray);
 
@@ -972,7 +1030,7 @@ console.log(
       }
       try {
         const { data: chatData } = await axios.get(
-          `http://168.231.80.24:9002/api/chat-id/${userId}/${itemData.userId}`
+          `/api/chat-id/${userId}/${itemData.userId}`,
         );
 
         if (!chatData.success) {
@@ -984,7 +1042,7 @@ console.log(
 
         // Now fetch messages using chatId
         const { data: messagesData } = await axios.get(
-          `http://168.231.80.24:9002/api/messages/${chatId}`
+          `/api/messages/${chatId}`,
         );
 
         setReceivedMessages(messagesData?.data || []);
@@ -1000,16 +1058,14 @@ console.log(
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const { data } = await axios.get(
-          "http://168.231.80.24:9002/route/api/users"
-        );
+        const { data } = await axios.get("/route/api/users");
         setUsers(data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
     };
 
-    socket = io("http://168.231.80.24:9002/route");
+    socket = io("/route");
     socket.on("message", (msg) => {
       setReceivedMessages((prevMessages) => [
         ...prevMessages,
@@ -1026,9 +1082,7 @@ console.log(
 
   const fetchChats = async (userId) => {
     try {
-      const { data } = await axios.get(
-        `http://168.231.80.24:9002/route/api/chats/${userId}`
-      );
+      const { data } = await axios.get(`/route/api/chats/${userId}`);
       setChats(data);
     } catch (error) {
       console.error("Error fetching chats:", error);
@@ -1037,9 +1091,7 @@ console.log(
 
   const fetchMessages = async (chatId) => {
     try {
-      const { data } = await axios.get(
-        `http://168.231.80.24:9002/route/api/messages/${chatId}`
-      );
+      const { data } = await axios.get(`/route/api/messages/${chatId}`);
       setMessages(data);
     } catch (error) {
       console.error("Error fetching messages:", error);
@@ -1085,7 +1137,7 @@ console.log(
     setSelectedReports((prev) =>
       prev.includes(type)
         ? prev.filter((item) => item !== type)
-        : [...prev, type]
+        : [...prev, type],
     );
   };
 
@@ -1112,24 +1164,24 @@ console.log(
       callingFrom === "AutomotiveComp"
         ? "Cars"
         : callingFrom === "ElectronicComp"
-        ? "ELECTRONICS"
-        : callingFrom === "FashionStyle"
-        ? "FASHION"
-        : callingFrom === "HealthCareComp"
-        ? "HEALTHCARE"
-        : callingFrom === "JobBoard"
-        ? "JOBBOARD"
-        : callingFrom === "Education"
-        ? "Education"
-        : callingFrom === "RealEstateComp"
-        ? "REALESTATECOMP"
-        : callingFrom === "TravelComp"
-        ? "TRAVEL"
-        : callingFrom === "SportGamesComp"
-        ? "SPORTSGAMESComp"
-        : callingFrom === "PetAnimalsComp"
-        ? "PETANIMALCOMP"
-        : "books";
+          ? "ELECTRONICS"
+          : callingFrom === "FashionStyle"
+            ? "FASHION"
+            : callingFrom === "HealthCareComp"
+              ? "HEALTHCARE"
+              : callingFrom === "JobBoard"
+                ? "JOBBOARD"
+                : callingFrom === "Education"
+                  ? "Education"
+                  : callingFrom === "RealEstateComp"
+                    ? "REALESTATECOMP"
+                    : callingFrom === "TravelComp"
+                      ? "TRAVEL"
+                      : callingFrom === "SportGamesComp"
+                        ? "SPORTSGAMESComp"
+                        : callingFrom === "PetAnimalsComp"
+                          ? "PETANIMALCOMP"
+                          : "books";
 
     try {
       const adsCollection = collection(db, collectionName);
@@ -1170,24 +1222,24 @@ console.log(
     callingFrom === "AutomotiveComp"
       ? _Id
       : callingFrom === "ElectronicComp"
-      ? _Id
-      : callingFrom === "FashionStyle"
-      ? _Id
-      : callingFrom === "HealthCareComp"
-      ? _Id
-      : callingFrom === "JobBoard"
-      ? _Id
-      : callingFrom === "Education"
-      ? _Id
-      : callingFrom === "RealEstateComp"
-      ? _Id
-      : callingFrom === "TravelComp"
-      ? _Id
-      : callingFrom === "SportGamesComp"
-      ? _Id
-      : callingFrom === "PetAnimalsComp"
-      ? _Id
-      : id;
+        ? _Id
+        : callingFrom === "FashionStyle"
+          ? _Id
+          : callingFrom === "HealthCareComp"
+            ? _Id
+            : callingFrom === "JobBoard"
+              ? _Id
+              : callingFrom === "Education"
+                ? _Id
+                : callingFrom === "RealEstateComp"
+                  ? _Id
+                  : callingFrom === "TravelComp"
+                    ? _Id
+                    : callingFrom === "SportGamesComp"
+                      ? _Id
+                      : callingFrom === "PetAnimalsComp"
+                        ? _Id
+                        : id;
 
   useEffect(() => {
     const fetchItem = async () => {
@@ -1196,30 +1248,35 @@ console.log(
       try {
         // Map component names to actual Firestore collection names
         const collectionMapping = {
-          "AutomotiveComp": "Cars",
-          "ElectronicComp": "ELECTRONICS",
-          "REALESTATECOMP": "REALESTATECOMP",
-          "RealEstateComp": "REALESTATECOMP",
-          "ELECTRONICS": "ELECTRONICS",
-          "JOBBOARD": "JOBBOARD",
-          "JobBoard": "JOBBOARD",
-          "JobBoardComp": "JOBBOARD",
-          "HealthCare": "HEALTHCARE",
-          "HealthCareComp": "HEALTHCARE",
-          "Travel": "TRAVEL",
-          "TravelComp": "TRAVEL",
-          "SportGamesComp": "SPORTSGAMESComp",
-          "PetAnimalsComp": "PETANIMALCOMP",
-          "Fashion": "FASHION",
-          "FashionComp": "FASHION",
-          "FashionStyle": "FASHION",
-          "Education": "Education",
-          "EducationComp": "Education",
-          "Commercial": "ComercialsAds",
+          AutomotiveComp: "Cars",
+          ElectronicComp: "ELECTRONICS",
+          REALESTATECOMP: "REALESTATECOMP",
+          RealEstateComp: "REALESTATECOMP",
+          ELECTRONICS: "ELECTRONICS",
+          JOBBOARD: "JOBBOARD",
+          JobBoard: "JOBBOARD",
+          JobBoardComp: "JOBBOARD",
+          HealthCare: "HEALTHCARE",
+          HealthCareComp: "HEALTHCARE",
+          Travel: "TRAVEL",
+          TravelComp: "TRAVEL",
+          SportGamesComp: "SPORTSGAMESComp",
+          PetAnimalsComp: "PETANIMALCOMP",
+          Fashion: "FASHION",
+          FashionComp: "FASHION",
+          FashionStyle: "FASHION",
+          Education: "Education",
+          EducationComp: "Education",
+          Commercial: "ComercialsAds",
         };
 
         const actualCollection = collectionMapping[callingFrom] || callingFrom;
-        console.log("📦 Collection mapping:", callingFrom, "→", actualCollection);
+        console.log(
+          "📦 Collection mapping:",
+          callingFrom,
+          "→",
+          actualCollection,
+        );
 
         // Fetch directly from Firestore to get all fields including translations
         const docRef = doc(db, actualCollection, _Id);
@@ -1244,7 +1301,7 @@ console.log(
             timeAgo: item.createdAt
               ? formatDistanceToNow(item.createdAt.toDate(), {
                   addSuffix: true,
-                  locale: i18n.language.startsWith('ar') ? ar : undefined,
+                  locale: i18n.language.startsWith("ar") ? ar : undefined,
                 })
               : "Unknown time",
           });
@@ -1262,7 +1319,12 @@ console.log(
     };
 
     if (_Id && callingFrom) {
-      console.log("📌 Effect triggered - _Id:", _Id, "callingFrom:", callingFrom);
+      console.log(
+        "📌 Effect triggered - _Id:",
+        _Id,
+        "callingFrom:",
+        callingFrom,
+      );
       fetchItem();
     }
   }, [_Id, callingFrom, i18n.language]);
@@ -1278,37 +1340,48 @@ console.log(
       const lastVisitTime = localStorage.getItem(visitKey);
       const now = Date.now();
 
-      if (lastVisitTime && (now - parseInt(lastVisitTime)) < 24 * 60 * 60 * 1000) {
+      if (
+        lastVisitTime &&
+        now - parseInt(lastVisitTime) < 24 * 60 * 60 * 1000
+      ) {
         console.log("⏱️ Already visited within 24 hours (localStorage check)");
         return;
       }
 
       // Map callingFrom to actual Firestore collection name
       const visitCollectionMapping = {
-        "AutomotiveComp": "Cars",
-        "ElectronicComp": "ELECTRONICS",
-        "REALESTATECOMP": "REALESTATECOMP",
-        "RealEstateComp": "REALESTATECOMP",
-        "ELECTRONICS": "ELECTRONICS",
-        "JOBBOARD": "JOBBOARD",
-        "JobBoard": "JOBBOARD",
-        "JobBoardComp": "JOBBOARD",
-        "HealthCare": "HEALTHCARE",
-        "HealthCareComp": "HEALTHCARE",
-        "Travel": "TRAVEL",
-        "TravelComp": "TRAVEL",
-        "SportGamesComp": "SPORTSGAMESComp",
-        "PetAnimalsComp": "PETANIMALCOMP",
-        "Fashion": "FASHION",
-        "FashionComp": "FASHION",
-        "FashionStyle": "FASHION",
-        "Education": "Education",
-        "EducationComp": "Education",
-        "Commercial": "CommercialAdscom",
+        AutomotiveComp: "Cars",
+        ElectronicComp: "ELECTRONICS",
+        REALESTATECOMP: "REALESTATECOMP",
+        RealEstateComp: "REALESTATECOMP",
+        ELECTRONICS: "ELECTRONICS",
+        JOBBOARD: "JOBBOARD",
+        JobBoard: "JOBBOARD",
+        JobBoardComp: "JOBBOARD",
+        HealthCare: "HEALTHCARE",
+        HealthCareComp: "HEALTHCARE",
+        Travel: "TRAVEL",
+        TravelComp: "TRAVEL",
+        SportGamesComp: "SPORTSGAMESComp",
+        PetAnimalsComp: "PETANIMALCOMP",
+        Fashion: "FASHION",
+        FashionComp: "FASHION",
+        FashionStyle: "FASHION",
+        Education: "Education",
+        EducationComp: "Education",
+        Commercial: "CommercialAdscom",
       };
 
-      const actualCollection = visitCollectionMapping[callingFrom] || callingFrom;
-      console.log("👁️ Visit tracking - Collection:", callingFrom, "→", actualCollection, "ID:", _Id);
+      const actualCollection =
+        visitCollectionMapping[callingFrom] || callingFrom;
+      console.log(
+        "👁️ Visit tracking - Collection:",
+        callingFrom,
+        "→",
+        actualCollection,
+        "ID:",
+        _Id,
+      );
 
       try {
         const adDocRef = doc(db, actualCollection, _Id);
@@ -1322,7 +1395,12 @@ console.log(
         localStorage.setItem(visitKey, now.toString());
         // Set flag so bookmark/listing pages know to refresh
         sessionStorage.setItem("last_view_count_change", now.toString());
-        console.log("✅ visitCount incremented in", actualCollection, "for doc:", _Id);
+        console.log(
+          "✅ visitCount incremented in",
+          actualCollection,
+          "for doc:",
+          _Id,
+        );
       } catch (err) {
         console.error("❌ Error incrementing visit count:", err);
       }
@@ -1348,7 +1426,7 @@ console.log(
   const timeAgo = postedTime
     ? formatDistanceToNow(postedTime, {
         addSuffix: true,
-        locale: i18n.language.startsWith('ar') ? ar : undefined,
+        locale: i18n.language.startsWith("ar") ? ar : undefined,
       })
     : "Unknown time";
 
@@ -1370,12 +1448,12 @@ console.log(
       images.length === 1
         ? 1
         : images.length === 2
-        ? 2
-        : images.length === 3
-        ? 3
-        : images.length === 4
-        ? 4
-        : 5, // Number of slides to show at once
+          ? 2
+          : images.length === 3
+            ? 3
+            : images.length === 4
+              ? 4
+              : 5, // Number of slides to show at once
     slidesToScroll: 1, // Number of slides to scroll at once
     initialSlide: 0, // Starting slide index
     responsive: [
@@ -1411,9 +1489,14 @@ console.log(
         <Header />
 
         {/* Sticky Header - Shows title and price when scrolled */}
-        <div className={`mobile-sticky-price-header ${showStickyHeader ? 'show' : ''}`}>
+        <div
+          className={`mobile-sticky-price-header ${showStickyHeader ? "show" : ""}`}
+        >
           <div className="sticky-header-top">
-            <h6 className="sticky-title">{getTranslatedField(itemData, 'title', i18n.language) || "Loading..."}</h6>
+            <h6 className="sticky-title">
+              {getTranslatedField(itemData, "title", i18n.language) ||
+                "Loading..."}
+            </h6>
             <div className="sticky-price">
               <img
                 src="https://www.sama.gov.sa/ar-sa/Currency/Documents/Saudi_Riyal_Symbol-2.svg"
@@ -1426,7 +1509,10 @@ console.log(
             <a
               href={`tel:${itemData?.Phone}`}
               className="sticky-action-btn mobile-cell--sticky"
-              style={{ pointerEvents: itemData?.showNumberChecked ? 'none' : 'auto', opacity: itemData?.showNumberChecked ? 0.5 : 1 }}
+              style={{
+                pointerEvents: itemData?.showNumberChecked ? "none" : "auto",
+                opacity: itemData?.showNumberChecked ? 0.5 : 1,
+              }}
             >
               <FaPhoneAlt />
             </a>
@@ -1545,7 +1631,8 @@ console.log(
                 fontWeight: "bold",
               }}
             >
-              {getTranslatedField(itemData, 'title', i18n.language) || "Default Title"}{" "}
+              {getTranslatedField(itemData, "title", i18n.language) ||
+                "Default Title"}{" "}
             </div>
           </div>
           <div
@@ -1658,9 +1745,9 @@ console.log(
                               onClick={() =>
                                 window.open(
                                   `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
-                                    link
+                                    link,
                                   )}`,
-                                  "_blank"
+                                  "_blank",
                                 )
                               }
                             />
@@ -1672,9 +1759,9 @@ console.log(
                               onClick={() =>
                                 window.open(
                                   `https://wa.me/?text=${encodeURIComponent(
-                                    link
+                                    link,
                                   )}`,
-                                  "_blank"
+                                  "_blank",
                                 )
                               }
                             />
@@ -1686,11 +1773,11 @@ console.log(
                               onClick={() => {
                                 if (/Mobi|Android/i.test(navigator.userAgent)) {
                                   window.location.href = `instagram://share?text=${encodeURIComponent(
-                                    link
+                                    link,
                                   )}`;
                                 } else {
                                   alert(
-                                    "Instagram sharing is only available on mobile apps. Link copied!"
+                                    "Instagram sharing is only available on mobile apps. Link copied!",
                                   );
                                   navigator.clipboard.writeText(link);
                                 }
@@ -1716,7 +1803,6 @@ console.log(
                         </div>
                       </div>
                     </div>
-
                   </div>
                 </>
               )}
@@ -1767,7 +1853,9 @@ console.log(
                 <div className="modal-dialog modal-dialog-centered">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5 className="modal-title">{t("payment.promoteAdTitle")}</h5>
+                      <h5 className="modal-title">
+                        {t("payment.promoteAdTitle")}
+                      </h5>
                       <button
                         type="button"
                         className="btn-close"
@@ -1775,7 +1863,10 @@ console.log(
                       ></button>
                     </div>
                     <div className="modal-body">
-                      <p className="text-muted mb-3" style={{ fontSize: "14px" }}>
+                      <p
+                        className="text-muted mb-3"
+                        style={{ fontSize: "14px" }}
+                      >
                         {t("payment.promoteAdDescription")}
                       </p>
                       <Elements stripe={stripePromise}>
@@ -1992,7 +2083,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -2035,36 +2130,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
                                       <button
                                         className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
                                       >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button
-                                      className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
-                                      onClick={() => alert("WhatsApp number not available")}
-                                    >
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -2072,7 +2178,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -2273,14 +2381,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -2293,8 +2415,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -2314,7 +2440,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -2328,7 +2454,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -2399,7 +2529,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -2442,36 +2576,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
                                       <button
                                         className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
                                       >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button
-                                      className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
-                                      onClick={() => alert("WhatsApp number not available")}
-                                    >
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -2479,7 +2624,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -2680,14 +2827,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -2700,8 +2861,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -2711,7 +2876,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -2719,7 +2886,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -2733,7 +2900,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -2804,7 +2975,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -2847,36 +3022,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
                                       <button
                                         className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
                                       >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button
-                                      className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
-                                      onClick={() => alert("WhatsApp number not available")}
-                                    >
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -2884,7 +3070,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -3085,14 +3273,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -3105,8 +3307,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -3116,7 +3322,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section m-0">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -3124,7 +3332,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -3138,7 +3346,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -3209,7 +3421,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -3252,31 +3468,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
+                                      >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -3284,7 +3516,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -3485,14 +3719,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -3505,8 +3753,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -3516,7 +3768,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -3524,7 +3778,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -3538,7 +3792,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -3609,7 +3867,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -3652,31 +3914,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
+                                      >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -3684,7 +3962,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -3885,14 +4165,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -3905,8 +4199,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -3916,7 +4214,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -3924,7 +4224,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -3938,7 +4238,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -4009,7 +4313,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -4052,31 +4360,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
+                                      >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -4084,7 +4408,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -4285,14 +4611,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -4305,8 +4645,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -4316,7 +4660,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -4324,7 +4670,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -4338,7 +4684,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -4409,7 +4759,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -4452,31 +4806,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
+                                      >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -4484,7 +4854,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -4685,14 +5057,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -4705,8 +5091,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -4716,7 +5106,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -4724,7 +5116,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -4738,7 +5130,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -4809,7 +5205,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -4852,31 +5252,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
+                                      >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -4884,7 +5300,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -5085,14 +5503,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -5105,8 +5537,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -5116,7 +5552,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -5124,7 +5562,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -5138,7 +5576,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -5209,7 +5651,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -5252,31 +5698,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
+                                      >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -5284,7 +5746,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -5485,14 +5949,28 @@ console.log(
                             {Object.entries({
                               SellerType: itemData?.SellerType || "N/A",
                               Insurance: itemData?.Insurance || "N/A",
-                              City: getTranslatedField(itemData, 'City', i18n.language) || itemData?.City || "N/A",
+                              City:
+                                getTranslatedField(
+                                  itemData,
+                                  "City",
+                                  i18n.language,
+                                ) ||
+                                itemData?.City ||
+                                "N/A",
                               SeatingCapacity:
                                 itemData?.SeatingCapacity || "N/A",
                               // FeaturedAds: itemData?.FeaturedAds || "N/A",
                               "Body Type": itemData?.BodyType || "N/A",
                               "Last Updated": itemData?.timeAgo || "N/A",
                               Condition: itemData?.Condition || "N/A",
-                              District: getTranslatedField(itemData, 'District', i18n.language) || itemData?.District || "N/A",
+                              District:
+                                getTranslatedField(
+                                  itemData,
+                                  "District",
+                                  i18n.language,
+                                ) ||
+                                itemData?.District ||
+                                "N/A",
                               Purpose: itemData?.Purpose || "N/A",
                               Model: itemData?.Model || "N/A",
                               Color: itemData?.Color || "N/A",
@@ -5505,8 +5983,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -5516,7 +5998,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -5524,7 +6008,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -5538,7 +6022,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -5609,7 +6097,11 @@ console.log(
                                 textShadow: "1px 1px 2px rgba(0, 0, 0, 0.5)",
                               }}
                             >
-                              {getTranslatedField(itemData, 'title', i18n.language) || "آلة غسيل أطباق"}
+                              {getTranslatedField(
+                                itemData,
+                                "title",
+                                i18n.language,
+                              ) || "آلة غسيل أطباق"}
                             </h2>
                             <p
                               style={{
@@ -5652,31 +6144,47 @@ console.log(
                                   >
                                     <FaPhoneAlt />
                                     <span>
-                                      {showPhone ? itemData.Phone : t("listing.callNow")}
+                                      {showPhone
+                                        ? itemData.Phone
+                                        : t("listing.callNow")}
                                     </span>
                                   </button>
                                 </a>
                               )}{" "}
-                              {itemData.showNumberChecked ? (
-                                ""
-                              ) : (
-                                (() => {
-                                  const whatsappUrl = getWhatsappUrl(itemData);
-                                  return whatsappUrl ? (
-                                    <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                      <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                              {itemData.showNumberChecked
+                                ? ""
+                                : (() => {
+                                    const whatsappUrl =
+                                      getWhatsappUrl(itemData);
+                                    return whatsappUrl ? (
+                                      <a
+                                        href={whatsappUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        <button
+                                          className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        >
+                                          <FaWhatsapp />
+                                          <span className="button-text">
+                                            {t("listing.whatsapp")}
+                                          </span>
+                                        </button>
+                                      </a>
+                                    ) : (
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                        onClick={() =>
+                                          alert("WhatsApp number not available")
+                                        }
+                                      >
                                         <FaWhatsapp />
-                                        <span className="button-text">{t("listing.whatsapp")}</span>
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
                                       </button>
-                                    </a>
-                                  ) : (
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                      <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
-                                    </button>
-                                  );
-                                })()
-                              )}
+                                    );
+                                  })()}
                               <button
                                 className={`blue_btn list_btn ${
                                   showPhone ? "icon-only" : ""
@@ -5684,7 +6192,9 @@ console.log(
                                 onClick={() => setShowModal(true)}
                               >
                                 <MdMessage />
-                                <span className="button-text">{t("listing.message")}</span>
+                                <span className="button-text">
+                                  {t("listing.message")}
+                                </span>
                               </button>
                             </div>
                           </div>
@@ -5905,8 +6415,12 @@ console.log(
                                   key={index}
                                   className="product_Detail_block"
                                 >
-                                  <span className="detail_text">{translateFieldLabel(label)}:</span>
-                                  <span className="detail_text">{translateFieldValue(value)}</span>
+                                  <span className="detail_text">
+                                    {translateFieldLabel(label)}:
+                                  </span>
+                                  <span className="detail_text">
+                                    {translateFieldValue(value)}
+                                  </span>
                                 </li>
                               ))}
                           </ul>
@@ -5916,7 +6430,9 @@ console.log(
                       <div className="dynamic-route-container">
                         {/* Features Section */}
                         <div className="section">
-                          <h1 className="section-title">{t("detailsPage.features")}</h1>
+                          <h1 className="section-title">
+                            {t("detailsPage.features")}
+                          </h1>
                           <ul className="descriptions-wrapper">
                             {itemData?.AdditionalFeatures?.length > 0 ? (
                               itemData.AdditionalFeatures.map(
@@ -5924,7 +6440,7 @@ console.log(
                                   <li key={index} className="feature-item">
                                     {translateFieldValue(feature)}
                                   </li>
-                                )
+                                ),
                               )
                             ) : (
                               <li className="no-data">N/A</li>
@@ -5938,7 +6454,11 @@ console.log(
                             {t("detailsPage.description")}
                           </h1>
                           <pre className="descriptions-para">
-                            {getTranslatedField(itemData, 'description', i18n.language)?.trim() || "No description"}
+                            {getTranslatedField(
+                              itemData,
+                              "description",
+                              i18n.language,
+                            )?.trim() || "No description"}
                           </pre>
                         </div>
                       </div>
@@ -6018,7 +6538,9 @@ console.log(
                     />
 
                     <div className="col-md">
-                      <h1 className="sallerinfo_para">{t("listing.sellerInformation")}</h1>
+                      <h1 className="sallerinfo_para">
+                        {t("listing.sellerInformation")}
+                      </h1>
                       <div className="row profileinner_container ">
                         <div className="col-4 profileimg">
                           <Link
@@ -6032,8 +6554,10 @@ console.log(
                               alt="Profile"
                               className="img-fluid rounded-circle"
                               style={{
-                                width: window.innerWidth <= 768 ? "70px" : "100px",
-                                height: window.innerWidth <= 768 ? "70px" : "100px",
+                                width:
+                                  window.innerWidth <= 768 ? "70px" : "100px",
+                                height:
+                                  window.innerWidth <= 768 ? "70px" : "100px",
                                 objectFit: "cover",
                               }} // Adjust size as needed
                             />
@@ -6050,7 +6574,7 @@ console.log(
                                 year: "numeric",
                                 month: "short",
                                 day: "numeric",
-                              }
+                              },
                             )}
                           </p>
 
@@ -6082,31 +6606,46 @@ console.log(
                                 >
                                   <FaPhoneAlt />
                                   <span>
-                                    {showPhone ? itemData.Phone : t("listing.callNow")}
+                                    {showPhone
+                                      ? itemData.Phone
+                                      : t("listing.callNow")}
                                   </span>
                                 </button>
                               </a>
                             )}{" "}
-                            {itemData.showNumberChecked ? (
-                              ""
-                            ) : (
-                              (() => {
-                                const whatsappUrl = getWhatsappUrl(itemData);
-                                return whatsappUrl ? (
-                                  <a href={whatsappUrl} target="_blank" rel="noopener noreferrer">
-                                    <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}>
+                            {itemData.showNumberChecked
+                              ? ""
+                              : (() => {
+                                  const whatsappUrl = getWhatsappUrl(itemData);
+                                  return whatsappUrl ? (
+                                    <a
+                                      href={whatsappUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
+                                      <button
+                                        className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      >
+                                        <FaWhatsapp />
+                                        <span className="button-text">
+                                          {t("listing.whatsapp")}
+                                        </span>
+                                      </button>
+                                    </a>
+                                  ) : (
+                                    <button
+                                      className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`}
+                                      onClick={() =>
+                                        alert("WhatsApp number not available")
+                                      }
+                                    >
                                       <FaWhatsapp />
-                                      <span className="button-text">{t("listing.whatsapp")}</span>
+                                      <span className="button-text">
+                                        {t("listing.whatsapp")}
+                                      </span>
                                     </button>
-                                  </a>
-                                ) : (
-                                  <button className={`blue_btn list_btn ${showPhone ? "icon-only" : ""}`} onClick={() => alert("WhatsApp number not available")}>
-                                    <FaWhatsapp />
-                                    <span className="button-text">{t("listing.whatsapp")}</span>
-                                  </button>
-                                );
-                              })()
-                            )}
+                                  );
+                                })()}
                             <button
                               className={`blue_btn list_btn ${
                                 showPhone ? "icon-only" : ""
@@ -6114,7 +6653,9 @@ console.log(
                               onClick={() => setShowModal(true)}
                             >
                               <MdMessage />
-                              <span className="button-text">{t("listing.message")}</span>
+                              <span className="button-text">
+                                {t("listing.message")}
+                              </span>
                             </button>
                             <style>{`
                               .blue_btn list_btn {
@@ -6221,27 +6762,36 @@ console.log(
                       </div>
                     </div>
 
-<h4 className="mt-2 mb-2">{t("listing.location")}</h4>
+                    <h4 className="mt-2 mb-2">{t("listing.location")}</h4>
 
-{!loading && itemData ? (
-  <LocationMap
-    city={itemData?.City}
-    district={itemData?.District}
-    latitude={itemData?.latitude}
-    longitude={itemData?.longitude}
-  />
-) : loading ? (
-  <div style={{ textAlign: "center", color: "#999", padding: "2rem 0" }}>
-    Loading location...
-  </div>
-) : (
-  <div style={{ textAlign: "center", color: "#888", padding: "2rem 0" }}>
-    No data available
-  </div>
-)}
-
-
-
+                    {!loading && itemData ? (
+                      <LocationMap
+                        city={itemData?.City}
+                        district={itemData?.District}
+                        latitude={itemData?.latitude}
+                        longitude={itemData?.longitude}
+                      />
+                    ) : loading ? (
+                      <div
+                        style={{
+                          textAlign: "center",
+                          color: "#999",
+                          padding: "2rem 0",
+                        }}
+                      >
+                        Loading location...
+                      </div>
+                    ) : (
+                      <div
+                        style={{
+                          textAlign: "center",
+                          color: "#888",
+                          padding: "2rem 0",
+                        }}
+                      >
+                        No data available
+                      </div>
+                    )}
                   </Card.Body>
                 </Card>
                 <Card
@@ -6292,7 +6842,7 @@ console.log(
                                 />
                               </a>
                             );
-                          }
+                          },
                         )}
                     </div>
                   </Card.Body>

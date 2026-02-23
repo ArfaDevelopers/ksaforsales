@@ -64,7 +64,7 @@ export default function Relateddata(props) {
   useEffect(() => {
     if (itemData) {
       axios
-        .post("http://168.231.80.24:9002/api/relatedcars", {
+        .post("/api/relatedcars", {
           title: props.itemData.title,
           category: props.itemData.category,
         })
@@ -84,11 +84,21 @@ export default function Relateddata(props) {
     <>
       {" "}
       {relatedCars.length === 0 ? (
-        <h2 className="similarads" style={{ textAlign: i18n.language.startsWith('ar') ? 'right' : 'left' }}>
+        <h2
+          className="similarads"
+          style={{
+            textAlign: i18n.language.startsWith("ar") ? "right" : "left",
+          }}
+        >
           {t("detailsPage.noSimilarAds") || "No Similar Ads Found"}
         </h2>
       ) : (
-        <h2 className="similarads" style={{ textAlign: i18n.language.startsWith('ar') ? 'right' : 'left' }}>
+        <h2
+          className="similarads"
+          style={{
+            textAlign: i18n.language.startsWith("ar") ? "right" : "left",
+          }}
+        >
           {t("detailsPage.similarAds") || "SIMILAR ADS"}
         </h2>
       )}
@@ -133,58 +143,78 @@ export default function Relateddata(props) {
                   car.category === "Motors"
                     ? "AutomotiveComp"
                     : car.category === "Automotive"
-                    ? "AutomotiveComp"
-                    : car.category === "Electronics"
-                    ? "ElectronicComp"
-                    : car.category === "Other"
-                    ? "Education"
-                    : car.category === "Other"
-                    ? "Education"
-                    : car.category === "Pet & Animals"
-                    ? "PetAnimalsComp"
-                    : car.category === "Sports & Game"
-                    ? "SportGamesComp"
-                    : car.category === "Services"
-                    ? "TravelComp"
-                    : car.category === "Real Estate"
-                    ? "RealEstateComp"
-                    : car.category === "Job Board"
-                    ? "JobBoard"
-                    : car.category === "Home & Furnituer"
-                    ? "HealthCareComp"
-                    : car.category === "Fashion Style"
-                    ? "FashionStyle"
-                    : "Other"
+                      ? "AutomotiveComp"
+                      : car.category === "Electronics"
+                        ? "ElectronicComp"
+                        : car.category === "Other"
+                          ? "Education"
+                          : car.category === "Other"
+                            ? "Education"
+                            : car.category === "Pet & Animals"
+                              ? "PetAnimalsComp"
+                              : car.category === "Sports & Game"
+                                ? "SportGamesComp"
+                                : car.category === "Services"
+                                  ? "TravelComp"
+                                  : car.category === "Real Estate"
+                                    ? "RealEstateComp"
+                                    : car.category === "Job Board"
+                                      ? "JobBoard"
+                                      : car.category === "Home & Furnituer"
+                                        ? "HealthCareComp"
+                                        : car.category === "Fashion Style"
+                                          ? "FashionStyle"
+                                          : "Other"
                 }`}
               >
-                <div className="relateable_card_wrap_main" style={{
-                  direction: i18n.language.startsWith('ar') ? 'rtl' : 'ltr',
-                  textAlign: i18n.language.startsWith('ar') ? 'right' : 'left'
-                }}>
+                <div
+                  className="relateable_card_wrap_main"
+                  style={{
+                    direction: i18n.language.startsWith("ar") ? "rtl" : "ltr",
+                    textAlign: i18n.language.startsWith("ar")
+                      ? "right"
+                      : "left",
+                  }}
+                >
                   <img
                     src={
                       car.galleryImages?.length > 0
                         ? car.galleryImages[0]
                         : car.photoURL || "/default-car.jpg"
                     }
-                    alt={getTranslatedField(car, 'title', i18n.language) || car.title}
+                    alt={
+                      getTranslatedField(car, "title", i18n.language) ||
+                      car.title
+                    }
                     className="relateable_image"
                   />
                   <div className="relateable_content_wrap_main">
-                    <h3 className="title">{getTranslatedField(car, 'title', i18n.language) || car.title || "No Title"}</h3>
+                    <h3 className="title">
+                      {getTranslatedField(car, "title", i18n.language) ||
+                        car.title ||
+                        "No Title"}
+                    </h3>
                     <p className="location">
-                      {getTranslatedField(car, 'City', i18n.language) || car.location || car.City || "N/A"}
+                      {getTranslatedField(car, "City", i18n.language) ||
+                        car.location ||
+                        car.City ||
+                        "N/A"}
                     </p>
-                    <div className="content_footer" style={{
-                      flexDirection: i18n.language.startsWith('ar') ? 'row-reverse' : 'row'
-                    }}>
+                    <div
+                      className="content_footer"
+                      style={{
+                        flexDirection: i18n.language.startsWith("ar")
+                          ? "row-reverse"
+                          : "row",
+                      }}
+                    >
                       <p className="price">
                         {car.Price ? `${car.Price} SAR` : "—"}
                       </p>
                       <p className="date">
                         {car.createdAt?._seconds
                           ? new Date(
-                              car.createdAt._seconds * 1000
+                              car.createdAt._seconds * 1000,
                             ).toLocaleDateString()
                           : "No Date"}
                       </p>
@@ -198,13 +228,13 @@ export default function Relateddata(props) {
         {/* Navigation Arrows */}
         <div
           className="swiper-button-prev-custom swiper_btn_gen"
-          style={{ display: relatedCars.length <= 1 ? 'none' : 'flex' }}
+          style={{ display: relatedCars.length <= 1 ? "none" : "flex" }}
         >
           <FaChevronLeft className="text-xl" />
         </div>
         <div
           className="swiper-button-next-custom swiper_btn_gen"
-          style={{ display: relatedCars.length <= 1 ? 'none' : 'flex' }}
+          style={{ display: relatedCars.length <= 1 ? "none" : "flex" }}
         >
           <FaChevronRight className="text-xl" />
         </div>

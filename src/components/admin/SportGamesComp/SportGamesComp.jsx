@@ -85,7 +85,10 @@ import useSearchStore from "../../../store/searchStore"; // adjust the path
 import { useRef } from "react";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const SPORTSGAMESComp = () => {
   const { t } = useTranslation();
@@ -142,7 +145,7 @@ const SPORTSGAMESComp = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -369,7 +372,7 @@ const SPORTSGAMESComp = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -414,7 +417,7 @@ const SPORTSGAMESComp = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -422,7 +425,7 @@ const SPORTSGAMESComp = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -503,9 +506,7 @@ const SPORTSGAMESComp = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -523,14 +524,14 @@ const SPORTSGAMESComp = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -571,7 +572,7 @@ const SPORTSGAMESComp = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -607,7 +608,7 @@ const SPORTSGAMESComp = () => {
 
   // Filtered district options based on search
   const filteredDistricts = districtOptions.filter((option) =>
-    option.label?.toLowerCase().includes(districtSearch?.toLowerCase())
+    option.label?.toLowerCase().includes(districtSearch?.toLowerCase()),
   );
   useEffect(() => {
     const fetchAdsDetailImages = async () => {
@@ -700,7 +701,7 @@ const SPORTSGAMESComp = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -723,7 +724,7 @@ const SPORTSGAMESComp = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
   const [selectedCity, setselectedCity] = useState(null);
   const [selectedDistrict, setselectedDistrict] = useState(null);
@@ -775,9 +776,7 @@ const SPORTSGAMESComp = () => {
   useEffect(() => {
     const fetchGamingCategories = async () => {
       try {
-        const response = await axios.get(
-          "http://168.231.80.24:9002/route/sportsGamesSubCategories"
-        );
+        const response = await axios.get("/route/sportsGamesSubCategories");
         if (Array.isArray(response.data)) {
           setGamingCategories(response.data);
         } else {
@@ -1220,7 +1219,7 @@ const SPORTSGAMESComp = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1237,7 +1236,7 @@ const SPORTSGAMESComp = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1442,7 +1441,7 @@ const SPORTSGAMESComp = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1514,7 +1513,7 @@ const SPORTSGAMESComp = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/SPORTSGAMESComp/${carId}/view`, {
+      fetch(`/route/SPORTSGAMESComp/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1558,7 +1557,10 @@ const SPORTSGAMESComp = () => {
         removed: alreadyHearted,
         timestamp: Date.now(),
       };
-      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+      sessionStorage.setItem(
+        "last_bookmark_change",
+        JSON.stringify(bookmarkChange),
+      );
 
       // Optimistically update local state
       setCars((prevCars) =>
@@ -1570,8 +1572,8 @@ const SPORTSGAMESComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1584,12 +1586,12 @@ const SPORTSGAMESComp = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1620,10 +1622,11 @@ const SPORTSGAMESComp = () => {
 
         // ✅ Pass subCatgory and nestedSubCategory
         if (subCatgory) params.append("subCatgory", subCatgory);
-        if (nestedSubCategory) params.append("NestedSubCategory", nestedSubCategory);
+        if (nestedSubCategory)
+          params.append("NestedSubCategory", nestedSubCategory);
 
         const response = await fetch(
-          `http://168.231.80.24:9002/route/SPORTSGAMESComp?${params.toString()}`
+          `/route/SPORTSGAMESComp?${params.toString()}`,
         );
 
         const sportsData = await response.json();
@@ -1665,7 +1668,7 @@ const SPORTSGAMESComp = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/SPORTSGAMESComp?${params.toString()}`
+  //         `/route/SPORTSGAMESComp?${params.toString()}`
   //       );
   //       const carsData = await response.json();
 
@@ -1780,7 +1783,7 @@ const SPORTSGAMESComp = () => {
       selectedCity,
       selectedDistrict,
       selectedConditions,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   }, [
     selectedCities,
@@ -1909,7 +1912,7 @@ const SPORTSGAMESComp = () => {
       selectedCity,
       selectedDistrict,
       selectedConditions,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   };
   const filterCars = (
@@ -1971,7 +1974,7 @@ const SPORTSGAMESComp = () => {
     selectedCity,
     selectedDistrict,
     selectedConditions,
-    logSelectedPurpose
+    logSelectedPurpose,
   ) => {
     let filtered = carsData;
 
@@ -2027,7 +2030,7 @@ const SPORTSGAMESComp = () => {
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
           car.District?.toLowerCase().includes(lowercasedQuery) ||
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery),
       );
     }
     setLoading(false);
@@ -2042,7 +2045,7 @@ const SPORTSGAMESComp = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (Array.isArray(selectedConditions) && selectedConditions.length > 0) {
@@ -2057,22 +2060,22 @@ const SPORTSGAMESComp = () => {
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
     if (ColorOptions?.length > 0) {
       filtered = filtered.filter((car) =>
-        ColorOptions.includes(car.ColorOptions)
+        ColorOptions.includes(car.ColorOptions),
       );
     }
     if (searchQuery?.length > 0) {
@@ -2088,7 +2091,7 @@ const SPORTSGAMESComp = () => {
     }
     if (Availability?.length > 0) {
       filtered = filtered.filter((car) =>
-        Availability.includes(car.Availability)
+        Availability.includes(car.Availability),
       );
     }
     if (Features?.length > 0) {
@@ -2114,7 +2117,7 @@ const SPORTSGAMESComp = () => {
     }
     if (ContentType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ContentType.includes(car.ContentType)
+        ContentType.includes(car.ContentType),
       );
     }
     if (SkillLevel?.length > 0) {
@@ -2122,42 +2125,42 @@ const SPORTSGAMESComp = () => {
     }
     if (SubjectCategories?.length > 0) {
       filtered = filtered.filter((car) =>
-        SubjectCategories.includes(car.SubjectCategories)
+        SubjectCategories.includes(car.SubjectCategories),
       );
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2169,12 +2172,12 @@ const SPORTSGAMESComp = () => {
     // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     // Filter by selected cities
@@ -2197,22 +2200,22 @@ const SPORTSGAMESComp = () => {
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     // Filter by selected cities
@@ -2221,17 +2224,17 @@ const SPORTSGAMESComp = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2240,18 +2243,18 @@ const SPORTSGAMESComp = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2368,7 +2371,7 @@ const SPORTSGAMESComp = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2493,7 +2496,11 @@ const SPORTSGAMESComp = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateNestedSubcategory(nestedSubCategory, "sportGame", t)}
+                    {translateNestedSubcategory(
+                      nestedSubCategory,
+                      "sportGame",
+                      t,
+                    )}
                   </button>
                 </>
               )}
@@ -2628,7 +2635,7 @@ const SPORTSGAMESComp = () => {
                                       setselectedSubCategory((prev) =>
                                         prev === item.category
                                           ? ""
-                                          : item.category
+                                          : item.category,
                                       )
                                     }
                                   />
@@ -2684,7 +2691,7 @@ const SPORTSGAMESComp = () => {
                           <div className="mb-3">
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -2702,8 +2709,8 @@ const SPORTSGAMESComp = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -2772,7 +2779,7 @@ const SPORTSGAMESComp = () => {
                                           .map((region) => {
                                             const isChecked =
                                               selectedRegion.includes(
-                                                region.regionId
+                                                region.regionId,
                                               );
 
                                             return (
@@ -2788,25 +2795,25 @@ const SPORTSGAMESComp = () => {
                                                   onChange={() => {
                                                     if (isChecked) {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) =>
                                                           prev.filter(
                                                             (id) =>
                                                               id !==
-                                                              region.regionId
-                                                          )
+                                                              region.regionId,
+                                                          ),
                                                       );
                                                     } else {
                                                       handleRegionClick(
-                                                        region?.regionId
+                                                        region?.regionId,
                                                       );
                                                       setSelectedRegionId(
                                                         (prev) => [
                                                           ...prev,
                                                           region.regionId,
-                                                        ]
+                                                        ],
                                                       );
                                                     }
                                                   }}
@@ -2911,7 +2918,7 @@ const SPORTSGAMESComp = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -2978,8 +2985,8 @@ const SPORTSGAMESComp = () => {
                                           option.label
                                             ?.toLowerCase()
                                             .includes(
-                                              searchTerm1?.toLowerCase()
-                                            )
+                                              searchTerm1?.toLowerCase(),
+                                            ),
                                         )
                                         .map((option) => (
                                           <li key={option.value}>
@@ -2989,7 +2996,7 @@ const SPORTSGAMESComp = () => {
                                                 checked={selectedCities.some(
                                                   (city) =>
                                                     city.CITY_ID ===
-                                                    option.cityId
+                                                    option.cityId,
                                                 )}
                                                 onChange={() =>
                                                   handleCheckboxChange1(option)
@@ -3086,7 +3093,7 @@ const SPORTSGAMESComp = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3101,7 +3108,7 @@ const SPORTSGAMESComp = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -3169,7 +3176,7 @@ const SPORTSGAMESComp = () => {
                                             selectedDistricts.some(
                                               (district) =>
                                                 district.DISTRICT_ID ===
-                                                option.value
+                                                option.value,
                                             );
 
                                           return (
@@ -3184,7 +3191,7 @@ const SPORTSGAMESComp = () => {
                                                 onChange={(e) =>
                                                   handleDistrictCheckboxChange(
                                                     option,
-                                                    e.target.checked
+                                                    e.target.checked,
                                                   )
                                                 }
                                               />
@@ -3570,11 +3577,16 @@ const SPORTSGAMESComp = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -3908,9 +3920,14 @@ const SPORTSGAMESComp = () => {
                                                           }}
                                                         />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

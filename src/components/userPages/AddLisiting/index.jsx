@@ -1448,7 +1448,7 @@ const AddLisiting = () => {
     const fetchCities = async () => {
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?REGION_ID=${selectedRegionId}`,
+          `/api/cities?REGION_ID=${selectedRegionId}`,
         );
         const data = await response.json();
 
@@ -1481,17 +1481,20 @@ const AddLisiting = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${selectedCityData.regionId}&CITY_ID=${selectedCityData.cityId}`,
+          `/api/districts?REGION_ID=${selectedCityData.regionId}&CITY_ID=${selectedCityData.cityId}`,
         );
         const data = await response.json();
         if (data.districts) {
           // ✅ CRITICAL FIX: Filter districts to ONLY include those matching the selected CITY_ID
           // This prevents showing "Al Wurud" from Eafif when Riyadh is selected
           const filteredDistricts = data.districts.filter(
-            district => district.CITY_ID === selectedCityData.cityId
+            (district) => district.CITY_ID === selectedCityData.cityId,
           );
           setDistricts(filteredDistricts);
-          console.log("Districts fetched and filtered by CITY_ID:", selectedCityData.cityId);
+          console.log(
+            "Districts fetched and filtered by CITY_ID:",
+            selectedCityData.cityId,
+          );
           console.log("Filtered districts count:", filteredDistricts.length);
         }
       } catch (error) {
@@ -1654,28 +1657,25 @@ const AddLisiting = () => {
   };
   const reverseCategoryMapping = {
     // Standard mappings
-    ...Object.keys(categoryMapping).reduce(
-      (acc, key) => {
-        const formattedKey = key
-          .split(" ")
-          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-          .join("");
-        acc[formattedKey] = categoryMapping[key];
-        return acc;
-      },
-      {},
-    ),
+    ...Object.keys(categoryMapping).reduce((acc, key) => {
+      const formattedKey = key
+        .split(" ")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join("");
+      acc[formattedKey] = categoryMapping[key];
+      return acc;
+    }, {}),
     // Additional mappings for callingFrom variations used in other pages
-    "ElectronicComp": "ELECTRONICS",
-    "AutomotiveComp": "Cars",
-    "PetAnimalsComp": "PETANIMALCOMP",
-    "TravelComp": "TRAVEL",
-    "HealthCareComp": "HEALTHCARE",
-    "SportGamesComp": "SPORTSGAMESComp",
-    "RealEstateComp": "REALESTATECOMP",
-    "FashionStyle": "FASHION",
-    "JobBoard": "JOBBOARD",
-    "Education": "Education",
+    ElectronicComp: "ELECTRONICS",
+    AutomotiveComp: "Cars",
+    PetAnimalsComp: "PETANIMALCOMP",
+    TravelComp: "TRAVEL",
+    HealthCareComp: "HEALTHCARE",
+    SportGamesComp: "SPORTSGAMESComp",
+    RealEstateComp: "REALESTATECOMP",
+    FashionStyle: "FASHION",
+    JobBoard: "JOBBOARD",
+    Education: "Education",
   };
 
   useEffect(() => {
@@ -1965,7 +1965,9 @@ const AddLisiting = () => {
       }
       setgalleryListingTitleErrMsg("");
       if (!formData.title_ar || formData.title_ar.length === 0) {
-        setgalleryListingTitleArErrMsg("Arabic Title is required! (العنوان بالعربية مطلوب)");
+        setgalleryListingTitleArErrMsg(
+          "Arabic Title is required! (العنوان بالعربية مطلوب)",
+        );
         return;
       }
       setgalleryListingTitleArErrMsg("");
@@ -1989,7 +1991,9 @@ const AddLisiting = () => {
       }
       setgallerydescriptionErrMsg("");
       if (!formData.description_ar || formData.description_ar.length === 0) {
-        setgallerydescriptionArErrMsg("Arabic Description is required! (الوصف بالعربية مطلوب)");
+        setgallerydescriptionArErrMsg(
+          "Arabic Description is required! (الوصف بالعربية مطلوب)",
+        );
         return;
       }
       setgallerydescriptionArErrMsg("");
@@ -2031,10 +2035,10 @@ const AddLisiting = () => {
           // Auto-translate City and District if they exist
           const cityTranslations = selectedCityData.label
             ? await autoTranslate(selectedCityData.label)
-            : { en: '', ar: '' };
+            : { en: "", ar: "" };
           const districtTranslations = selectedDistrict.label
             ? await autoTranslate(selectedDistrict.label)
-            : { en: '', ar: '' };
+            : { en: "", ar: "" };
 
           // Save form data to Firestore under the specified collection
           await addDoc(collection(db, Collection), {
@@ -2070,7 +2074,7 @@ const AddLisiting = () => {
             userId: user.uid,
             createdAt: new Date(),
             // ⚠️ IMPORTANT: REVERSED LOGIC DUE TO BACKEND BUG
-            // The backend carousel endpoints (at http://168.231.80.24:9002) have a bug where they return
+            // The backend carousel endpoints (at ) have a bug where they return
             // listings with isActive !== true (inactive listings) instead of isActive === true (active listings).
             //
             // WORKAROUND: We set isActive: false for new listings so they appear in home carousels.
@@ -2176,10 +2180,10 @@ const AddLisiting = () => {
           // Auto-translate City and District if they exist
           const cityTranslations = selectedCityData.label
             ? await autoTranslate(selectedCityData.label)
-            : { en: '', ar: '' };
+            : { en: "", ar: "" };
           const districtTranslations = selectedDistrict.label
             ? await autoTranslate(selectedDistrict.label)
-            : { en: '', ar: '' };
+            : { en: "", ar: "" };
 
           // Update the existing document in Firestore
           const docRef = doc(db, Collection, _Id);
@@ -2966,7 +2970,12 @@ const AddLisiting = () => {
       setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
     } else if (name === "title_ar") {
       // Allow Arabic characters, numbers, and spaces, limit to 200 characters
-      const cleanedValue = value.replace(/[^\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF0-9 ]/g, "").slice(0, 200);
+      const cleanedValue = value
+        .replace(
+          /[^\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF0-9 ]/g,
+          "",
+        )
+        .slice(0, 200);
       setFormData((prev) => ({ ...prev, [name]: cleanedValue }));
     } else if (name === "kmDriven" || name === "mileage") {
       // Only allow digits, limit to 10 characters
@@ -5197,15 +5206,25 @@ const AddLisiting = () => {
                         </div>
 
                         {/* Arabic Title Field */}
-                        <div className="form-group" style={{ marginTop: "1rem" }}>
+                        <div
+                          className="form-group"
+                          style={{ marginTop: "1rem" }}
+                        >
                           <label className="col-form-label">
-                            {t("addListing.listingTitleAr", "عنوان الإعلان (عربي)")} <span>*</span>
+                            {t(
+                              "addListing.listingTitleAr",
+                              "عنوان الإعلان (عربي)",
+                            )}{" "}
+                            <span>*</span>
                           </label>
                           <input
                             type="text"
                             name="title_ar"
                             className="form-control pass-input input-margin"
-                            placeholder={t("addListing.titleAr", "أدخل العنوان بالعربية")}
+                            placeholder={t(
+                              "addListing.titleAr",
+                              "أدخل العنوان بالعربية",
+                            )}
                             value={formData.title_ar}
                             onChange={handleChange}
                             dir="rtl"
@@ -13201,21 +13220,30 @@ const AddLisiting = () => {
                               margin: "0",
                             }}
                           >
-                            {t("addListing.listingDescriptionAr", "وصف الإعلان (عربي)")} <span style={{ color: "red" }}>*</span>
+                            {t(
+                              "addListing.listingDescriptionAr",
+                              "وصف الإعلان (عربي)",
+                            )}{" "}
+                            <span style={{ color: "red" }}>*</span>
                           </label>
                         </div>
                         <textarea
                           rows={6}
                           name="description_ar"
                           className="form-control listingdescription"
-                          placeholder={t("addListing.messageAr", "أدخل الوصف بالعربية")}
+                          placeholder={t(
+                            "addListing.messageAr",
+                            "أدخل الوصف بالعربية",
+                          )}
                           value={formData.description_ar}
                           dir="rtl"
                           style={{ textAlign: "right" }}
                           onChange={(e) => {
                             const text = e.target.value;
                             // Count only Arabic alphabetic characters
-                            const arabicCount = (text.match(/[\u0600-\u06FF]/g) || []).length;
+                            const arabicCount = (
+                              text.match(/[\u0600-\u06FF]/g) || []
+                            ).length;
                             if (arabicCount <= 1000) {
                               handleChange(e);
                             }
@@ -13224,7 +13252,14 @@ const AddLisiting = () => {
                         <div style={{ marginTop: "5px", fontSize: "12px" }}>
                           <span>
                             {t("addListing.characters", "Characters:")}{" "}
-                            {(formData.description_ar.match(/[\u0600-\u06FF]/g) || []).length}/1000
+                            {
+                              (
+                                formData.description_ar.match(
+                                  /[\u0600-\u06FF]/g,
+                                ) || []
+                              ).length
+                            }
+                            /1000
                           </span>
                         </div>
                         {gallerydescriptionArErrMsg && (

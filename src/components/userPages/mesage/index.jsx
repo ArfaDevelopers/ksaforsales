@@ -22,7 +22,7 @@ import {
   FaPaperclip,
   FaCamera,
   FaVideo,
-  FaPhone
+  FaPhone,
 } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import Header from "../../home/header";
@@ -66,7 +66,7 @@ export default function Message() {
   useEffect(() => {
     const messageWithProductId = messages.find((msg) => msg.productIds);
     if (messageWithProductId) {
-      fetch("http://168.231.80.24:9002/api/dataofmessager", {
+      fetch("/api/dataofmessager", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: messageWithProductId.productIds }),
@@ -96,11 +96,11 @@ export default function Message() {
 
     const updateSeenStatus = async () => {
       const messagesToUpdate = messages.filter(
-        (msg) => msg.recieverId === user.uid && !msg.seen
+        (msg) => msg.recieverId === user.uid && !msg.seen,
       );
 
       const batch = messagesToUpdate.map((msg) =>
-        updateDoc(doc(db, "messages", msg.id), { seen: true })
+        updateDoc(doc(db, "messages", msg.id), { seen: true }),
       );
 
       await Promise.all(batch);
@@ -121,7 +121,7 @@ export default function Message() {
         }));
 
         const userMessages = allMessages.filter(
-          (msg) => msg.uid === user.uid || msg.recieverId === user.uid
+          (msg) => msg.uid === user.uid || msg.recieverId === user.uid,
         );
 
         const counts = {};
@@ -138,8 +138,8 @@ export default function Message() {
         const chatPartners = [
           ...new Set(
             userMessages.map((msg) =>
-              msg.uid === user.uid ? msg.recieverId : msg.uid
-            )
+              msg.uid === user.uid ? msg.recieverId : msg.uid,
+            ),
           ),
         ];
 
@@ -148,7 +148,8 @@ export default function Message() {
           const usersMap = {};
           usersSnapshot.forEach((doc) => {
             const u = doc.data();
-            usersMap[doc.id] = u.displayName || u.fullName || u.name || "Unknown";
+            usersMap[doc.id] =
+              u.displayName || u.fullName || u.name || "Unknown";
           });
 
           // Get last message for each chat
@@ -157,7 +158,7 @@ export default function Message() {
             const partnerMessages = userMessages.filter(
               (msg) =>
                 (msg.uid === user.uid && msg.recieverId === partnerId) ||
-                (msg.uid === partnerId && msg.recieverId === user.uid)
+                (msg.uid === partnerId && msg.recieverId === user.uid),
             );
             if (partnerMessages.length > 0) {
               lastMessages[partnerId] =
@@ -189,11 +190,11 @@ export default function Message() {
           const filtered = allMessages.filter(
             (msg) =>
               (msg.uid === user.uid && msg.recieverId === selected.id) ||
-              (msg.uid === selected.id && msg.recieverId === user.uid)
+              (msg.uid === selected.id && msg.recieverId === user.uid),
           );
           setMessages(filtered);
         }
-      }
+      },
     );
 
     return () => unsub();
@@ -212,7 +213,10 @@ export default function Message() {
       seen: false,
     });
     setInput("");
-    setTimeout(() => dummy.current?.scrollIntoView({ behavior: "smooth" }), 100);
+    setTimeout(
+      () => dummy.current?.scrollIntoView({ behavior: "smooth" }),
+      100,
+    );
   };
 
   const formatTime = (ts) => {
@@ -228,7 +232,10 @@ export default function Message() {
     const isToday = date.toDateString() === now.toDateString();
 
     if (isToday) {
-      return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      return date.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
     }
 
     const yesterday = new Date(now);
@@ -303,7 +310,9 @@ export default function Message() {
 
       <div className={`whatsapp-chat-container ${isMobile ? "mobile" : ""}`}>
         {/* Chat List */}
-        <div className={`chat-list-panel ${isMobile && !showChatList ? "hidden" : ""}`}>
+        <div
+          className={`chat-list-panel ${isMobile && !showChatList ? "hidden" : ""}`}
+        >
           <div className="chat-list-header">
             <h2>{t("messages.chats")}</h2>
           </div>
@@ -351,19 +360,27 @@ export default function Message() {
               <div className="no-chats">
                 <p>{t("messages.noChatsYet")}</p>
               </div>
-            ) : (() => {
+            ) : (
+              (() => {
                 let filteredChats = chatUsers;
 
                 // Apply tab filter
                 if (activeTab === "unread") {
-                  filteredChats = filteredChats.filter((chatUser) => chatUser.unread > 0);
+                  filteredChats = filteredChats.filter(
+                    (chatUser) => chatUser.unread > 0,
+                  );
                 }
 
                 // Apply search filter
                 if (searchQuery) {
-                  filteredChats = filteredChats.filter((chatUser) =>
-                    chatUser.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    chatUser.lastMessage.toLowerCase().includes(searchQuery.toLowerCase())
+                  filteredChats = filteredChats.filter(
+                    (chatUser) =>
+                      chatUser.name
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                      chatUser.lastMessage
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()),
                   );
                 }
 
@@ -376,40 +393,45 @@ export default function Message() {
                 }
 
                 return filteredChats.map((chatUser) => (
-                <div
-                  key={chatUser.id}
-                  className={`chat-list-item ${selected?.id === chatUser.id ? "active" : ""}`}
-                  onClick={() => handleChatSelect(chatUser)}
-                >
-                  <div className="chat-avatar">
-                    {chatUser.name.charAt(0).toUpperCase()}
-                  </div>
-                  <div className="chat-info">
-                    <div className="chat-header-row">
-                      <h4 className="chat-name">{chatUser.name}</h4>
-                      <span className="chat-time">
-                        {formatListTime(chatUser.lastMessageTime)}
-                      </span>
+                  <div
+                    key={chatUser.id}
+                    className={`chat-list-item ${selected?.id === chatUser.id ? "active" : ""}`}
+                    onClick={() => handleChatSelect(chatUser)}
+                  >
+                    <div className="chat-avatar">
+                      {chatUser.name.charAt(0).toUpperCase()}
                     </div>
-                    <div className="chat-preview-row">
-                      <p className="chat-preview">
-                        {chatUser.lastMessage.length > 40
-                          ? chatUser.lastMessage.substring(0, 40) + "..."
-                          : chatUser.lastMessage}
-                      </p>
-                      {chatUser.unread > 0 && (
-                        <span className="unread-badge">{chatUser.unread}</span>
-                      )}
+                    <div className="chat-info">
+                      <div className="chat-header-row">
+                        <h4 className="chat-name">{chatUser.name}</h4>
+                        <span className="chat-time">
+                          {formatListTime(chatUser.lastMessageTime)}
+                        </span>
+                      </div>
+                      <div className="chat-preview-row">
+                        <p className="chat-preview">
+                          {chatUser.lastMessage.length > 40
+                            ? chatUser.lastMessage.substring(0, 40) + "..."
+                            : chatUser.lastMessage}
+                        </p>
+                        {chatUser.unread > 0 && (
+                          <span className="unread-badge">
+                            {chatUser.unread}
+                          </span>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-              ));
-            })()}
+                ));
+              })()
+            )}
           </div>
         </div>
 
         {/* Conversation Panel */}
-        <div className={`conversation-panel ${isMobile && showChatList ? "hidden" : ""}`}>
+        <div
+          className={`conversation-panel ${isMobile && showChatList ? "hidden" : ""}`}
+        >
           {!selected ? (
             <div className="no-chat-selected">
               <p>{t("messages.selectChat")}</p>
@@ -449,34 +471,47 @@ export default function Message() {
                               productData.category === "Motors"
                                 ? "AutomotiveComp"
                                 : productData.category === "Electronics"
-                                ? "ElectronicComp"
-                                : productData.category === "Fashion Style"
-                                ? "FashionStyle"
-                                : productData.category === "Home & Furnituer"
-                                ? "HealthCareComp"
-                                : productData.category === "Job Board"
-                                ? "JobBoard"
-                                : productData.category === "Real Estate"
-                                ? "RealEstateComp"
-                                : productData.category === "Services"
-                                ? "TravelComp"
-                                : productData.category === "Sports & Game"
-                                ? "SportGamesComp"
-                                : productData.category === "Pet & Animals"
-                                ? "PetAnimalsComp"
-                                : productData.category === "Other"
-                                ? "Education"
-                                : ""
-                            }`
+                                  ? "ElectronicComp"
+                                  : productData.category === "Fashion Style"
+                                    ? "FashionStyle"
+                                    : productData.category ===
+                                        "Home & Furnituer"
+                                      ? "HealthCareComp"
+                                      : productData.category === "Job Board"
+                                        ? "JobBoard"
+                                        : productData.category === "Real Estate"
+                                          ? "RealEstateComp"
+                                          : productData.category === "Services"
+                                            ? "TravelComp"
+                                            : productData.category ===
+                                                "Sports & Game"
+                                              ? "SportGamesComp"
+                                              : productData.category ===
+                                                  "Pet & Animals"
+                                                ? "PetAnimalsComp"
+                                                : productData.category ===
+                                                    "Other"
+                                                  ? "Education"
+                                                  : ""
+                            }`,
                           );
                         }}
                       >
                         <h6>📦 Linked Product</h6>
-                        <div><strong>Title:</strong> {productData.title}</div>
-                        <div><strong>Category:</strong> {productData.category}</div>
-                        <div><strong>Price:</strong> {productData.Price}</div>
+                        <div>
+                          <strong>Title:</strong> {productData.title}
+                        </div>
+                        <div>
+                          <strong>Category:</strong> {productData.category}
+                        </div>
+                        <div>
+                          <strong>Price:</strong> {productData.Price}
+                        </div>
                         {productData.galleryImages?.length > 0 && (
-                          <img src={productData.galleryImages[0]} alt="Product" />
+                          <img
+                            src={productData.galleryImages[0]}
+                            alt="Product"
+                          />
                         )}
                       </div>
                     )}
@@ -517,7 +552,11 @@ export default function Message() {
                     placeholder={t("messages.typeMessage")}
                     disabled={!selected}
                   />
-                  <button type="submit" className="send-btn" disabled={!input.trim() || !selected}>
+                  <button
+                    type="submit"
+                    className="send-btn"
+                    disabled={!input.trim() || !selected}
+                  >
                     <IoSend />
                   </button>
                 </form>

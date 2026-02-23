@@ -84,7 +84,10 @@ import locationData from "../../../Location.json";
 import useSearchStore from "../../../store/searchStore"; // adjust the path
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { translateSubcategory, translateNestedSubcategory } from "../../../utils/translateData";
+import {
+  translateSubcategory,
+  translateNestedSubcategory,
+} from "../../../utils/translateData";
 
 const FashionStyle = () => {
   const { t } = useTranslation();
@@ -158,7 +161,7 @@ const FashionStyle = () => {
   const [selectedNumbersNumberofDoors, setSelectedNumbersNumberofDoors] =
     useState([]);
   const [selectedValuesSeatCapacity, setSelectedValuesSeatCapacity] = useState(
-    []
+    [],
   );
   const [selectedClassesModelCategory, setSelectedClassesModelCategory] =
     useState([]);
@@ -393,7 +396,7 @@ const FashionStyle = () => {
         const mergedRegions = sortedAds
           .map((ad) => {
             const region = regionOptions.find(
-              (r) => r.regionId === ad.regionId
+              (r) => r.regionId === ad.regionId,
             );
             return region ? { ...region, count: ad.count } : null;
           })
@@ -401,7 +404,7 @@ const FashionStyle = () => {
 
         // 🔽 Add remaining regions (not in adsList) at the bottom
         const remainingRegions = regionOptions.filter(
-          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId)
+          (r) => !sortedAds.some((ad) => ad.regionId === r.regionId),
         );
 
         const finalRegions = [...mergedRegions, ...remainingRegions];
@@ -482,9 +485,7 @@ const FashionStyle = () => {
           .map((id) => `REGION_ID=${id}`)
           .join("&");
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/api/cities?${queryString}`
-        );
+        const response = await fetch(`/api/cities?${queryString}`);
         const data = await response.json();
 
         if (data.cities) {
@@ -502,14 +503,14 @@ const FashionStyle = () => {
   }, [selectedRegion]);
   const handleCheckboxChange1 = async (option) => {
     const exists = selectedCities.some(
-      (city) => city.CITY_ID === option.cityId
+      (city) => city.CITY_ID === option.cityId,
     );
 
     let updatedCities;
     if (exists) {
       // Unchecked -> remove from list
       updatedCities = selectedCities.filter(
-        (city) => city.CITY_ID !== option.cityId
+        (city) => city.CITY_ID !== option.cityId,
       );
     } else {
       // Checked -> add to list
@@ -550,7 +551,7 @@ const FashionStyle = () => {
 
       try {
         const response = await fetch(
-          `http://168.231.80.24:9002/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`
+          `/api/districts?REGION_ID=${REGION_ID}&CITY_ID=${CITY_ID}`,
         );
         const data = await response.json();
         if (data.districts) {
@@ -617,7 +618,7 @@ const FashionStyle = () => {
     } else {
       // ❌ Just remove from local state (do not decrement in Firestore)
       setSelectedDistricts((prev) =>
-        prev.filter((district) => district.DISTRICT_ID !== option.value)
+        prev.filter((district) => district.DISTRICT_ID !== option.value),
       );
     }
   };
@@ -643,7 +644,7 @@ const FashionStyle = () => {
         value: city, // Adjust based on your cityData structure
         label: city,
       })),
-    [CityList]
+    [CityList],
   );
 
   const [DistrictList, setDistrictList] = useState([]);
@@ -666,7 +667,7 @@ const FashionStyle = () => {
         value: Dis,
         label: Dis,
       })),
-    [DistrictList]
+    [DistrictList],
   );
 
   const [categories, setCategories] = useState([]);
@@ -675,7 +676,7 @@ const FashionStyle = () => {
   const [showAll1, setShowAll1] = useState(false);
   useEffect(() => {
     axios
-      .get("http://168.231.80.24:9002/route/fashionSubCategories")
+      .get("/route/fashionSubCategories")
       .then((response) => {
         setCategories(response.data); // Keep all, even if count = 0
       })
@@ -742,7 +743,7 @@ const FashionStyle = () => {
   const filteredCityOptions = cityOptions
     .slice(4)
     .filter((option) =>
-      option.label?.toLowerCase().includes(citySearchTerm.toLowerCase())
+      option.label?.toLowerCase().includes(citySearchTerm.toLowerCase()),
     );
 
   const handleCategorySelect = (e) => {
@@ -1232,7 +1233,7 @@ const FashionStyle = () => {
             onClick={() => handlePageClick(i)}
           >
             {i}
-          </button>
+          </button>,
         );
       } else if (i === activePage - 2 || i === activePage + 2) {
         pages.push(
@@ -1249,7 +1250,7 @@ const FashionStyle = () => {
             }}
           >
             ...
-          </span>
+          </span>,
         );
       }
     }
@@ -1458,7 +1459,7 @@ const FashionStyle = () => {
   console.log("Selected______ Toyota Locations:", selectedToyotaLocations);
   console.log(
     "Selected______ Mercedes-Benz Locations:",
-    selectedMercedesBenzLocations
+    selectedMercedesBenzLocations,
   );
   // Handle changes to the "From" and "To" input fields
   const handleFromDateChange = (e) => {
@@ -1538,7 +1539,7 @@ const FashionStyle = () => {
     // Check if the car has been viewed recently
     if (!viewedCars[carId] || now - viewedCars[carId] > cooldownPeriod) {
       // If it's not in the cooldown period, increment the view count on the server
-      fetch(`http://168.231.80.24:9002/route/FASHION/${carId}/view`, {
+      fetch(`/route/FASHION/${carId}/view`, {
         method: "PATCH",
       });
 
@@ -1582,7 +1583,10 @@ const FashionStyle = () => {
         removed: alreadyHearted,
         timestamp: Date.now(),
       };
-      sessionStorage.setItem("last_bookmark_change", JSON.stringify(bookmarkChange));
+      sessionStorage.setItem(
+        "last_bookmark_change",
+        JSON.stringify(bookmarkChange),
+      );
 
       // Optimistically update local state
       setCars((prevCars) =>
@@ -1594,8 +1598,8 @@ const FashionStyle = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       // Also update filteredCars which is used by the rendered list
@@ -1608,12 +1612,12 @@ const FashionStyle = () => {
                   ? (car.heartedby || []).filter((id) => id !== uid)
                   : [...(car.heartedby || []), uid],
               }
-            : car
-        )
+            : car,
+        ),
       );
 
       console.log(
-        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`
+        `✅ User ${alreadyHearted ? "removed from" : "added to"} heartedby for ${carId}`,
       );
     } catch (error) {
       console.error("❌ Error toggling heartedby:", error);
@@ -1642,7 +1646,7 @@ const FashionStyle = () => {
   //   const fetchCars = async () => {
   //     try {
   //       setLoading(true); // Show spinner
-  //       const response = await fetch("http://168.231.80.24:9002/route/FASHION");
+  //       const response = await fetch("/route/FASHION");
   //       const carsData = await response.json();
 
   //       setCars(carsData);
@@ -1674,7 +1678,7 @@ const FashionStyle = () => {
   //       if (DISTRICT_ID) params.append("DISTRICT_ID", DISTRICT_ID);
 
   //       const response = await fetch(
-  //         `http://168.231.80.24:9002/route/FASHION?${params.toString()}`
+  //         `/route/FASHION?${params.toString()}`
   //       );
 
   //       const data = await response.json();
@@ -1715,9 +1719,7 @@ const FashionStyle = () => {
         // ✅ Pass SortBy
         if (SortBy) params.append("sortBy", SortBy);
 
-        const response = await fetch(
-          `http://168.231.80.24:9002/route/FASHION?${params.toString()}`
-        );
+        const response = await fetch(`/route/FASHION?${params.toString()}`);
 
         const fashionData = await response.json();
         setCars(fashionData);
@@ -1838,7 +1840,7 @@ const FashionStyle = () => {
       selectedCity,
       selectedDistrict,
       selectedConditions,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   }, [
     selectedCities,
@@ -1967,7 +1969,7 @@ const FashionStyle = () => {
       selectedCity,
       selectedDistrict,
       selectedConditions,
-      logSelectedPurpose
+      logSelectedPurpose,
     );
   };
   const filterCars = (
@@ -2029,7 +2031,7 @@ const FashionStyle = () => {
     selectedCity,
     selectedDistrict,
     selectedConditions,
-    logSelectedPurpose
+    logSelectedPurpose,
   ) => {
     let filtered = carsData;
 
@@ -2085,7 +2087,7 @@ const FashionStyle = () => {
           car.District?.toLowerCase().includes(lowercasedQuery) ||
           car.Condition?.toLowerCase().includes(lowercasedQuery) ||
           car.Purpose?.toLowerCase().includes(lowercasedQuery) ||
-          car.TrustedCars?.toLowerCase().includes(lowercasedQuery)
+          car.TrustedCars?.toLowerCase().includes(lowercasedQuery),
       );
     }
     setLoading(false);
@@ -2102,18 +2104,18 @@ const FashionStyle = () => {
     }
     if (selectedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedSubCategory.includes(car.SubCategory)
+        selectedSubCategory.includes(car.SubCategory),
       );
     }
     if (selectedCity && selectedCity.length > 0) {
       const selectedCityValues = selectedCity.map((city) => city.value); // Extract values, e.g., ["ny", "la"]
       filtered = filtered.filter((car) =>
-        selectedCityValues.includes(car.City)
+        selectedCityValues.includes(car.City),
       );
     }
     if (selectedDistrict) {
       filtered = filtered.filter(
-        (car) => car.District === selectedDistrict.value
+        (car) => car.District === selectedDistrict.value,
       );
     }
     if (Array.isArray(selectedConditions) && selectedConditions.length > 0) {
@@ -2127,7 +2129,7 @@ const FashionStyle = () => {
     }
     if (logSelectedPurpose?.length > 0) {
       filtered = filtered.filter((car) =>
-        logSelectedPurpose.includes(car.Purpose)
+        logSelectedPurpose.includes(car.Purpose),
       );
     }
     if (ScreenSize?.length > 0) {
@@ -2139,7 +2141,7 @@ const FashionStyle = () => {
     }
     if (nestedSubCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        nestedSubCategory.includes(car.NestedSubCategory)
+        nestedSubCategory.includes(car.NestedSubCategory),
       );
     }
     if (Season?.length > 0) {
@@ -2153,7 +2155,7 @@ const FashionStyle = () => {
     }
     if (SleeveLength?.length > 0) {
       filtered = filtered.filter((car) =>
-        SleeveLength.includes(car.SleeveLength)
+        SleeveLength.includes(car.SleeveLength),
       );
     }
     if (CollarType?.length > 0) {
@@ -2161,12 +2163,12 @@ const FashionStyle = () => {
     }
     if (ClosureType?.length > 0) {
       filtered = filtered.filter((car) =>
-        ClosureType.includes(car.ClosureType)
+        ClosureType.includes(car.ClosureType),
       );
     }
     if (StyleDesign?.length > 0) {
       filtered = filtered.filter((car) =>
-        StyleDesign.includes(car.StyleDesign)
+        StyleDesign.includes(car.StyleDesign),
       );
     }
     if (Color?.length > 0) {
@@ -2186,37 +2188,37 @@ const FashionStyle = () => {
     }
     if (SpecialFeatures?.length > 0) {
       filtered = filtered.filter((car) =>
-        SpecialFeatures.includes(car.SpecialFeatures)
+        SpecialFeatures.includes(car.SpecialFeatures),
       );
     }
     if (Connectivity?.length > 0) {
       filtered = filtered.filter((car) =>
-        Connectivity.includes(car.Connectivity)
+        Connectivity.includes(car.Connectivity),
       );
     }
     if (DisplayQuality?.length > 0) {
       filtered = filtered.filter((car) =>
-        DisplayQuality.includes(car.DisplayQuality)
+        DisplayQuality.includes(car.DisplayQuality),
       );
     }
     if (BatteryLife?.length > 0) {
       filtered = filtered.filter((car) =>
-        BatteryLife.includes(car.BatteryLife)
+        BatteryLife.includes(car.BatteryLife),
       );
     }
     if (GraphicsCard?.length > 0) {
       filtered = filtered.filter((car) =>
-        GraphicsCard.includes(car.GraphicsCard)
+        GraphicsCard.includes(car.GraphicsCard),
       );
     }
     if (storagecapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        storagecapacity.includes(car.Storagecapacity)
+        storagecapacity.includes(car.Storagecapacity),
       );
     }
     if (storageType?.length > 0) {
       filtered = filtered.filter((car) =>
-        storageType.includes(car.StorageType)
+        storageType.includes(car.StorageType),
       );
     }
     if (RAM?.length > 0) {
@@ -2228,12 +2230,12 @@ const FashionStyle = () => {
     // Filter by selected cities
     if (selectedOptionVideoAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionVideoAvailability.includes(car.VideoAvailability)
+        selectedOptionVideoAvailability.includes(car.VideoAvailability),
       );
     }
     if (OperatingSystem?.length > 0) {
       filtered = filtered.filter((car) =>
-        OperatingSystem.includes(car.OperatingSystem)
+        OperatingSystem.includes(car.OperatingSystem),
       );
     }
     // Filter by selected cities
@@ -2256,22 +2258,22 @@ const FashionStyle = () => {
     // Filter by selected cities
     if (pictureAvailability?.length > 0) {
       filtered = filtered.filter((car) =>
-        pictureAvailability.includes(car.PictureAvailability)
+        pictureAvailability.includes(car.PictureAvailability),
       );
     }
     if (selectedCheckboxSellerType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCheckboxSellerType.includes(car.SellerType)
+        selectedCheckboxSellerType.includes(car.SellerType),
       );
     }
     if (selectedClassesModelCategory?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedClassesModelCategory.includes(car.ModalCategory)
+        selectedClassesModelCategory.includes(car.ModalCategory),
       );
     }
     if (selectedValuesSeatCapacity?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedValuesSeatCapacity.includes(car.SeatingCapacity)
+        selectedValuesSeatCapacity.includes(car.SeatingCapacity),
       );
     }
     // Filter by selected cities
@@ -2280,17 +2282,17 @@ const FashionStyle = () => {
     }
     if (selectedCarsBodyType?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCarsBodyType.includes(car.BodyType)
+        selectedCarsBodyType.includes(car.BodyType),
       );
     }
     if (selectedEngines?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedEngines.includes(car.EngineType)
+        selectedEngines.includes(car.EngineType),
       );
     }
     if (selectedAssembly?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedAssembly.includes(car.Assembly)
+        selectedAssembly.includes(car.Assembly),
       );
     }
     // Filter by selected cities
@@ -2299,18 +2301,18 @@ const FashionStyle = () => {
     }
     if (selectedOptionTransmission?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedOptionTransmission.includes(car.Transmission)
+        selectedOptionTransmission.includes(car.Transmission),
       );
     }
     // Filter by selected cities
     if (selectedCars1?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedCars1.includes(car.TrustedCars)
+        selectedCars1.includes(car.TrustedCars),
       );
     }
     if (selectedMercedesBenzLocations?.length > 0) {
       filtered = filtered.filter((car) =>
-        selectedMercedesBenzLocations.includes(car.Registeredin)
+        selectedMercedesBenzLocations.includes(car.Registeredin),
       );
     }
     // Filter by selected Emirates
@@ -2427,7 +2429,7 @@ const FashionStyle = () => {
     setSelectedCars((prev) =>
       prev.includes(brand)
         ? prev.filter((car) => car !== brand)
-        : [...prev, brand]
+        : [...prev, brand],
     );
   };
 
@@ -2552,7 +2554,11 @@ const FashionStyle = () => {
                       padding: window.innerWidth <= 576 ? "0px" : "10px 15px",
                     }}
                   >
-                    {translateNestedSubcategory(nestedSubCategory, "fashionStyle", t)}
+                    {translateNestedSubcategory(
+                      nestedSubCategory,
+                      "fashionStyle",
+                      t,
+                    )}
                   </button>
                 </>
               )}
@@ -2864,7 +2870,7 @@ const FashionStyle = () => {
                           <div className="mb-3">
                             {sortedRegions.slice(0, 6).map((region) => {
                               const isChecked = selectedRegion.includes(
-                                region.regionId
+                                region.regionId,
                               );
 
                               return (
@@ -2882,8 +2888,8 @@ const FashionStyle = () => {
                                         handleRegionClick(region?.regionId);
                                         setSelectedRegionId((prev) =>
                                           prev.filter(
-                                            (id) => id !== region.regionId
-                                          )
+                                            (id) => id !== region.regionId,
+                                          ),
                                         );
                                       } else {
                                         handleRegionClick(region?.regionId);
@@ -2966,7 +2972,7 @@ const FashionStyle = () => {
                                             .map((region) => {
                                               const isChecked =
                                                 selectedRegion.includes(
-                                                  region.regionId
+                                                  region.regionId,
                                                 );
 
                                               return (
@@ -2982,25 +2988,25 @@ const FashionStyle = () => {
                                                     onChange={() => {
                                                       if (isChecked) {
                                                         handleRegionClick(
-                                                          region?.regionId
+                                                          region?.regionId,
                                                         );
                                                         setSelectedRegionId(
                                                           (prev) =>
                                                             prev.filter(
                                                               (id) =>
                                                                 id !==
-                                                                region.regionId
-                                                            )
+                                                                region.regionId,
+                                                            ),
                                                         );
                                                       } else {
                                                         handleRegionClick(
-                                                          region?.regionId
+                                                          region?.regionId,
                                                         );
                                                         setSelectedRegionId(
                                                           (prev) => [
                                                             ...prev,
                                                             region.regionId,
-                                                          ]
+                                                          ],
                                                         );
                                                       }
                                                     }}
@@ -3106,7 +3112,7 @@ const FashionStyle = () => {
                                     className="form-check-input"
                                     type="checkbox"
                                     checked={selectedCities.some(
-                                      (city) => city.CITY_ID === option.cityId
+                                      (city) => city.CITY_ID === option.cityId,
                                     )}
                                     onChange={() =>
                                       handleCheckboxChange1(option)
@@ -3174,8 +3180,8 @@ const FashionStyle = () => {
                                             option.label
                                               ?.toLowerCase()
                                               .includes(
-                                                citySearchTerm.toLowerCase()
-                                              )
+                                                citySearchTerm.toLowerCase(),
+                                              ),
                                           )
                                           .map((option) => (
                                             <li>
@@ -3188,11 +3194,11 @@ const FashionStyle = () => {
                                                   checked={selectedCities.some(
                                                     (city) =>
                                                       city.CITY_ID ===
-                                                      option.cityId
+                                                      option.cityId,
                                                   )}
                                                   onChange={() =>
                                                     handleCheckboxChange1(
-                                                      option
+                                                      option,
                                                     )
                                                   }
                                                 />
@@ -3290,7 +3296,7 @@ const FashionStyle = () => {
                             {districtOptions.slice(0, 6).map((option) => {
                               const isChecked = selectedDistricts.some(
                                 (district) =>
-                                  district.DISTRICT_ID === option.value
+                                  district.DISTRICT_ID === option.value,
                               );
 
                               return (
@@ -3305,7 +3311,7 @@ const FashionStyle = () => {
                                     onChange={(e) =>
                                       handleDistrictCheckboxChange(
                                         option,
-                                        e.target.checked
+                                        e.target.checked,
                                       )
                                     }
                                   />
@@ -3374,7 +3380,7 @@ const FashionStyle = () => {
                                               selectedDistricts.some(
                                                 (district) =>
                                                   district.DISTRICT_ID ===
-                                                  option.value
+                                                  option.value,
                                               );
 
                                             return (
@@ -3389,7 +3395,7 @@ const FashionStyle = () => {
                                                   onChange={(e) =>
                                                     handleDistrictCheckboxChange(
                                                       option,
-                                                      e.target.checked
+                                                      e.target.checked,
                                                     )
                                                   }
                                                 />
@@ -3735,11 +3741,16 @@ const FashionStyle = () => {
                                   zIndex: 3,
                                   cursor: "pointer",
                                 }}
-                                onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  toggleBookmark(car.id);
+                                }}
                               >
                                 <FaHeart
                                   style={{
-                                    color: car.heartedby?.includes(userId) ? "red" : "gray",
+                                    color: car.heartedby?.includes(userId)
+                                      ? "red"
+                                      : "gray",
                                     fontSize: "30px",
                                   }}
                                 />{" "}
@@ -4073,9 +4084,14 @@ const FashionStyle = () => {
                                                             }}
                                                           />{" "} */}
                                     <FaRegHeart
-                                      onClick={(e) => { e.stopPropagation(); toggleBookmark(car.id); }}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleBookmark(car.id);
+                                      }}
                                       style={{
-                                        color: car.heartedby?.includes(userId) ? "red" : "#2D4495",
+                                        color: car.heartedby?.includes(userId)
+                                          ? "red"
+                                          : "#2D4495",
                                         fontSize: "20px",
                                       }}
                                     />

@@ -20,8 +20,8 @@ const Chat = ({ recieverId, userId }) => {
   const fetchMessages = async () => {
     try {
       const response = await fetch(
-        `http://168.231.80.24:9002/api/getmessages?userId=${userId}&receiverId=${recieverId}`,
-        { method: "GET" }
+        `/api/getmessages?userId=${userId}&receiverId=${recieverId}`,
+        { method: "GET" },
       );
       const data = await response.json();
       console.log("Messages Data:", data);
@@ -30,10 +30,11 @@ const Chat = ({ recieverId, userId }) => {
       const uniqueMessages = Array.from(
         new Map(
           (data.messages || []).map((msg) => [
-            msg.id || `${msg.sender}-${msg.created_at?._seconds}-${msg.content}`,
+            msg.id ||
+              `${msg.sender}-${msg.created_at?._seconds}-${msg.content}`,
             msg,
-          ])
-        ).values()
+          ]),
+        ).values(),
       );
       setMessages(uniqueMessages);
     } catch (error) {
@@ -50,7 +51,7 @@ const Chat = ({ recieverId, userId }) => {
     const messagesQuery = query(
       messagesRef,
       where("sender", "in", [userId, recieverId]),
-      where("receiver", "in", [recieverId, userId])
+      where("receiver", "in", [recieverId, userId]),
     );
 
     const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
@@ -78,16 +79,13 @@ const Chat = ({ recieverId, userId }) => {
 
     try {
       console.log("Sending message:", messagePayload);
-      const response = await fetch(
-        "http://168.231.80.24:9002/api/messages",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(messagePayload),
-        }
-      );
+      const response = await fetch("/api/messages", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(messagePayload),
+      });
 
       const responseData = await response.json();
       console.log("Send Message Response:", responseData);
@@ -106,12 +104,14 @@ const Chat = ({ recieverId, userId }) => {
 
   return (
     <div className="chat-container" style={styles.container}>
-
       {/* Messages Area */}
       <div style={styles.messagesArea}>
         {messages.map((msg) => (
           <div
-            key={msg.id || `${msg.sender}-${msg.created_at?._seconds}-${msg.content}`}
+            key={
+              msg.id ||
+              `${msg.sender}-${msg.created_at?._seconds}-${msg.content}`
+            }
             style={
               msg.sender === userId
                 ? styles.userMessageContainer
