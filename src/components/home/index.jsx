@@ -691,7 +691,6 @@ const Home = () => {
   const [uploading, setUploading] = useState(false);
   const [existingImageId, setExistingImageId] = useState("");
   const [imageUrls, setImageUrls] = useState([]);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   useEffect(() => {
     const fetchExistingImage = async () => {
       const querySnapshot = await getDocs(collection(db, "HeroBanner"));
@@ -722,26 +721,72 @@ const Home = () => {
   //   fetchSliderImages();
   // }, []);
   // Removed: Slider images fetch - now handled by fetchAllHomeData (lines 190-327)
+
+  // Infinite loop slider: strip = [last, ...all, first]
+  // Real slides start at index 1, so translateX shows first real slide
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(1);
+  const [sliderTransition, setSliderTransition] = useState(true);
+  const [isSliding, setIsSliding] = useState(false);
+
+  const extendedSlides = imageUrls.length > 0
+    ? [imageUrls[imageUrls.length - 1], ...imageUrls, imageUrls[0]]
+    : [];
+
+  // realSlideIndex is 0-based index into imageUrls for dots
+  const realSlideIndex = imageUrls.length > 0
+    ? (currentSlideIndex - 1 + imageUrls.length) % imageUrls.length
+    : 0;
+
   useEffect(() => {
     if (imageUrls.length === 0) return;
-
+    setSliderTransition(false);
+    setIsSliding(false);
+    setCurrentSlideIndex(1);
     const interval = setInterval(() => {
-      setCurrentImageIndex((prevIndex) => (prevIndex + 1) % imageUrls.length);
-    }, 3000); // Change image every 3 seconds
-
-    return () => clearInterval(interval); // Cleanup on unmount
+      // Auto-advance only when not mid-animation to avoid index drift
+      setIsSliding((sliding) => {
+        if (!sliding) {
+          setCurrentSlideIndex((prev) => prev + 1);
+          return true;
+        }
+        return sliding;
+      });
+    }, 5000);
+    return () => clearInterval(interval);
   }, [imageUrls]);
+
+  // Re-enable transition after a silent (no-animation) jump
   useEffect(() => {
-    // Manually initialize Bootstrap carousel
-    const bootstrap = require("bootstrap");
-    const carouselElement = document.getElementById(
-      "carouselExampleIndicators"
-    );
-    new bootstrap.Carousel(carouselElement, {
-      interval: 10000, // Auto-slide every 3 seconds
-      ride: "carousel",
-    });
-  }, []);
+    if (!sliderTransition) {
+      const t = setTimeout(() => setSliderTransition(true), 50);
+      return () => clearTimeout(t);
+    }
+  }, [sliderTransition]);
+
+  // When animation ends on a clone, silently jump to the real counterpart
+  const handleSlideTransitionEnd = () => {
+    if (currentSlideIndex === 0) {
+      setSliderTransition(false);
+      setCurrentSlideIndex(imageUrls.length);
+    } else if (currentSlideIndex === imageUrls.length + 1) {
+      setSliderTransition(false);
+      setCurrentSlideIndex(1);
+    }
+    setIsSliding(false);
+  };
+
+  const goToPrevSlide = () => {
+    if (isSliding || imageUrls.length === 0) return;
+    setIsSliding(true);
+    setSliderTransition(true);
+    setCurrentSlideIndex((prev) => prev - 1);
+  };
+  const goToNextSlide = () => {
+    if (isSliding || imageUrls.length === 0) return;
+    setIsSliding(true);
+    setSliderTransition(true);
+    setCurrentSlideIndex((prev) => prev + 1);
+  };
   const [trendingProducts, setTrendingProducts] = useState([]);
 
   // Removed: Trending products fetch - now handled by fetchAllHomeData (lines 190-327)
@@ -777,171 +822,156 @@ const Home = () => {
     <>
       <div className={`main-wrapper ${!loading ? 'fade-in-ads' : ''}`}>
         <Header />
+        {/* Pure React Slider - infinite loop, no Bootstrap JS */}
         <div
-          id="carouselExampleIndicators"
-          className="carousel slide container hero_slider"
-          data-bs-ride="carousel"
+          className="container hero_slider"
           style={{
             marginTop: window.innerWidth < 575 ? "-150px" : "0px",
+            paddingLeft: 0,
+            paddingRight: 0,
           }}
         >
-          {/* Indicators */}
-          <div className="carousel-indicators">
-            {imageUrls.map((_, index) => (
-              <button
-                key={index}
-                type="button"
-                data-bs-target="#carouselExampleIndicators"
-                data-bs-slide-to={index}
-                className={index === 0 ? "active" : ""}
-                aria-current={index === 0 ? "true" : "false"}
-                aria-label={`Slide ${index + 1}`}
-              ></button>
-            ))}
-          </div>
+          {/* overflow wrapper — clips slides, position:relative for abs-positioned buttons */}
+          <div style={{ overflow: "hidden", borderRadius: "8px", position: "relative" }}>
+            {/* Sliding strip:
+                width = n * 100% of wrapper so each slide is exactly (100/n)% of strip = 100% of wrapper.
+                translateX uses percentage of strip width: -(index * 100/n)% = exactly one slide per step. */}
+            <div
+              style={{
+                display: "flex",
+                width: `${extendedSlides.length * 100}%`,
+                transform: `translateX(-${currentSlideIndex * (100 / extendedSlides.length)}%)`,
+                transition: sliderTransition ? "transform 0.6s ease-in-out" : "none",
+              }}
+              onTransitionEnd={handleSlideTransitionEnd}
+            >
+              {extendedSlides.map((img, index) => {
+                const isMobile = windowWidth <= 576;
+                const isTablet = windowWidth > 576 && windowWidth <= 768;
+                return (
+                  <div key={index} style={{ width: `${100 / extendedSlides.length}%`, flexShrink: 0 }}>
+                    <img
+                      src={img}
+                      className="d-block"
+                      alt={`Slide ${index + 1}`}
+                      style={{
+                        width: "100%",
+                        height: isMobile ? "auto" : isTablet ? "300px" : "auto",
+                        display: "block",
+                      }}
+                    />
+                  </div>
+                );
+              })}
+            </div>
 
-          {/* Carousel Items */}
-          <div className="carousel-inner">
-            {imageUrls.map((img, index) => {
-              const isMobile = windowWidth <= 576;
-              const isTablet = windowWidth > 576 && windowWidth <= 768;
-
-              return (
-                <div
+            {/* Indicators */}
+            <div
+              style={{
+                position: "absolute",
+                bottom: "10px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                gap: "6px",
+                zIndex: 2,
+              }}
+            >
+              {imageUrls.map((_, index) => (
+                <button
                   key={index}
-                  className={`carousel-item ${
-                    index === currentImageIndex ? "active" : ""
-                  }`}
-                >
-                  {/* <Link to="/login"> */}
-                  <img
-                    src={img}
-                    className="d-block"
-                    alt={`Slide ${index + 1}`}
-                    style={{
-                      width: "100%",
-                      height: isMobile ? "auto" : isTablet ? "300px" : "auto",
-                      objectFit: "contain",
-                      borderRadius: "8px",
-                      // marginTop: isMobile ? "120px" : "200px",
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      maxWidth: "100%",
-                    }}
-                  />
-                  {/* </Link> */}
-                </div>
-              );
-            })}
-          </div>
+                  type="button"
+                  onClick={() => { setSliderTransition(true); setCurrentSlideIndex(index + 1); }}
+                  aria-label={`Slide ${index + 1}`}
+                  style={{
+                    width: index === realSlideIndex ? "24px" : "8px",
+                    height: "8px",
+                    borderRadius: "4px",
+                    backgroundColor: index === realSlideIndex ? "#fff" : "rgba(255,255,255,0.5)",
+                    border: "none",
+                    padding: 0,
+                    cursor: "pointer",
+                    transition: "all 0.3s ease",
+                  }}
+                />
+              ))}
+            </div>
 
-          {/* Controls */}
-          {/* Prev Button */}
-          <button
-            className="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev"
-            style={{
-              position: "absolute",
-              top: "60%",
-              marginTop: window.innerWidth <= 576 ? "60px" : "40px",
-              left: "20px",
-              transform: "translateY(-50%)",
-              width: window.innerWidth <= 576 ? "25px" : "48px",
-              height: window.innerWidth <= 576 ? "25px" : "48px",
-              borderRadius: "50%",
-              backgroundColor: "rgba(0, 0, 0, 0.6)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              backdropFilter: "blur(5px)",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              zIndex: 2,
-              opacity: 1,
-              cursor: "pointer",
-              transition: "all 0.3s ease-in-out",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
-              e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
-              e.currentTarget.style.transform = "translateY(-50%) scale(1)";
-            }}
-          >
-            {/* Custom white arrow icon using inline SVG */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="white"
-              viewBox="0 0 16 16"
-              style={{ marginRight: "3px" }}
+            {/* Prev Button */}
+            <button
+              type="button"
+              onClick={goToPrevSlide}
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "20px",
+                transform: "translateY(-50%)",
+                width: window.innerWidth <= 576 ? "25px" : "48px",
+                height: window.innerWidth <= 576 ? "25px" : "48px",
+                borderRadius: "50%",
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                backdropFilter: "blur(5px)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 2,
+                cursor: "pointer",
+                transition: "all 0.3s ease-in-out",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
+                e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
+                e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+              }}
             >
-              <path
-                fillRule="evenodd"
-                d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z"
-              />
-            </svg>
-            <span className="visually-hidden">Previous</span>
-          </button>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16" style={{ marginRight: "3px" }}>
+                <path fillRule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L6.707 7l4.647 4.646a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 0 1 .708 0z" />
+              </svg>
+            </button>
 
-          {/* Next Button */}
-          <button
-            className="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next"
-            style={{
-              position: "absolute",
-              top: "60%",
-              marginTop: window.innerWidth <= 576 ? "60px" : "40px",
-              right: "20px",
-              transform: "translateY(-50%)",
-              width: window.innerWidth <= 576 ? "25px" : "48px",
-              height: window.innerWidth <= 576 ? "25px" : "48px",
-              borderRadius: "50%",
-              backgroundColor: "rgba(0, 0, 0, 1)",
-              border: "1px solid rgba(255,255,255,0.2)",
-              backdropFilter: "blur(5px)",
-              boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              zIndex: 2,
-              opacity: 1,
-              cursor: "pointer",
-              transition: "all 0.3s ease-in-out",
-            }}
-            onMouseOver={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
-              e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
-            }}
-            onMouseOut={(e) => {
-              e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
-              e.currentTarget.style.transform = "translateY(-50%) scale(1)";
-            }}
-          >
-            {/* Custom white arrow icon using inline SVG */}
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              fill="white"
-              viewBox="0 0 16 16"
-              style={{ marginLeft: "3px" }}
+            {/* Next Button */}
+            <button
+              type="button"
+              onClick={goToNextSlide}
+              style={{
+                position: "absolute",
+                top: "50%",
+                right: "20px",
+                transform: "translateY(-50%)",
+                width: window.innerWidth <= 576 ? "25px" : "48px",
+                height: window.innerWidth <= 576 ? "25px" : "48px",
+                borderRadius: "50%",
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                backdropFilter: "blur(5px)",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 2,
+                cursor: "pointer",
+                transition: "all 0.3s ease-in-out",
+              }}
+              onMouseOver={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.8)";
+                e.currentTarget.style.transform = "translateY(-50%) scale(1.05)";
+              }}
+              onMouseOut={(e) => {
+                e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.6)";
+                e.currentTarget.style.transform = "translateY(-50%) scale(1)";
+              }}
             >
-              <path
-                fillRule="evenodd"
-                d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z"
-              />
-            </svg>
-            <span className="visually-hidden">Next</span>
-          </button>
-        </div>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 16 16" style={{ marginLeft: "3px" }}>
+                <path fillRule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l5 5a.5.5 0 0 1 0 .708l-5 5a.5.5 0 0 1-.708-.708L9.293 7 4.646 2.354a.5.5 0 0 1 0-.708z" />
+              </svg>
+            </button>
+          </div> {/* end overflow wrapper */}
+        </div> {/* end container */}
         {/* Trending Products */}
         <div
           className="trendingprodct_wrapper container pt-0"
