@@ -3163,7 +3163,7 @@ const Header = ({ parms }) => {
                         <div className="sidebar-item-wrapper">
                           <div className="sidebar-item d-flex align-items-center">
                             <NavLink
-                              to="https://blogs.ksa4sale.net/directory/"
+                              to="https://blogs.mazhool.net/directory/"
                               className="d-flex align-items-center w-100 text-decoration-none"
                               activeClassName="active"
                               rel="noopener noreferrer"

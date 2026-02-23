@@ -290,7 +290,9 @@ export default function AutomativeCarousel() {
         <div className="row">
           <div className="col-md-12">
             <div>
+              <div dir="ltr" style={{ direction: 'ltr' }}>
               <Slider
+                key={i18n.language}
                 ref={slider}
                 {...settings}
                 className="featured-slider grid-view"
@@ -301,8 +303,7 @@ export default function AutomativeCarousel() {
                       to={`/Dynamic_Route?id=${item.id}&callingFrom=HealthCareComp`}
                     >
                       <div
-                        className="card aos"
-                        data-aos="fade-up"
+                        className="card"
                         style={{
                           height: "310px", // Adjusted to remove bottom gap
                           display: "flex",
@@ -467,6 +468,7 @@ export default function AutomativeCarousel() {
                   </div>
                 ))}
               </Slider>
+              </div>
             </div>
           </div>
         </div>
