@@ -859,6 +859,7 @@ const Home = () => {
               overflow: "hidden",
               borderRadius: "8px",
               position: "relative",
+              direction: "ltr",
             }}
           >
             {/* Sliding strip:
@@ -867,6 +868,7 @@ const Home = () => {
             <div
               style={{
                 display: "flex",
+                direction: "ltr",
                 width: `${extendedSlides.length * 100}%`,
                 transform: `translateX(-${currentSlideIndex * (100 / extendedSlides.length)}%)`,
                 transition: sliderTransition

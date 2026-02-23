@@ -927,27 +927,24 @@ body.rtl .carousel-control-next svg {
   transform: scaleX(-1);
 }
 
+/* Force slick slider to stay LTR in RTL mode - prevents blank slides */
+[dir="rtl"] .slick-slider { direction: ltr !important; }
+[dir="rtl"] .slick-track { direction: ltr !important; float: left !important; }
+[dir="rtl"] .slick-list { direction: ltr !important; }
+[dir="rtl"] .slick-slide { float: left !important; }
+
+/* Keep card content readable in RTL */
+[dir="rtl"] .slick-slide .card,
+[dir="rtl"] .slick-slide .card-body,
+[dir="rtl"] .slick-slide .bloglist-content,
+[dir="rtl"] .slick-slide .blog-widget {
+  direction: rtl;
+  text-align: right;
+}
+
 /* Fix slick carousel arrows in RTL */
-[dir="rtl"] .slick-prev,
-body.rtl .slick-prev {
-  left: auto !important;
-  right: 25px !important;
-}
-
-[dir="rtl"] .slick-next,
-body.rtl .slick-next {
-  right: auto !important;
-  left: 25px !important;
-}
-
-/* Flip slick arrow icons horizontally in RTL */
-[dir="rtl"] .slick-prev:before,
-[dir="rtl"] .slick-next:before,
-body.rtl .slick-prev:before,
-body.rtl .slick-next:before {
-  transform: scaleX(-1);
-  display: inline-block;
-}
+[dir="rtl"] .slick-prev, body.rtl .slick-prev { left: 25px !important; right: auto !important; }
+[dir="rtl"] .slick-next, body.rtl .slick-next { right: 25px !important; left: auto !important; }
 
 /* Fix Dashboard and Profile Page Layout in RTL */
 

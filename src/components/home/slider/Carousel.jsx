@@ -197,7 +197,9 @@ export default function Carousel() {
                 </style>
               </div>
             ) : (
+              <div dir="ltr" style={{ direction: 'ltr' }}>
               <Slider
+                key={i18n.language}
                 ref={slider}
                 {...settings}
                 className="featured-slider grid-view"
@@ -208,8 +210,7 @@ export default function Carousel() {
                       to={`/Dynamic_Route?id=${item.id}&callingFrom=Education`}
                     >
                       <div
-                        className="card aos"
-                        data-aos="fade-up"
+                        className="card"
                         style={{
                           height: "310px", // Adjusted to remove bottom gap
                           display: "flex",
@@ -374,6 +375,7 @@ export default function Carousel() {
                   </div>
                 ))}
               </Slider>
+              </div>
             )}
           </div>
         </div>

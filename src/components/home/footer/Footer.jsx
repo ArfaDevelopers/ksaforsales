@@ -402,7 +402,7 @@ const Footer = () => {
                     <h2 className="footer-title">{t("footer.usefulLinks")}</h2>
                     <ul>
                       <li>
-                        <Link to="https://blogs.ksa4sale.net/directory/">
+                        <Link to="https://blogs.mazhool.net/directory/">
                           {t("footer.directory")}
                         </Link>
                       </li>
